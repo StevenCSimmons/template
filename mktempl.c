@@ -1,13 +1,16 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.19 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.20 $
  *
- *  $Author: scs $	$Date: 1996/09/28 23:23:55 $
+ *  $Author: scs $	$Date: 2003/04/14 14:48:07 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
+ *  Revision 0.20  2003/04/14 14:48:07  scs
+ *  Updated tests to reflect newer switches.
+ *
  *  Revision 0.19  1996/09/28 23:23:55  scs
  *  Removed all PROTO/PARAM items, first pass towards fixing core dump
  *  when stdout used without name but with forced extension.
@@ -34,7 +37,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.19 1996/09/28 23:23:55 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.20 2003/04/14 14:48:07 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -363,6 +366,10 @@ void	ProcessFiles( char** request_list )
 #ifdef	TEST
 
 boolean	Verbose = TRUE ;
+boolean ForceExtension = FALSE;
+boolean NoAction = FALSE ;
+boolean UsingStdout = FALSE ;
+
 char*	list[] = { "foo", "bar.c", "baz.", NULL } ;
 char*	Template_List[] = {
 	"/usr/local/lib/Templates", "./.Templates", ".", NULL } ;

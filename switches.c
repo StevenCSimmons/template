@@ -2,13 +2,16 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.21 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.22 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2003/04/14 14:48:07 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
+ *  Revision 0.22  2003/04/14 14:48:07  scs
+ *  Updated tests to reflect newer switches.
+ *
  *  Revision 0.21  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -32,7 +35,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.21 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.22 2003/04/14 14:48:07 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -171,6 +174,8 @@ void	ProcessSwitches( int argc, char** argv, const char** file_list )
 
 #define	MAX_FILES	1024
 
+char*	UserExtension ;
+
 
 static const char*	file_list[ MAX_FILES ] ;
 
@@ -203,13 +208,13 @@ int	main( const int argc, const char* const* const argv )
 		file_list[ i ] = NULL ;
 	ProcessSwitches( argc, argv, file_list ) ;
 	print_bool( "Verbose switch (-v) is" , Verbose ) ;
-	print_bool( "Action switch (-V) is" , NoActions ) ;
+	print_bool( "Action switch (-V) is" , NoAction ) ;
 	print_bool( "Template directory list switch (-l) is" , DirList ) ;
 	print_bool( "Template directory contents switch (-L) is" , DirList ) ;
 	print_bool( "Using standard out switch (-o) is" , UsingStdout ) ;
 	print_bool( "Forced extension switch (-e) is", ForceExtension  ) ;
 	if ( ForceExtension )
-		(void) printf( "Forced extension name is (-e) is `%s'\n" , UserTemplate ) ;
+		(void) printf( "Forced extension name is (-e) is `%s'\n" , UserExtension ) ;
 	(void) printf( "List of files is:\n" ) ;
 	for ( i = 0 ; file_list[ i ] != NULL && i < MAX_FILES ; i++ )
 		(void) printf( "  `%s'\n", file_list[ i ] ) ;

@@ -3,13 +3,16 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 1.1 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 1.2 $
  *
- *  $Author: scs $	$Date: 2002/08/25 01:50:22 $
+ *  $Author: scs $	$Date: 2003/04/14 14:48:07 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 1.2  2003/04/14 14:48:07  scs
+ *  Updated tests to reflect newer switches.
+ *
  *  Revision 1.1  2002/08/25 01:50:22  scs
  *  Moved to FreeBSD style tempfiles.
  *
@@ -45,11 +48,12 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 1.1 2002/08/25 01:50:22 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 1.2 2003/04/14 14:48:07 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
 # include	"template.h"
+# include	<sys/param.h>
 # include	<fcntl.h>
 
 # define	TEMPFILE	"/tmp/template.XXXXXX"
@@ -292,8 +296,9 @@ void	InitCopying()
 #ifdef	TEST
 
 boolean	Verbose = TRUE ;
+boolean UsingStdout = FALSE ;
 
-int main( int argc, char* argc[] )
+int main( int argc, char* argv[] )
 {
 	ProgramName = argv[ 0 ] ;
 	Verbose = TRUE ;
