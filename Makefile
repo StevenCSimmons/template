@@ -1,13 +1,16 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.11 $
+#  $RCSfile: Makefile,v $	$Revision: 0.12 $
 #
-#  $Author: scs $	$Date: 1992/06/06 16:07:42 $
+#  $Author: scs $	$Date: 1993/06/28 01:13:28 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
-#  Revision 0.11  1992/06/06 16:07:42  scs
+#  Revision 0.12  1993/06/28 01:13:28  scs
+#  Back to /usr/local/man/man for man pages.
+#
+#  Revision 0.11  1992/06/06  16:07:42  scs
 #  Added installation of templates directory.
 #
 #  Revision 0.10  1990/10/30  17:04:59  scs
@@ -27,7 +30,7 @@ LIBCLUDES	= stdc.h
 
 BIN	= /usr/local/bin
 LIB	= /usr/local/lib
-MAN	= /usr/man/man
+MAN	= /usr/local/man/man
 SHELL	= /bin/sh
 
 CC	= cc
