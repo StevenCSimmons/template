@@ -1,15 +1,18 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.8 $
+#  $RCSfile: Makefile,v $	$Revision: 0.9 $
 #
-#  $Author: scs $	$Date: 1990/07/15 17:49:42 $
+#  $Author: scs $	$Date: 1990/10/27 13:04:22 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
-#  Revision 0.8  1990/07/15 17:49:42  scs
-#  Added POSIX switch.
+#  Revision 0.9  1990/10/27 13:04:22  scs
+#  Added TAGS, some comment improvements.
 #
+#  Revision 0.8  90/07/15  17:49:42  scs
+#  Added POSIX switch.
+#  
 #  Revision 0.7  89/11/12  22:02:43  scs
 #  First production release.  Stripped all extraneous comments and side
 #  paths.
@@ -20,8 +23,8 @@ TARGET	=	template
 #
 LIBSRCS	= newstr.c newnstr.c errors.c optparse.c
 LIBOBJS	= newstr.o newnstr.o errors.o optparse.o
-#  If you have stdc.h in your /usr/include, you don't
-#   need this definition.  Keep the name, delete the filenames.
+#  If you have stdc.h in your /usr/include, you don't need it
+#  as one of the LIBCLUDES.
 LIBCLUDES	= stdc.h
 
 #  Feel free to change these to match your local definitions
@@ -82,10 +85,10 @@ Manifest:	$(SRCS) Makefile
 calls:	$(SRCS) $(HDRS)
 	calls $(DEFS) $(SRCS) > calls
 
-analysis:	tags cflow calls lint # cxref
+analysis:	tags TAGS cflow calls lint # cxref
 
 clean:
-	rm -f $(OBJS) core lint tags *.man calls
+	rm -f $(OBJS) core lint tags TAGS $(TARGET).man *~ #*#
 
 clobber:	clean
 	rm -f $(TARGET) Make.Log $(SHARS)
@@ -95,6 +98,9 @@ lint:	$(SRCS)
 
 tags:	$(SRCS)
 	ctags $(SRCS)
+
+TAGS:	$(SRCS) $(CLUDES)
+	etags $(SRCS) $(CLUDES)
 
 install:	$(TARGET) $(TARGET).1 optparse.3
 	install -o bin -g bin -m 511 -s -c $(TARGET) $(BIN)
