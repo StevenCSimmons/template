@@ -1,15 +1,18 @@
-.TH TEMPLATE 1L "Nov 12, 1989"
+.TH TEMPLATE 1L "June 27, 1993"
 .\"  
 .\"  Manual page for template
 .\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.6 $
+.\"  $RCSfile: template.1,v $	$Revision: 0.7 $
 .\"
-.\"  $Author: scs $	$Date: 1990/10/30 16:05:02 $
+.\"  $Author: scs $	$Date: 1993/06/28 01:22:03 $
 .\"
 .\"  $State: Exp $	$Locker:  $
 .\"
 .\"  $Log: template.1,v $
-.\"  Revision 0.6  1990/10/30 16:05:02  scs
+.\"  Revision 0.7  1993/06/28 01:22:03  scs
+.\"  One minor formatting fix.  We're all done now, right?
+.\"
+.\"  Revision 0.6  1990/10/30  16:05:02  scs
 .\"  Revisions as per Tim Belch's suggestions.
 .\"
 .\"  Revision 0.5  89/11/12  22:02:38  scs
@@ -23,7 +26,7 @@ template
 [ \-dDlLvVo ]
 [ \-e \fIextension\fR ]
 [ \-T \fItemplate-list\fR ]
-[ \fIfile\fR \[ \fIfile\fR ... ] ]"
+[ \fIfile\fR \[ \fIfile\fR ... ] ]
 .SH DESCRIPTION
 .I Template
 creates or modifies files for use in accordance with local standards.
@@ -175,10 +178,7 @@ to override the normal rules for determining template names
 and act as if the extension
 (the part of the file name following the last period) was
 .I extension.
-Thus the command
-.RS
-\fBtemplate -e text Makefile\fR
-.RE
+Thus the command \fBtemplate -e text Makefile\fR
 would look for a template named \fIMakefile.text\fR.
 This is very handy if you'd like to have one standard \fIMakefile\fR for
 writing code and another for writing documents.
@@ -228,6 +228,6 @@ Please report them to the author.
 Steve Simmons,
 scs@lokkur.dexter.mi.us.
 .SH "COPYRIGHT STATUS"
-Copyright 1989 Steven C. Simmons.
+Copyright 1993 Steven C. Simmons.
 Freely redistributable provided copyright notices remain intact.
 For details see the source code.
