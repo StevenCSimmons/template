@@ -9,23 +9,27 @@
  *  any particular usage style (like, for example, mine) on the
  *  writer.
  *
- *  $RCSfile: main.c,v $	$Revision: 0.14 $
+ *  $RCSfile: main.c,v $	$Revision: 0.15 $
  *
- *  $Author: scs $	$Date: 1989/11/24 14:40:00 $
+ *  $Author: scs $	$Date: 1989/12/09 15:27:58 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: main.c,v $
- *  Revision 0.14  1989/11/24 14:40:00  scs
- *  Changed patchlevel printout style.
+ *  Revision 0.15  1989/12/09 15:27:58  scs
+ *  Upgraded to new ANSI C compatibility macros, minor change to shut lint
+ *  up.
  *
+ *  Revision 0.14  89/11/24  14:40:00  scs
+ *  Changed patchlevel printout style.
+ *  
  *  Revision 0.13  89/11/12  22:01:18  scs
  *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.14 1989/11/24 14:40:00 scs Exp $" ;
+static char	rcsid[] = "$Id: main.c,v 0.15 1989/12/09 15:27:58 scs Exp $" ;
 #endif
 #endif
 
@@ -36,7 +40,7 @@ static char	rcsid[] = "$Id: main.c,v 0.14 1989/11/24 14:40:00 scs Exp $" ;
 
 extern void	ProcessSwitches( PROTO_3( int, char**, char** ) ) ;
 extern void	ProcessFiles( PROTO_1( char** ) ) ;
-extern void	InitCopying( PROTO_0 ) ;
+extern void	InitCopying( PROTO_0() ) ;
 extern void	ListTemplateDirs( PROTO_1( boolean ) ) ;
 
 extern char*	strrchr( PROTO_2( char *a, char b ) ) ;
@@ -56,43 +60,22 @@ boolean	DirList = FALSE ;
 boolean	DirContents = FALSE ;
 boolean	Verbose = TRUE ;
 
-#ifdef	__STDC__
-void	ProcessSwitches( int i, char** c, char** l )
-#else
-void	ProcessSwitches( i, c, l )
-int	i ;
-char**	c ;
-char**	l ;
-#endif
+void	ProcessSwitches PARAM_3( int, i, char**, c, char**, l )
 {
 	(void) printf( "ProcessSwitches called.\n" ) ;
 }
 
-#ifdef	__STDC__
-void	InitCopying( void )
-#else
-void	InitCopying()
-#endif
+void	InitCopying PARAM_0()
 {
 	(void) printf( "InitCopying called.\n" ) ;
 }
 
-#ifdef	__STDC__
-void	ListTemplateDirs( boolean b )
-#else
-void	ListTemplateDirs( b )
-boolean b ;
-#endif
+void	ListTemplateDirs PARAM_1( boolean, b )
 {
 	(void) printf( "ListTemplateDirs called.\n" ) ;
 }
 
-#ifdef	__STDC__
-void	ProcessFiles( char** f )
-#else
-void	ProcessFiles( f )
-char**	f ;
-#endif
+void	ProcessFiles PARAM_1( char**, f )
 {
 	(void) printf( "ProcessFiles called.\n" ) ;
 }
@@ -102,13 +85,7 @@ char**	f ;
  *  The main.  Can we get much simpler?
  */
 
-#ifdef	__STDC__
-int	main( int argc, char** argv )
-#else
-int	main( argc, argv )
-int	argc ;
-char**	argv ;
-#endif
+int	main PARAM_2( int, argc, char**, argv )
 {
 	if ( NULL == ( ProgramName = strrchr( argv[ 0 ], '/' ) ) )
 		ProgramName = argv[ 0 ] ;
@@ -118,10 +95,11 @@ char**	argv ;
 	if ( Verbose )
 	{
 		(void) printf( "%s: Version %d.%d", ProgramName, version, release ) ;
-		if ( PATCHLEVEL > 0 )
-			(void) printf( ".%d\n", PATCHLEVEL ) ;
-		else
-			(void) putchar( '\n' ) ;
+#if	PATCHLEVEL
+		(void) printf( ".%d\n", PATCHLEVEL ) ;
+#else
+		(void) putchar( '\n' ) ;
+#endif
 	}
 	InitCopying() ;
 	if ( DirList || DirContents )
