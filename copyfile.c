@@ -3,13 +3,16 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.17 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 1.1 $
  *
- *  $Author: scs $	$Date: 2002/04/25 03:45:04 $
+ *  $Author: scs $	$Date: 2002/08/25 01:50:22 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 1.1  2002/08/25 01:50:22  scs
+ *  Moved to FreeBSD style tempfiles.
+ *
  *  Revision 0.17  2002/04/25 03:45:04  scs
  *  Reset a few things for FreeBSD use and compilation.
  *
@@ -42,14 +45,14 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.17 2002/04/25 03:45:04 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 1.1 2002/08/25 01:50:22 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
 # include	"template.h"
 # include	<fcntl.h>
 
-# define	TEMPFILE	"/tmp/tmplXXXXXX"
+# define	TEMPFILE	"/tmp/template.XXXXXX"
 # define	IO_CHUNK	( BUFSIZ * 8 )
 
 extern char*	mkstemp( char* ) ;
@@ -280,7 +283,7 @@ void	InitCopying()
 	int	old_umask = umask( 0 ) ;
 
 	(void) strcpy( tempfile_name, TEMPFILE ) ;
-	(void) mkstemp( tempfile_name ) ;
+	(void) mktemp( tempfile_name ) ;
 
 	(void) umask( old_umask ) ;
 	file_mask = ( ( ~old_umask ) & 0666 ) ;
