@@ -1,15 +1,18 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.9 $
+#  $RCSfile: Makefile,v $	$Revision: 0.10 $
 #
-#  $Author: scs $	$Date: 1990/10/27 13:04:22 $
+#  $Author: scs $	$Date: 1990/10/30 17:04:59 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
-#  Revision 0.9  1990/10/27 13:04:22  scs
-#  Added TAGS, some comment improvements.
+#  Revision 0.10  1990/10/30 17:04:59  scs
+#  Changed template directory created by install.
 #
+#  Revision 0.9  90/10/27  13:04:22  scs
+#  Added TAGS, some comment improvements.
+#  
 #  Revision 0.8  90/07/15  17:49:42  scs
 #  Added POSIX switch.
 #  
@@ -34,7 +37,7 @@ LIB	= /usr/local/lib
 MAN	= /usr/man/man
 SHELL	= /bin/sh
 
-CC	= gcc
+CC	= cc
 # General definitions here which apply to all -- form -DDEF
 #  If you have stdc.h in your /usr/include, you
 #  don't need the -I./ switch
@@ -46,7 +49,7 @@ LDEFS	= -I ./
 # Lint libraries -- same as LIBS, but form -l LIB
 LLIBS	=
 # Set to -g for debugging, -O for optimise, or both if compiler handles it
-DEBUG	= -g -O
+DEBUG	= -g
 # Define BSD for BSD 4.X or derivatives thereof.
 OS	= -DBSD
 # Define this if you have POSIX compatibility
@@ -106,7 +109,7 @@ install:	$(TARGET) $(TARGET).1 optparse.3
 	install -o bin -g bin -m 511 -s -c $(TARGET) $(BIN)
 	install -o bin -g bin -m 644 -c $(TARGET).1 $(MAN)1
 	install -o bin -g bin -m 644 -c optparse.3 $(MAN)3
-	mkdir ${LIB}/.Templates
-	chmod 755 ${LIB}/.Templates
-	chown bin ${LIB}/.Templates
-	chgrp bin ${LIB}/.Templates
+	mkdir ${LIB}/Templates
+	chmod 755 ${LIB}/Templates
+	chown bin ${LIB}/Templates
+	chgrp bin ${LIB}/Templates
