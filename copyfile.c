@@ -3,14 +3,17 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.14 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.15 $
  *
- *  $Author: scs $	$Date: 1990/10/14 22:36:08 $
+ *  $Author: scs $	$Date: 1995/05/23 13:07:37 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
- *  Revision 0.14  1990/10/14 22:36:08  scs
+ *  Revision 0.15  1995/05/23 13:07:37  scs
+ *  More portable open, fixed umask.
+ *
+ *  Revision 0.14  1990/10/14  22:36:08  scs
  *  Fixed bug with stdout and unmodifiable files.
  *
  *  Revision 0.13  90/10/14  10:51:12  scs
@@ -33,7 +36,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.14 1990/10/14 22:36:08 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.15 1995/05/23 13:07:37 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -44,16 +47,15 @@ static char	rcsid[] = "$Id: copyfile.c,v 0.14 1990/10/14 22:36:08 scs Exp $" ;
 # define	IO_CHUNK	( BUFSIZ * 8 )
 
 extern char*	mktemp( PROTO_1( char* ) ) ;
-extern char*	strcpy( PROTO_2( char*, char* ) ) ;
 extern long	lseek( PROTO_3( int, long, int ) ) ;
-extern int	open( PROTO_3( char*, int, int ) ) ;
+extern int	open( PROTO_3( char*, int, ... ) ) ;
 extern int	read( PROTO_3( int, char*, unsigned ) ) ;
 extern int	write( PROTO_3( int, char*, unsigned ) ) ;
 extern int	close( PROTO_1( int ) ) ;
 extern int	unlink( PROTO_1( char* ) ) ;
 
 #ifdef	POSIX
-extern mode_t	umask( PROTO_1( int ) ) ;
+extern mode_t	umask( PROTO_1( unsigned short ) ) ;
 #else
 extern int	umask( PROTO_1( int ) ) ;
 #endif
