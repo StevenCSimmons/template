@@ -3,16 +3,19 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.12 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.13 $
  *
- *  $Author: scs $	$Date: 1990/07/15 17:47:09 $
+ *  $Author: scs $	$Date: 1990/10/14 10:51:12 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
- *  Revision 0.12  1990/07/15 17:47:09  scs
- *  Added POSIX umask definition.
+ *  Revision 0.13  1990/10/14 10:51:12  scs
+ *  Converted to new parameters format.
  *
+ *  Revision 0.12  90/07/15  17:47:09  scs
+ *  Added POSIX umask definition.
+ *  
  *  Revision 0.11  89/12/09  15:11:34  scs
  *  Upgraded to new version of ANSI C compatibility macros.
  *  
@@ -27,7 +30,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.12 1990/07/15 17:47:09 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.13 1990/10/14 10:51:12 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -80,7 +83,7 @@ static char	message[ 512 ] ;
  *  If so, print it and die.  No parameters, no return value.
  */
 
-static void	module_cleanup PARAM_0()
+static void	module_cleanup PARAM_0
 {
 	(void) close( template ) ;
 	(void) close( tempfile ) ;
@@ -254,7 +257,7 @@ void	CreateTarget PARAM_2( char*, template_name, char*, target_name )
  *  is entered.
  */
 
-void	InitCopying PARAM_0()
+void	InitCopying PARAM_0
 {
 	int	old_umask = umask( 0 ) ;
 
