@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.13 $
+#  $RCSfile: Makefile,v $	$Revision: 0.14 $
 #
-#  $Author: scs $	$Date: 1993/06/28 02:34:39 $
+#  $Author: scs $	$Date: 1996/10/31 19:37:51 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.14  1996/10/31 19:37:51  scs
+#  Moved to GCC.
+#
 #  Revision 0.13  1993/06/28 02:34:39  scs
 #  Added template.shar.
 #
@@ -36,7 +39,7 @@ LIB	= /usr/local/lib
 MAN	= /usr/local/man/man
 SHELL	= /bin/sh
 
-CC	= cc
+CC	= gcc
 # General definitions here which apply to all -- form -DDEF
 #  If you have stdc.h in your /usr/include, you
 #  don't need the -I./ switch
