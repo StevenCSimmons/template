@@ -1,16 +1,18 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.14 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.15 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:22 $
+ *  $Author: scs $	$Date: 1989/12/09 15:30:51 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
- *  Revision 0.14  1989/11/12 22:01:22  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.15  1989/12/09 15:30:51  scs
+ *  Cahnges to use ANSI C compatability macros, first pass at fileless output.
  *
+ *  Revision 0.14  89/11/12  22:01:22  scs
+ *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifdef	TEST
@@ -19,7 +21,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.14 1989/11/12 22:01:22 scs Production $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.15 1989/12/09 15:30:51 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -39,6 +41,9 @@ extern int	sprintf( PROTO_2PL( char*, char* ) ) ;
 extern int	errno ;
 
 extern void	CreateTarget( PROTO_2( char*, char* ) ) ;
+extern char*	strcat( PROTO_2( char*, char* ) ) ;
+extern char*	strncpy( PROTO_3( char*, char*, int ) ) ;
+extern void	exit( PROTO_1( int ) ) ;
 
 extern char*	Template_List[] ;
 
@@ -57,13 +62,7 @@ char*	UserExtension ;
  *  to the full path.
  */
 
-#ifdef	__STDC__
-static char*	check_for_file( char* dir, char* file )
-#else
-static char*	check_for_file( dir, file )
-char*	dir ;
-char*	file ;
-#endif
+static char*	check_for_file PARAM_2( char*, dir, char*, file )
 {
 	static char	template_path[ MAXPATHLEN ] ;
 
@@ -89,11 +88,7 @@ char*	file ;
  *  list of possible file names and find the first match.
  */
 
-#ifdef	__STDC__
-static char*	get_template_file( void )
-#else
-static char*	get_template_file()
-#endif
+static char*	get_template_file PARAM_0()
 {
 	char**	name ;
 	char**	dir ;
@@ -146,12 +141,7 @@ static char*	get_template_file()
  *	nothing
  */
 
-#ifdef	__STDC__
-static void	generate_names( char* in_name )
-#else
-static void	generate_names( in_name )
-char*	in_name ;
-#endif
+static void	generate_names PARAM_1( char*, in_name )
 {
 	char*	suffix ;	/* an extension */
 	int	try_number ;
@@ -183,8 +173,8 @@ char*	in_name ;
 		possibilities[ 0 ] = NewNString( in_name, (unsigned) len ) ;
 		if ( NULL == possibilities[ 0 ] )
 			Fatal( "Ran out of memory in generate_names" ) ;
-		strcat( possibilities[ 0 ], "." ) ;
-		strcat( possibilities[ 0 ], UserExtension ) ;
+		(void) strcat( possibilities[ 0 ], "." ) ;
+		(void) strcat( possibilities[ 0 ], UserExtension ) ;
 
 		/* Now do extension replacement if possible */
 
@@ -197,8 +187,8 @@ char*	in_name ;
 				(unsigned) ( len + suffix_len ) ) ;
 			if ( NULL == possibilities[ 1 ] )
 				Fatal( "Ran out of memory in generate_names" ) ;
-			strcat( possibilities[ 1 ], "." ) ;
-			strcat( possibilities[ 1 ], UserExtension ) ;
+			(void) strcat( possibilities[ 1 ], "." ) ;
+			(void) strcat( possibilities[ 1 ], UserExtension ) ;
 			try_number = 2 ;
 		}
 		else
@@ -243,6 +233,63 @@ char*	in_name ;
 
 
 /*
+ *  Central execution for this module.  If given a filename, do the
+ *  following for each file:
+ *    Generate the valid template names
+ *    Search the template directories for the valid names.
+ *    If found, create the template.
+ *    Otherwise give a warning error and do nothing with
+ *      the request.
+ *  If no file name, check to make sure that we've got stdout requested
+ *  and the user has forced an extension.
+ */
+
+
+
+static void	proc_file PARAM_1( char*, request )
+{
+	char*	template_file ;
+	char	msgbuf[ BUFSIZ ] ;
+
+	generate_names( request ) ;
+	if ( NULL == ( template_file = get_template_file() ) )
+	{
+		char*	format ;
+
+		if ( possibilities[ 1 ] != NULL )
+			format = "No template for `%s'.  Wanted `%s' (full) or `%s' (derived)." ;
+		else
+			format = "No template for `%s'.  Wanted `%s' (full)." ;
+		(void) sprintf( msgbuf, format, request,
+			possibilities[ 0 ], possibilities[ 1 ] ) ;
+		Warning( msgbuf ) ;
+	}
+	else
+	{
+		if ( NoAction )
+		{
+			(void) fputs( "Would create result from ", stderr ) ;
+			(void) fputs( template_file, stderr ) ;
+			if ( UsingStdout )
+			{
+				(void) fputs( " and ", stderr ) ;
+				(void) fputs( request, stderr ) ;
+				(void) fputs( " on standard out.\n", stderr ) ;
+			}
+			else
+			{
+				(void) fputs( " on file ", stderr ) ;
+				(void) fputs( request, stderr ) ;
+				(void) fputs( ".\n", stderr ) ;
+			}
+		}
+		else
+			CreateTarget( template_file, request ) ;
+	}
+}
+
+
+/*
  *  Mainline for this module.  Given a list of files, do the
  *  following for each file:
  *    Generate the valid template names
@@ -252,55 +299,26 @@ char*	in_name ;
  *      the request.
  */
 
-#ifdef	__STDC__
-void	ProcessFiles( char** request_list )
-#else
-void	ProcessFiles( request_list )
-char**	request_list ;
-#endif
+void	ProcessFiles PARAM_1( char**, request_list )
 {
 	char**	request ;
-	char*	template_file ;
-	char	msgbuf[ BUFSIZ ] ;
 
-	for ( request = request_list ; *request != NULL ; request++ )
+	if ( request_list == NULL )
 	{
-		generate_names( *request ) ;
-		if ( NULL == ( template_file = get_template_file() ) )
-		{
-			char*	format ;
-
-			if ( possibilities[ 1 ] != NULL )
-				format = "No template for `%s'.  Wanted `%s' (full) or `%s' (derived)." ;
-			else
-				format = "No template for `%s'.  Wanted `%s' (full)." ;
-			(void) sprintf( msgbuf, format, *request,
-				possibilities[ 0 ], possibilities[ 1 ] ) ;
-			Warning( msgbuf ) ;
-		}
-		else
-		{
-			if ( NoAction )
-			{
-				(void) fputs( "Would create result from ", stderr ) ;
-				(void) fputs( template_file, stderr ) ;
-				if ( UsingStdout )
-				{
-					(void) fputs( " and ", stderr ) ;
-					(void) fputs( *request, stderr ) ;
-					(void) fputs( " on standard out.\n", stderr ) ;
-				}
-				else
-				{
-					(void) fputs( " on file ", stderr ) ;
-					(void) fputs( *request, stderr ) ;
-					(void) fputs( ".\n", stderr ) ;
-				}
-			}
-			else
-				CreateTarget( template_file, *request ) ;
-		}
+		(void) fputs( "Internal error in ProcessFiles -- NULL request list.\n", stderr ) ;
+		exit( 0 ) ;
 	}
+	if ( *request_list == NULL )
+	{
+		if ( ! ( UsingStdout && ForceExtension ) )
+		{
+			(void) fputs( "You must specify at least one file name.\n", stderr ) ;
+			exit( 0 ) ;
+		}
+		proc_file( NULL ) ;
+	}
+	else for ( request = request_list ; *request != NULL ; request++ )
+		proc_file( *request ) ;
 }
 
 #ifdef	TEST
@@ -310,25 +328,13 @@ char*	list[] = { "foo", "bar.c", "baz.", NULL } ;
 char*	Template_List[] = {
 	"/usr/local/lib/Templates", "./.Templates", ".", NULL } ;
 
-#ifdef	__STDC__
-void	CreateTarget( char* template, char* target )
-#else
-void	CreateTarget( template, target )
-char*	template ;
-char*	target ;
-#endif
+void	CreateTarget PARAM_2( char*, template, char*, target )
 {
 	(void) printf( "CreateTarget: would make `%s' from `%s'\n",
 		target, template ) ;
 }
 
-#ifdef	__STDC__
-main( int argc, char* argv[] )
-#else
-main( argc, argv )
-int	argc ;
-char*	argv[] ;
-#endif
+int main PARAM_2( int, argc, char**, argv )
 {
 	ProgramName = argv[ 0 ] ;
 	Verbose = TRUE ;
