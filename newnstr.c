@@ -1,13 +1,16 @@
 /*
  *  Library function to create a new string.
  *
- *  $RCSfile: newnstr.c,v $	$Revision: 1.4 $
+ *  $RCSfile: newnstr.c,v $	$Revision: 1.5 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:11:52 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: newnstr.c,v $
+ *  Revision 1.5  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 1.4  1989/12/09 15:11:52  scs
  *  Upgraded to new version of ANSI C compatibility macros.
  *
@@ -18,16 +21,14 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: newnstr.c,v 1.4 1989/12/09 15:11:52 scs Exp $" ;
+static char	rcsid[] = "$Id: newnstr.c,v 1.5 1996/09/29 01:05:49 scs Exp $" ;
 #endif
 #endif
 
 # include	<stdio.h>
 # include	<stdc.h>
 
-extern voidptr	malloc( PROTO_1( int ) ) ;
-extern char*	strncpy( PROTO_3( char*, char*, int ) ) ;
-extern int	strlen( PROTO_1( char* ) ) ;
+extern voidptr	malloc( int ) ;
 
 /*
  *  Create a new string of a given length.  Copy the incoming string
@@ -35,7 +36,7 @@ extern int	strlen( PROTO_1( char* ) ) ;
  *  malloc fails.  Zero-length strings (ie, '\0' only) are permitted.
  */
 
-char*	NewNString PARAM_2( register char*, string, register unsigned, len )
+char*	NewNString( register char* string, register unsigned len )
 {
 	register char*	new_string ;
 

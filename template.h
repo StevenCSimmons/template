@@ -1,13 +1,16 @@
 /*
  *  Definitions file for template command.
  *
- *  $RCSfile: template.h,v $	$Revision: 0.6 $
+ *  $RCSfile: template.h,v $	$Revision: 0.7 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:53 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: template.h,v $
+ *  Revision 0.7  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.6  1989/11/12 22:01:53  scs
  *  First production release.  Stripped all useless history and side-alleys.
  *
@@ -32,10 +35,10 @@ extern char*	ProgramName ;
 
 # define	MAX_FILES	1024
 
-extern char*	NewString( PROTO_1( char* ) ) ;
-extern char*	NewNString( PROTO_2( char*, unsigned ) ) ;
-extern void	Warning( PROTO_1( char* ) ) ;
-extern void	Error( PROTO_1( char* ) ) ;
-extern void	Fatal( PROTO_1( char* ) ) ;
+extern char*	NewString( char* ) ;
+extern char*	NewNString( char*, unsigned ) ;
+extern void	Warning( char* ) ;
+extern void	Error( char* ) ;
+extern void	Fatal( char* ) ;
 
 #endif	/* of ifdef TEMPLATE_H */

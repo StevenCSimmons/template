@@ -1,13 +1,16 @@
 /*
  *  Error handling routines
  *
- *  $RCSfile: errors.c,v $	$Revision: 0.8 $
+ *  $RCSfile: errors.c,v $	$Revision: 0.9 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:12:02 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: errors.c,v $
+ *  Revision 0.9  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.8  1989/12/09 15:12:02  scs
  *  Upgraded to new version of ANSI C compatibility macros.
  *
@@ -18,19 +21,19 @@
 
 #ifndef	lint
 # ifndef lib
-static char	rcsid[] = "$Id: errors.c,v 0.8 1989/12/09 15:12:02 scs Exp $" ;
+static char	rcsid[] = "$Id: errors.c,v 0.9 1996/09/29 01:05:49 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
 # include	"template.h"
 
-extern void	exit( PROTO_1( int ) ) ;
+extern void	exit( int ) ;
 
 /*
  *  Print an error message on stderr and return.
  */
 
-void	Error PARAM_1( const char* const, msg )
+void	Error( const char* const msg )
 {
 #ifdef	DEBUGGING
 	if ( ProgramName != NULL )
@@ -50,7 +53,7 @@ void	Error PARAM_1( const char* const, msg )
  *  cleanups as appropriate.
  */
 
-void	Fatal PARAM_1( const char* const, msg )
+void	Fatal( const char* const msg )
 {
 #ifdef	DEBUGGING
 	if ( ProgramName != NULL )
@@ -69,7 +72,7 @@ void	Fatal PARAM_1( const char* const, msg )
  *  Print a warning message on stderr.
  */
 
-void	Warning PARAM_1( const char* const, msg )
+void	Warning( const char* const msg )
 {
 #ifdef	DEBUGGING
 	if ( ProgramName != NULL )

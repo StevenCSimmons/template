@@ -5,13 +5,16 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.12 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.13 $
  *
- *  $Author: scs $	$Date: 1992/06/06 15:55:38 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
+ *  Revision 0.13  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.12  1992/06/06 15:55:38  scs
  *  Made the HOME environment variable honored.
  *
@@ -32,7 +35,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.12 1992/06/06 15:55:38 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.13 1996/09/29 01:05:49 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -43,24 +46,11 @@ static char	rcsid[] = "$Id: templist.c,v 0.12 1992/06/06 15:55:38 scs Exp $" ;
 
 # define	MAX_TEMPLATE_DIRS	(64)
 
-extern char*	strncpy( PROTO_3( char*, char*, int ) ) ;
-extern char*	strcpy( PROTO_2( char*, char* ) ) ;
-extern char*	strcat( PROTO_2( char*, char* ) ) ;
-extern char*	strpbrk( PROTO_2( char*, char* ) ) ;
-extern int	strlen( PROTO_1( char* ) ) ;
-extern int	strcmp( PROTO_2( char*, char* ) ) ;
-extern int	strncmp( PROTO_3( char*, char*, int ) ) ;
-
-extern char*	getenv( PROTO_1( char* ) ) ;
-extern int	fprintf( PROTO_2PL( FILE*, char* ) ) ;
-extern int	access( PROTO_2( char*, int ) ) ;
-extern voidptr	malloc( PROTO_1( unsigned ) ) ;
-extern char*	getlogin( PROTO_0 ) ;
-extern struct passwd*	getpwnam( PROTO_1( char* ) ) ;
-
-#ifndef	BSD
-extern int	sprintf( PROTO_2PL( char*, char* ) ) ;
-#endif
+extern char*	strpbrk( char*, char* ) ;
+extern char*	getenv( char* ) ;
+extern int	access( char*, int ) ;
+extern voidptr	malloc( unsigned ) ;
+extern char*	getlogin() ;
 
 extern int	errno ;
 extern char*	sys_errlist[] ;
@@ -82,7 +72,7 @@ int	Max_Template_Dir = 0 ;
  *  No parameters, no return value.
  */
 
-static void	dump_template_list PARAM_0
+static void	dump_template_list()
 {
 	register int	i, max ;
 
@@ -99,7 +89,7 @@ static void	dump_template_list PARAM_0
  *  can, return a pointer to the home path.
  */
 
-static char*	get_home PARAM_1( char*, user )
+static char*	get_home( char* user )
 {
 	struct passwd*	pw_entry ;
 
@@ -135,7 +125,7 @@ static char*	get_home PARAM_1( char*, user )
  *  interpreted string.
  */
 
-static char*	interpret_specials PARAM_1( char*, string )
+static char*	interpret_specials( char* string )
 {
 	static char	dir_path[ MAXPATHLEN ] ;
 
@@ -169,7 +159,7 @@ static char*	interpret_specials PARAM_1( char*, string )
  *  Check the indicated directory for existance and accessibility.
  */
 
-static boolean	valid_template_dir PARAM_1( char*, dir )
+static boolean	valid_template_dir( char* dir )
 {
 	char*	path ;
 	char	msgbuf[ BUFSIZ ] ;
@@ -207,7 +197,7 @@ static boolean	valid_template_dir PARAM_1( char*, dir )
  *    Address of newly allocated string.
  */
 
-static char*	get_next_colon PARAM_1( char**, instr )
+static char*	get_next_colon( char** instr )
 {
 	char*		oldstr ;
 	char*		end ;
@@ -257,7 +247,7 @@ static char*	get_next_colon PARAM_1( char**, instr )
  *	if default was processed or not.
  */
 
-static void	process_list PARAM_1( char*, templ_list )
+static void	process_list( char* templ_list )
 {
 	char*	dir ;
 	char*	def_list = default_list ;
@@ -314,7 +304,7 @@ static void	process_list PARAM_1( char*, templ_list )
  *     void
  */
 
-void	GetTemplList PARAM_1( const char* const, user_list )
+void	GetTemplList( const char* const user_list )
 {
 	char*	environment_list = getenv( "TEMPLATES" ) ;
 
@@ -333,7 +323,7 @@ void	GetTemplList PARAM_1( const char* const, user_list )
 
 #ifdef	TEST
 
-static void	testit PARAM_2( char*, list, char*, comment )
+static void	testit( char* list, char* comment )
 {
 	Max_Template_Dir = 0 ;
 	default_seen = FALSE ;
@@ -350,7 +340,7 @@ static void	testit PARAM_2( char*, list, char*, comment )
 
 boolean	Verbose = TRUE ;
 
-int main PARAM_2( int, argc, char**, argv )
+int main( int argc, char** argv )
 {
 	ProgramName = "test_templist" ;
 	(void) printf( "Before startup.\n" ) ;

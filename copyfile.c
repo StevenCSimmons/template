@@ -3,13 +3,16 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.15 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.16 $
  *
- *  $Author: scs $	$Date: 1995/05/23 13:07:37 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 0.16  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.15  1995/05/23 13:07:37  scs
  *  More portable open, fixed umask.
  *
@@ -36,7 +39,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.15 1995/05/23 13:07:37 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.16 1996/09/29 01:05:49 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -46,25 +49,23 @@ static char	rcsid[] = "$Id: copyfile.c,v 0.15 1995/05/23 13:07:37 scs Exp $" ;
 # define	TEMPFILE	"/tmp/tmplXXXXXX"
 # define	IO_CHUNK	( BUFSIZ * 8 )
 
-extern char*	mktemp( PROTO_1( char* ) ) ;
-extern long	lseek( PROTO_3( int, long, int ) ) ;
-extern int	open( PROTO_3( char*, int, ... ) ) ;
-extern int	read( PROTO_3( int, char*, unsigned ) ) ;
-extern int	write( PROTO_3( int, char*, unsigned ) ) ;
-extern int	close( PROTO_1( int ) ) ;
-extern int	unlink( PROTO_1( char* ) ) ;
+extern char*	mktemp( char* ) ;
+extern long	lseek( int, long, int ) ;
+extern int	open( char*, int, ... ) ;
+extern int	read( int, char*, unsigned ) ;
+extern int	write( int, char*, unsigned ) ;
+extern int	close( int ) ;
+extern int	unlink( char* ) ;
 
 #ifdef	POSIX
-extern mode_t	umask( PROTO_1( unsigned short ) ) ;
+extern mode_t	umask( unsigned short ) ;
 #else
-extern int	umask( PROTO_1( int ) ) ;
+extern int	umask( int ) ;
 #endif
 
 #ifndef	BSD
-extern int	sprintf( PROTO_2PL( char*, char* ) ) ;
+extern int	sprintf( char*, char* ) ;
 #endif
-
-extern int	errno ;
 
 extern int	errno ;
 extern char*	sys_errlist[] ;
@@ -88,7 +89,7 @@ static char	message[ 512 ] ;
  *  If so, print it and die.  No parameters, no return value.
  */
 
-static void	module_cleanup PARAM_0
+static void	module_cleanup()
 {
 	(void) close( template ) ;
 	(void) close( tempfile ) ;
@@ -115,12 +116,14 @@ static void	module_cleanup PARAM_0
  *	an opened fd if successful, -1 if not
  */
 
-static int	open_file PARAM_3( char*, name, int, mode, char*, detail )
+static int	open_file( char* name, int mode, char* detail )
 {
 	int	fd ;
 
 	if ( -1 == ( fd = open( name, mode, file_mask ) ) )
 	{
+		if ( UsingStdout)
+			return NULL ;
 		(void) sprintf( message,
 			"Couldn't open (%s) file `%s': %s",
 			detail, name, sys_errlist[ errno ] ) ;
@@ -145,7 +148,7 @@ static int	open_file PARAM_3( char*, name, int, mode, char*, detail )
  *	TRUE/FALSE, if succeeded or failed.
  */
 
-static boolean	copyfile PARAM_2( int, to, int, from )
+static boolean	copyfile( int to, int from )
 {
 	char	buffer[ IO_CHUNK ] ;
 	int	inlen = IO_CHUNK ;
@@ -184,7 +187,7 @@ static boolean	copyfile PARAM_2( int, to, int, from )
  *  Bitch mightily and die about any errors along the way.
  */
 
-void	CreateTarget PARAM_2( char*, template_name, char*, target_name )
+void	CreateTarget( char* template_name, char* target_name )
 {
 	message[ 0 ] = '\0' ;
 	template = open_file( template_name, O_RDONLY, "read" ) ;
@@ -195,10 +198,13 @@ void	CreateTarget PARAM_2( char*, template_name, char*, target_name )
 			(void) fprintf( stderr, "Will copy `%s' and `%s' to stdout.\n",
 				template_name, target_name ) ;
 		}
-		if ( ! copyfile( 2, template ) )
-			(void) sprintf( message,
-				"Error in copying `%s' to standard out: %s",
-				template_name, sys_errlist[ errno ] ) ;
+		if ( NULL != template )
+		{
+			if ( ! copyfile( 2, template ) )
+				(void) sprintf( message,
+					"Error in copying `%s' to standard out: %s",
+					template_name, sys_errlist[ errno ] ) ;
+		}
 		if ( target_name != NULL )
 		{
 			if ( *target_name != NULL )
@@ -262,7 +268,7 @@ void	CreateTarget PARAM_2( char*, template_name, char*, target_name )
  *  is entered.
  */
 
-void	InitCopying PARAM_0
+void	InitCopying()
 {
 	int	old_umask = umask( 0 ) ;
 
@@ -277,7 +283,7 @@ void	InitCopying PARAM_0
 
 boolean	Verbose = TRUE ;
 
-int main PARAM_2( int, argc, char*, argc[] )
+int main( int argc, char* argc[] )
 {
 	ProgramName = argv[ 0 ] ;
 	Verbose = TRUE ;

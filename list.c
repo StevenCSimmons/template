@@ -1,13 +1,16 @@
 /*
  *  Module to do the list (-l, -L) switches.
  *
- *  $RCSfile: list.c,v $	$Revision: 0.4 $
+ *  $RCSfile: list.c,v $	$Revision: 0.5 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:12:17 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: list.c,v $
+ *  Revision 0.5  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.4  1989/12/09 15:12:17  scs
  *  Upgraded to new version of ANSI C compatibility macros.
  *
@@ -18,7 +21,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: list.c,v 0.4 1989/12/09 15:12:17 scs Exp $" ;
+static char	rcsid[] = "$Id: list.c,v 0.5 1996/09/29 01:05:49 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
@@ -38,7 +41,7 @@ extern char*	Template_List[] ;
  *  full contents of each directory.
  */
 
-void ListTemplateDirs PARAM_1( const boolean, List_Contents )
+void ListTemplateDirs( const boolean List_Contents )
 {
 	char**	dir_list = Template_List ;
 	char	buf[ MAXPATHLEN + 10 ] ;
@@ -73,7 +76,7 @@ char*	Template_List[] = {
 	NULL
 	} ;
 
-int main PARAM_2( int, argc, char**, argv )
+int main( int argc, char** argv )
 {
 	char**	lister ;
 

@@ -2,13 +2,16 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.20 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.21 $
  *
- *  $Author: scs $	$Date: 1992/06/06 15:55:08 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
+ *  Revision 0.21  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.20  1992/06/06 15:55:08  scs
  *  Added error message for no parameters.
  *
@@ -29,15 +32,15 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.20 1992/06/06 15:55:08 scs Exp $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.21 1996/09/29 01:05:49 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
 # include	"template.h"
 
-extern int		OptionParse( PROTO_3( int, char**, char* ) ) ;
-extern void		GetTemplList( PROTO_1( char* ) ) ;
-extern void		exit( PROTO_1( int ) ) ;
+extern int		OptionParse( int, char**, char* ) ;
+extern void		GetTemplList( char* ) ;
+extern void		exit( int ) ;
 
 extern const char*	OptionSwitch ;
 extern char*		UserExtension ;
@@ -63,7 +66,7 @@ static const char const* const	usage_msg[] = {
  *  Print an error message, tell about proper usage, and die.
  */
 
-static void	usage PARAM_1( const char* const, msg )
+static void	usage( const char* const msg )
 {
 	char**	umsg = usage_msg ;
 
@@ -90,7 +93,7 @@ static void	usage PARAM_1( const char* const, msg )
 
 static const char	need_option[] = "The -%c option requires a %s name." ;
 
-static char*	get_arg PARAM_2( const char, option, const char* const, type )
+static char*	get_arg( const char option, const char* const type )
 {
 	char*	opt ;
 	char	msgbuf[ BUFSIZ ] ;
@@ -106,7 +109,7 @@ static char*	get_arg PARAM_2( const char, option, const char* const, type )
 }
 
 
-void	ProcessSwitches PARAM_3( const int, argc, const char* const* const, argv, const char**, file_list )
+void	ProcessSwitches( int argc, char** argv, const char** file_list )
 {
 	int			option ;
 	char			msgbuf[ BUFSIZ ] ;
@@ -156,6 +159,9 @@ void	ProcessSwitches PARAM_3( const int, argc, const char* const* const, argv, c
 	if ( ( *file_list == NULL ) && ( ( !UsingStdout ) && ( !DirList ) && ( !DirContents ) ) )
 		usage( "Sorry, you must specify some files." ) ;
 
+	if ( UsingStdout && *file_list == NULL && !ForceExtension )
+		usage( "Sorry, you must specify a name or an extension with -o." ) ;
+
 	/* Switch combinations are legal.  Finish setting up. */
 
 	GetTemplList( template_list ) ;
@@ -168,12 +174,12 @@ void	ProcessSwitches PARAM_3( const int, argc, const char* const* const, argv, c
 
 static const char*	file_list[ MAX_FILES ] ;
 
-void		GetTemplList PARAM_1( const char* const, list )
+void		GetTemplList( const char* const list )
 {
 	return ;	/* a dummy */
 }
 
-static void	print_string PARAM_3( const char* const, msg, const char* const, value )
+static void	print_string( const char* const msg, const char* const value )
 {
 	if ( msg == NULL )
 		(void) printf( "%s: NULL\n", msg ) ;
@@ -181,14 +187,14 @@ static void	print_string PARAM_3( const char* const, msg, const char* const, val
 		(void) printf( "%s: `%s'\n", msg, value ) ;
 }
 
-static 	void	print_bool PARAM_2( const char* const, msg, const int, value )
+static 	void	print_bool( const char* const msg, const int value )
 {
 	(void) printf( "%s: %s (0x%x)\n", msg,
 		value ? "TRUE" : "FALSE",
 		value ) ;
 }
 
-int	main PARAM_2( const int, argc, const char* const* const, argv )
+int	main( const int argc, const char* const* const argv )
 {
 	register int	i ;
 

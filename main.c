@@ -9,13 +9,16 @@
  *  any particular usage style (like, for example, mine) on the
  *  writer.
  *
- *  $RCSfile: main.c,v $	$Revision: 0.16 $
+ *  $RCSfile: main.c,v $	$Revision: 0.17 $
  *
- *  $Author: scs $	$Date: 1990/10/14 11:28:48 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: main.c,v $
+ *  Revision 0.17  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.16  1990/10/14 11:28:48  scs
  *  Corrected use of PARAM_0/PROTO_0.
  *
@@ -32,7 +35,7 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.16 1990/10/14 11:28:48 scs Exp $" ;
+static char	rcsid[] = "$Id: main.c,v 0.17 1996/09/29 01:05:49 scs Exp $" ;
 #endif
 #endif
 
@@ -41,12 +44,12 @@ static char	rcsid[] = "$Id: main.c,v 0.16 1990/10/14 11:28:48 scs Exp $" ;
 # include	"template.h"
 # include	"patchlevel.h"
 
-extern void	ProcessSwitches( PROTO_3( int, char**, char** ) ) ;
-extern void	ProcessFiles( PROTO_1( char** ) ) ;
-extern void	InitCopying( PROTO_0 ) ;
-extern void	ListTemplateDirs( PROTO_1( boolean ) ) ;
+extern void	ProcessSwitches( int, char**, char** ) ;
+extern void	ProcessFiles( char** ) ;
+extern void	InitCopying( void ) ;
+extern void	ListTemplateDirs( boolean ) ;
 
-extern char*	strrchr( PROTO_2( char *a, char b ) ) ;
+extern char*	strrchr( char *a, char b ) ;
 
 extern boolean	DirList ;
 extern boolean	DirContents ;
@@ -63,22 +66,22 @@ boolean	DirList = FALSE ;
 boolean	DirContents = FALSE ;
 boolean	Verbose = TRUE ;
 
-void	ProcessSwitches PARAM_3( int, i, char**, c, char**, l )
+void	ProcessSwitches( int i, char** c, char** l )
 {
 	(void) printf( "ProcessSwitches called.\n" ) ;
 }
 
-void	InitCopying PARAM_0
+void	InitCopying()
 {
 	(void) printf( "InitCopying called.\n" ) ;
 }
 
-void	ListTemplateDirs PARAM_1( boolean, b )
+void	ListTemplateDirs( boolean b )
 {
 	(void) printf( "ListTemplateDirs called.\n" ) ;
 }
 
-void	ProcessFiles PARAM_1( char**, f )
+void	ProcessFiles( char** f )
 {
 	(void) printf( "ProcessFiles called.\n" ) ;
 }
@@ -88,7 +91,7 @@ void	ProcessFiles PARAM_1( char**, f )
  *  The main.  Can we get much simpler?
  */
 
-int	main PARAM_2( int, argc, char**, argv )
+int	main( int argc, char** argv )
 {
 	if ( NULL == ( ProgramName = strrchr( argv[ 0 ], '/' ) ) )
 		ProgramName = argv[ 0 ] ;

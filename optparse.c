@@ -15,13 +15,16 @@
  *
  *  See the individual routines below for detailed descriptions.
  *
- *  $RCSfile: optparse.c,v $	$Revision: 0.7 $
+ *  $RCSfile: optparse.c,v $	$Revision: 0.8 $
  *
- *  $Author: scs $	$Date: 1990/10/14 11:28:59 $
+ *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: optparse.c,v $
+ *  Revision 0.8  1996/09/29 01:05:49  scs
+ *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
+ *
  *  Revision 0.7  1990/10/14 11:28:59  scs
  *  Corrected use of PARAM_0/PROTO_0.
  *
@@ -30,7 +33,6 @@
  *  
  *  Revision 0.5  89/11/12  22:01:33  scs
  *  First production release.  Stripped all useless history and side-alleys.
- *  
  */
 
 #ifdef		TEST
@@ -42,7 +44,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: optparse.c,v 0.7 1990/10/14 11:28:59 scs Exp $" ;
+static char	rcsid[] = "$Id: optparse.c,v 0.8 1996/09/29 01:05:49 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
@@ -117,7 +119,7 @@ const char*	OptionSwitch = NULL ;	/* pointer to return an extended arguement */
  *	switch may have some sort of trailing parameter.
  */
 
-int	OptionParse PARAM_3( const int, argc, const char** const, argv, const char* const, opts )
+int	OptionParse( const int argc, const char** const argv, const char* const opts )
 {
 	register char	c ;	/* General char holder */
 	register char*	cp ;	/* Pointer into options list for this switch */
@@ -211,7 +213,7 @@ int	OptionParse PARAM_3( const int, argc, const char** const, argv, const char* 
  *  will start at the beginning of the list.
  */
 
-void	OptionInit PARAM_0
+void	OptionInit( void )
 {
 	argchar = argnum = 1 ;
 	OptionSwitch = NULL ;
@@ -235,7 +237,7 @@ void	OptionInit PARAM_0
  *  to be ascii.
  */
 
-void	OptionReset PARAM_3( const char, switchchar, const char, errorflag, const char, externflag )
+void	OptionReset( const char switchchar, const char errorflag, const char externflag )
 {
 	swflag = ( switchchar == '\0' ) ? '-' : toascii( switchchar ) ;
 	errflg = ( errorflag == '\0' ) ? '-' : toascii( errorflag ) ;
@@ -249,7 +251,7 @@ void	OptionReset PARAM_3( const char, switchchar, const char, errorflag, const c
  *  various switches are.
  */
 
-int	main PARAM_2( int, argc, char**, argv )
+int	main( int argc, char** argv )
 {
 	int	c ;
 	int	i ;
