@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.16 $
+#  $RCSfile: Makefile,v $	$Revision: 0.17 $
 #
-#  $Author: scs $	$Date: 2001/02/08 19:51:37 $
+#  $Author: scs $	$Date: 2002/04/25 03:44:27 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.17  2002/04/25 03:44:27  scs
+#  Reset a few things for FreeBSD use and Inland Sea.
+#
 #  Revision 0.16  2001/02/08 19:51:37  scs
 #  Lightened permissions on binary so ordinary users can copy it.
 #
@@ -31,10 +34,7 @@ LIBCLUDES	= stdc.h
 
 #  Feel free to change these to match your local definitions
 
-#PREFIX  = /usr/local
-# ANSland is peculiar - PKG should exist already
-PKG	= /usr/local/pkg
-PREFIX  = $(PKG)/scsutils-0.1
+PREFIX  = /usr/inland-sea
 BIN	= $(PREFIX)/bin
 LIB	= $(PREFIX)/lib
 MANTOP	= $(PREFIX)/man
@@ -43,7 +43,7 @@ MAN3	= $(MANTOP)/man3
 PKGDIRS = $(PREFIX) $(BIN) $(LIB) $(MANTOP) $(MAN1) $(MAN3)
 SHELL	= /bin/sh
 
-CC	= gcc
+CC	= cc
 # General definitions here which apply to all -- form -DDEF
 #  If you have stdc.h in your /usr/include, you
 #  don't need the -I. switch
@@ -115,8 +115,8 @@ shar:	ReadMe $(TARGET).1 optparse.3 Makefile $(SRCS) $(CLUDES)
 	shar ReadMe Templatelib Templatelib/* Makefile $(TARGET).1 optparse.3 $(SRCS) $(CLUDES) > template.shar
 
 install:	$(TARGET) $(TARGET).1 optparse.3 installdirs
-	install -o root -g bin -m 755 -s -c $(TARGET) $(BIN)/is$(TARGET)
-	install -o root -g bin -m 644 -c $(TARGET).1 $(MAN1)/is$(TARGET).1
+	install -o root -g bin -m 755 -s -c $(TARGET) $(BIN)/$(TARGET)
+	install -o root -g bin -m 644 -c $(TARGET).1 $(MAN1)/$(TARGET).1
 	install -o root -g bin -m 644 -c optparse.3 $(MAN3)/optparse.3
 
 install.templatelib:
@@ -134,7 +134,7 @@ install.templatelib:
 	fi
 
 installdirs:
-	echo mkdir $(PKGDIRS)
+	#echo mkdir $(PKGDIRS)
 	for D in $(PKGDIRS) ; do \
 		if [ ! -d $$D ] ; then \
 			mkdir $$D ; \
