@@ -5,13 +5,16 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.14 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.15 $
  *
- *  $Author: scs $	$Date: 2001/11/30 18:23:18 $
+ *  $Author: scs $	$Date: 2002/04/25 03:43:32 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
+ *  Revision 0.15  2002/04/25 03:43:32  scs
+ *  Added definition check so compiles/runs cleanly on FreeBSD.
+ *
  *  Revision 0.14  2001/11/30 18:23:18  scs
  *  Added bdcs home.
  *
@@ -38,7 +41,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.14 2001/11/30 18:23:18 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.15 2002/04/25 03:43:32 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -56,7 +59,10 @@ extern voidptr	malloc( unsigned ) ;
 extern char*	getlogin() ;
 
 extern int	errno ;
+
+#if defined(_ANSI_SOURCE) || defined(_POSIX_SOURCE)
 extern char*	sys_errlist[] ;
+#endif
 
 extern boolean	Verbose ;
 
