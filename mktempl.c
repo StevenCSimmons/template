@@ -1,16 +1,19 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.17 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.18 $
  *
- *  $Author: scs $	$Date: 1990/10/30 11:00:34 $
+ *  $Author: scs $	$Date: 1992/06/06 15:54:32 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
- *  Revision 0.17  1990/10/30 11:00:34  scs
- *  Added check for empty as well as null file names.
+ *  Revision 0.18  1992/06/06 15:54:32  scs
+ *  Added handling for stdout.
  *
+ *  Revision 0.17  90/10/30  11:00:34  scs
+ *  Added check for empty as well as null file names.
+ *  
  *  Revision 0.16  90/10/14  11:35:48  scs
  *  Corrected usage of PARAM_0/PROTO_0
  *  
@@ -27,7 +30,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.17 1990/10/30 11:00:34 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.18 1992/06/06 15:54:32 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -242,6 +245,21 @@ static void	generate_names PARAM_1( char*, in_name )
 
 
 /*
+ *  Special module for the purpose of copying stdin to stdout.
+ *  Nothing fancy or efficient, just do it.
+ */
+
+static void	pass_thru PARAM_0
+{
+	int	inchar ;
+
+	while ( EOF != ( inchar = getchar() ) )
+		(void) putchar( inchar ) ;
+}
+
+
+
+/*
  *  Central execution for this module.  If given a filename, do the
  *  following for each file:
  *    Generate the valid template names
@@ -252,8 +270,6 @@ static void	generate_names PARAM_1( char*, in_name )
  *  If no file name, check to make sure that we've got stdout requested
  *  and the user has forced an extension.
  */
-
-
 
 static void	proc_file PARAM_1( char*, request )
 {
@@ -319,12 +335,19 @@ void	ProcessFiles PARAM_1( char**, request_list )
 	}
 	if ( *request_list == NULL )
 	{
-		if ( ! ( UsingStdout && ForceExtension ) )
+		if ( ! ForceExtension )
 		{
-			(void) fputs( "You must specify at least one file name.\n", stderr ) ;
-			exit( 0 ) ;
+			/*
+			 * Really, this is an error.  The user has asked
+			 * to read from stdin, write to stdout, and given
+			 * no extension or filename.  But since we're in
+			 * a pipe, we should be good and pass the data
+			 * thru unchanged.
+			 */
+			pass_thru() ;
 		}
-		proc_file( NULL ) ;
+		else
+			proc_file( NULL ) ;
 	}
 	else for ( request = request_list ; *request != NULL ; request++ )
 		proc_file( *request ) ;
