@@ -2,16 +2,19 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.18 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.19 $
  *
- *  $Author: scs $	$Date: 1989/11/24 14:40:51 $
+ *  $Author: scs $	$Date: 1989/12/09 15:11:56 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
- *  Revision 0.18  1989/11/24 14:40:51  scs
- *  Added permission to use null file names with stdout.
+ *  Revision 0.19  1989/12/09 15:11:56  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 0.18  89/11/24  14:40:51  scs
+ *  Added permission to use null file names with stdout.
+ *  
  *  Revision 0.17  89/11/12  22:01:38  scs
  *  First production release.  Stripped all useless history and side-alleys.
  *  
@@ -23,20 +26,18 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.18 1989/11/24 14:40:51 scs Exp $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.19 1989/12/09 15:11:56 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
 # include	"template.h"
 
-extern void	exit( PROTO_1( int ) ) ;
-
 extern int		OptionParse( PROTO_3( int, char**, char* ) ) ;
 extern void		GetTemplList( PROTO_1( char* ) ) ;
+extern void		exit( PROTO_1( int ) ) ;
 
 extern const char*	OptionSwitch ;
-
-extern char*	UserExtension ;
+extern char*		UserExtension ;
 
 boolean Verbose = FALSE ;	/* -[vV] - be noisy? */
 boolean NoAction = FALSE ;	/* -V - be noisy and fake it? */
@@ -59,12 +60,7 @@ static const char const* const	usage_msg[] = {
  *  Print an error message, tell about proper usage, and die.
  */
 
-#ifdef	__STDC__
-static void	usage( const char* const msg )
-#else
-static void	usage( msg )
-const char* const	msg ;
-#endif
+static void	usage PARAM_1( const char* const, msg )
 {
 	char**	umsg = usage_msg ;
 
@@ -91,13 +87,7 @@ const char* const	msg ;
 
 static const char	need_option[] = "The -%c option requires a %s name." ;
 
-#ifdef	__STDC__
-static char*	get_arg( const char option, const char* const type )
-#else
-static char*	get_arg( option, type )
-const char		option ;
-const char* const 	type ;
-#endif
+static char*	get_arg PARAM_2( const char, option, const char* const, type )
 {
 	char*	opt ;
 	char	msgbuf[ BUFSIZ ] ;
@@ -113,14 +103,7 @@ const char* const 	type ;
 }
 
 
-#ifdef	__STDC__
-void	ProcessSwitches( const int argc, const char* const* const argv, const char* file_list[] )
-#else
-void	ProcessSwitches( argc, argv, file_list )
-const int			argc ;
-const char* const* const	argv ;
-const char*			file_list[] ;
-#endif
+void	ProcessSwitches PARAM_3( const int, argc, const char* const* const, argv, const char**, file_list )
 {
 	int			option ;
 	char			msgbuf[ BUFSIZ ] ;
@@ -184,23 +167,12 @@ const char*			file_list[] ;
 
 static const char*	file_list[ MAX_FILES ] ;
 
-#ifdef	__STDC__
-void		GetTemplList( const char* const list )
-#else
-void		GetTemplList( list )
-const char* const	list ;
-#endif
+void		GetTemplList PARAM_1( const char* const, list )
 {
 	return ;	/* a dummy */
 }
 
-#ifdef	__STDC__
-static void	print_string( const char* const msg, const char* const value )
-#else
-static void	print_string( msg, value )
-const char* const	msg ;
-const char* const	value ;
-#endif
+static void	print_string PARAM_3( const char* const, msg, const char* const, value )
 {
 	if ( msg == NULL )
 		(void) printf( "%s: NULL\n", msg ) ;
@@ -208,26 +180,14 @@ const char* const	value ;
 		(void) printf( "%s: `%s'\n", msg, value ) ;
 }
 
-#ifdef	__STDC__
-static 	void	print_bool( const char* const msg, const int value )
-#else
-static 	void	print_bool( msg, value )
-const char* const	msg ;
-const int		value ;
-#endif
+static 	void	print_bool PARAM_2( const char* const, msg, const int, value )
 {
 	(void) printf( "%s: %s (0x%x)\n", msg,
 		value ? "TRUE" : "FALSE",
 		value ) ;
 }
 
-#ifdef	__STDC__
-int	main( const int argc, const char* const* const argv )
-#else
-int	main( argc, argv )
-const int			argc ;
-const char* const* const	argv ;
-#endif
+int	main PARAM_2( const int, argc, const char* const* const, argv )
 {
 	register int	i ;
 

@@ -5,16 +5,19 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.9 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.10 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:44 $
+ *  $Author: scs $	$Date: 1989/12/09 15:12:11 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
- *  Revision 0.9  1989/11/12 22:01:44  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.10  1989/12/09 15:12:11  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 0.9  89/11/12  22:01:44  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifdef	TEST
@@ -23,7 +26,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.9 1989/11/12 22:01:44 scs Production $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.10 1989/12/09 15:12:11 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -45,8 +48,8 @@ extern int	strncmp( PROTO_3( char*, char*, int ) ) ;
 extern char*	getenv( PROTO_1( char* ) ) ;
 extern int	fprintf( PROTO_2PL( FILE*, char* ) ) ;
 extern int	access( PROTO_2( char*, int ) ) ;
-extern VOIDSTAR	malloc( PROTO_1( unsigned ) ) ;
-extern char*	getlogin( PROTO_0 ) ;
+extern voidptr	malloc( PROTO_1( unsigned ) ) ;
+extern char*	getlogin( PROTO_0() ) ;
 extern struct passwd*	getpwnam( PROTO_1( char* ) ) ;
 
 #ifndef	BSD
@@ -73,11 +76,7 @@ int	Max_Template_Dir = 0 ;
  *  No parameters, no return value.
  */
 
-#ifdef	__STDC__
-static void	dump_template_list( void )
-#else
-static void	dump_template_list()
-#endif
+static void	dump_template_list PARAM_0()
 {
 	register int	i, max ;
 
@@ -94,12 +93,7 @@ static void	dump_template_list()
  *  can, return a pointer to the home path.
  */
 
-#ifdef	__STDC__
-static char*	get_home( char* user )
-#else
-static char*	get_home( user )
-char*	user ;
-#endif
+static char*	get_home PARAM_1( char*, user )
 {
 	struct passwd*	pw_entry ;
 
@@ -135,12 +129,7 @@ char*	user ;
  *  interpreted string.
  */
 
-#ifdef	__STDC__
-static char*	interpret_specials( char* string )
-#else
-static char*	interpret_specials( string )
-char*	string ;
-#endif
+static char*	interpret_specials PARAM_1( char*, string )
 {
 	static char	dir_path[ MAXPATHLEN ] ;
 
@@ -174,12 +163,7 @@ char*	string ;
  *  Check the indicated directory for existance and accessibility.
  */
 
-#ifdef	__STDC__
-static boolean	valid_template_dir( char* dir )
-#else
-static boolean	valid_template_dir( dir )
-char*	dir ;
-#endif
+static boolean	valid_template_dir PARAM_1( char*, dir )
 {
 	char*	path ;
 	char	msgbuf[ BUFSIZ ] ;
@@ -217,12 +201,7 @@ char*	dir ;
  *    Address of newly allocated string.
  */
 
-#ifdef	__STDC__
-static char*	get_next_colon( char** instr )
-#else
-static char*	get_next_colon( instr )
-char**	instr ;
-#endif
+static char*	get_next_colon PARAM_1( char**, instr )
 {
 	char*		oldstr ;
 	char*		end ;
@@ -272,12 +251,7 @@ char**	instr ;
  *	if default was processed or not.
  */
 
-#ifdef	__STDC__
-static void	process_list( char* templ_list )
-#else
-static void	process_list( templ_list )
-char*	templ_list ;
-#endif
+static void	process_list PARAM_1( char*, templ_list )
 {
 	char*	dir ;
 	char*	def_list = default_list ;
@@ -334,12 +308,7 @@ char*	templ_list ;
  *     void
  */
 
-#ifdef	__STDC__
-void	GetTemplList( const char* const user_list )
-#else
-void	GetTemplList( user_list )
-const char* const	user_list ;
-#endif
+void	GetTemplList PARAM_1( const char* const, user_list )
 {
 	char*	environment_list = getenv( "TEMPLATES" ) ;
 
@@ -358,13 +327,7 @@ const char* const	user_list ;
 
 #ifdef	TEST
 
-#ifdef	__STDC__
-static void	testit( char* list, char* comment )
-#else
-static void	testit( list, comment )
-char*	list ;
-char*	comment ;
-#endif
+static void	testit PARAM_2( char*, list, char*, comment )
 {
 	Max_Template_Dir = 0 ;
 	default_seen = FALSE ;
@@ -381,13 +344,7 @@ char*	comment ;
 
 boolean	Verbose = TRUE ;
 
-#ifdef	__STDC__
-main( int argc, char** argv )
-#else
-main()
-int	argc ;
-char**	argv ;
-#endif
+int main PARAM_2( int, argc, char**, argv )
 {
 	ProgramName = "test_templist" ;
 	(void) printf( "Before startup.\n" ) ;

@@ -1,21 +1,24 @@
 /*
  *  Error handling routines
  *
- *  $RCSfile: errors.c,v $	$Revision: 0.7 $
+ *  $RCSfile: errors.c,v $	$Revision: 0.8 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:11 $
+ *  $Author: scs $	$Date: 1989/12/09 15:12:02 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: errors.c,v $
- *  Revision 0.7  1989/11/12 22:01:11  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.8  1989/12/09 15:12:02  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 0.7  89/11/12  22:01:11  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifndef	lint
 # ifndef lib
-static char	rcsid[] = "$Id: errors.c,v 0.7 1989/11/12 22:01:11 scs Production $" ;
+static char	rcsid[] = "$Id: errors.c,v 0.8 1989/12/09 15:12:02 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -27,12 +30,7 @@ extern void	exit( PROTO_1( int ) ) ;
  *  Print an error message on stderr and return.
  */
 
-#ifdef	__STDC__
-void	Error( const char* const msg )
-#else
-void	Error( msg )
-const char* const	msg ;
-#endif
+void	Error PARAM_1( const char* const, msg )
 {
 #ifdef	DEBUGGING
 	if ( ProgramName != NULL )
@@ -52,12 +50,7 @@ const char* const	msg ;
  *  cleanups as appropriate.
  */
 
-#ifdef	__STDC__
-void	Fatal( const char* const msg )
-#else
-void	Fatal( msg )
-const char* const	msg ;
-#endif
+void	Fatal PARAM_1( const char* const, msg )
 {
 #ifdef	DEBUGGING
 	if ( ProgramName != NULL )
@@ -76,12 +69,7 @@ const char* const	msg ;
  *  Print a warning message on stderr.
  */
 
-#ifdef	__STDC__
-void	Warning( const char* const msg )
-#else
-void	Warning( msg )
-const char* const	msg ;
-#endif
+void	Warning PARAM_1( const char* const, msg )
 {
 #ifdef	DEBUGGING
 	if ( ProgramName != NULL )

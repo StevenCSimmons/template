@@ -3,16 +3,19 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.10 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.11 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:00:47 $
+ *  $Author: scs $	$Date: 1989/12/09 15:11:34 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
- *  Revision 0.10  1989/11/12 22:00:47  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.11  1989/12/09 15:11:34  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 0.10  89/11/12  22:00:47  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifdef	TEST
@@ -21,7 +24,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.10 1989/11/12 22:00:47 scs Production $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.11 1989/12/09 15:11:34 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -69,11 +72,7 @@ static char	message[ 512 ] ;
  *  If so, print it and die.  No parameters, no return value.
  */
 
-#ifdef	__STDC__
-static void	module_cleanup( void )
-#else
-static void	module_cleanup()
-#endif
+static void	module_cleanup PARAM_0()
 {
 	(void) close( template ) ;
 	(void) close( tempfile ) ;
@@ -100,14 +99,7 @@ static void	module_cleanup()
  *	an opened fd if successful, -1 if not
  */
 
-#ifdef	__STDC__
-static int	open_file( char* name, int mode, char* detail )
-#else
-static int	open_file( name, mode, detail )
-char*	name ;
-int	mode ;
-char*	detail ;
-#endif
+static int	open_file PARAM_3( char*, name, int, mode, char*, detail )
 {
 	int	fd ;
 
@@ -137,13 +129,7 @@ char*	detail ;
  *	TRUE/FALSE, if succeeded or failed.
  */
 
-#ifdef	__STDC__
-static boolean	copyfile( int to, int from )
-#else
-static boolean	copyfile( to, from )
-int	to ;
-int	from ;
-#endif
+static boolean	copyfile PARAM_2( int, to, int, from )
 {
 	char	buffer[ IO_CHUNK ] ;
 	int	inlen = IO_CHUNK ;
@@ -182,13 +168,7 @@ int	from ;
  *  Bitch mightily and die about any errors along the way.
  */
 
-#ifdef	__STDC__
-void	CreateTarget( char* template_name, char* target_name )
-#else
-void	CreateTarget( template_name, target_name )
-char*	template_name ;
-char*	target_name ;
-#endif
+void	CreateTarget PARAM_2( char*, template_name, char*, target_name )
 {
 	message[ 0 ] = '\0' ;
 	template = open_file( template_name, O_RDONLY, "read" ) ;
@@ -266,11 +246,7 @@ char*	target_name ;
  *  is entered.
  */
 
-#ifdef	__STDC__
-void	InitCopying( void )
-#else
-void	InitCopying()
-#endif
+void	InitCopying PARAM_0()
 {
 	int	old_umask = umask( 0 ) ;
 
@@ -285,13 +261,7 @@ void	InitCopying()
 
 boolean	Verbose = TRUE ;
 
-#ifdef	__STDC__
-int main( int argc, char* argc[] )
-#else
-int main( argc, argv )
-int	argc ;
-char*	argv[] ;
-#endif
+int main PARAM_2( int, argc, char*, argc[] )
 {
 	ProgramName = argv[ 0 ] ;
 	Verbose = TRUE ;

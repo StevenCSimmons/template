@@ -1,21 +1,24 @@
 /*
  *  Module to do the list (-l, -L) switches.
  *
- *  $RCSfile: list.c,v $	$Revision: 0.3 $
+ *  $RCSfile: list.c,v $	$Revision: 0.4 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:15 $
+ *  $Author: scs $	$Date: 1989/12/09 15:12:17 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: list.c,v $
- *  Revision 0.3  1989/11/12 22:01:15  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.4  1989/12/09 15:12:17  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 0.3  89/11/12  22:01:15  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: list.c,v 0.3 1989/11/12 22:01:15 scs Production $" ;
+static char	rcsid[] = "$Id: list.c,v 0.4 1989/12/09 15:12:17 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
@@ -35,12 +38,7 @@ extern char*	Template_List[] ;
  *  full contents of each directory.
  */
 
-#ifdef	__STDC__
-void ListTemplateDirs( const boolean List_Contents )
-#else
-void ListTemplateDirs( List_Contents )
-const boolean	List_Contents ;
-#endif
+void ListTemplateDirs PARAM_1( const boolean, List_Contents )
 {
 	char**	dir_list = Template_List ;
 	char	buf[ MAXPATHLEN + 10 ] ;
@@ -75,13 +73,7 @@ char*	Template_List[] = {
 	NULL
 	} ;
 
-#ifdef	__STDC__
-main( int argc, char** argv )
-#else
-main( argc, argv )
-int	argc ;
-char**	argv ;
-#endif
+int main PARAM_2( int, argc, char**, argv )
 {
 	char**	lister ;
 

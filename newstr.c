@@ -2,28 +2,31 @@
  *  Library function to create new copies of strings.  Creates
  *  exactly the same size offered.
  *
- *  $RCSfile: newstr.c,v $	$Revision: 1.3 $
+ *  $RCSfile: newstr.c,v $	$Revision: 1.4 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:31 $
+ *  $Author: scs $	$Date: 1989/12/09 15:12:07 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: newstr.c,v $
- *  Revision 1.3  1989/11/12 22:01:31  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 1.4  1989/12/09 15:12:07  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 1.3  89/11/12  22:01:31  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: newstr.c,v 1.3 1989/11/12 22:01:31 scs Production $" ;
+static char	rcsid[] = "$Id: newstr.c,v 1.4 1989/12/09 15:12:07 scs Exp $" ;
 #endif
 #endif
 
 # include	<stdio.h>
 # include	<stdc.h>
 
-extern VOIDSTAR	malloc( PROTO_1( int ) ) ;
+extern voidptr	malloc( PROTO_1( int ) ) ;
 extern char*	strcpy( PROTO_2( char*, char* ) ) ;
 extern int	strlen( PROTO_1( char* ) ) ;
 
@@ -34,12 +37,7 @@ extern int	strlen( PROTO_1( char* ) ) ;
  *  we'll duplicate it.
  */
 
-#ifdef	__STDC__
-char*	NewString( register char* string )
-#else
-char*	NewString( string )
-register char*	string ;
-#endif
+char*	NewString PARAM_1( register char*, string )
 {
 	register unsigned	len ;
 	register char*		new_string ;

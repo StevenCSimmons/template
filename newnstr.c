@@ -1,28 +1,31 @@
 /*
  *  Library function to create a new string.
  *
- *  $RCSfile: newnstr.c,v $	$Revision: 1.3 $
+ *  $RCSfile: newnstr.c,v $	$Revision: 1.4 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:28 $
+ *  $Author: scs $	$Date: 1989/12/09 15:11:52 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: newnstr.c,v $
- *  Revision 1.3  1989/11/12 22:01:28  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 1.4  1989/12/09 15:11:52  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 1.3  89/11/12  22:01:28  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: newnstr.c,v 1.3 1989/11/12 22:01:28 scs Production $" ;
+static char	rcsid[] = "$Id: newnstr.c,v 1.4 1989/12/09 15:11:52 scs Exp $" ;
 #endif
 #endif
 
 # include	<stdio.h>
 # include	<stdc.h>
 
-extern VOIDSTAR	malloc( PROTO_1( int ) ) ;
+extern voidptr	malloc( PROTO_1( int ) ) ;
 extern char*	strncpy( PROTO_3( char*, char*, int ) ) ;
 extern int	strlen( PROTO_1( char* ) ) ;
 
@@ -32,13 +35,7 @@ extern int	strlen( PROTO_1( char* ) ) ;
  *  malloc fails.  Zero-length strings (ie, '\0' only) are permitted.
  */
 
-#ifdef	__STDC__
-char*	NewNString( register char* string, register unsigned len )
-#else
-char*	NewNString( string, len )
-register char*		string ;
-register unsigned	len ;
-#endif
+char*	NewNString PARAM_2( register char*, string, register unsigned, len )
 {
 	register char*	new_string ;
 

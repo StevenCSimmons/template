@@ -15,16 +15,19 @@
  *
  *  See the individual routines below for detailed descriptions.
  *
- *  $RCSfile: optparse.c,v $	$Revision: 0.5 $
+ *  $RCSfile: optparse.c,v $	$Revision: 0.6 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:33 $
+ *  $Author: scs $	$Date: 1989/12/09 15:12:20 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: optparse.c,v $
- *  Revision 0.5  1989/11/12 22:01:33  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.6  1989/12/09 15:12:20  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
  *
+ *  Revision 0.5  89/11/12  22:01:33  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifdef		TEST
@@ -36,7 +39,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: optparse.c,v 0.5 1989/11/12 22:01:33 scs Production $" ;
+static char	rcsid[] = "$Id: optparse.c,v 0.6 1989/12/09 15:12:20 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
@@ -111,14 +114,7 @@ const char*	OptionSwitch = NULL ;	/* pointer to return an extended arguement */
  *	switch may have some sort of trailing parameter.
  */
 
-#ifdef	__STDC__
-int	OptionParse( const int argc, const char** const argv, const char* const opts )
-#else
-int	OptionParse( argc, argv, opts )
-const int	argc ;		/* Count of how many arguements we have */
-const char**	const argv ;	/* Vector of pointers to those arguements */
-const char*	const opts ;	/* A list of valid switches and controls */
-#endif
+int	OptionParse PARAM_3( const int, argc, const char** const, argv, const char* const, opts )
 {
 	register char	c ;	/* General char holder */
 	register char*	cp ;	/* Pointer into options list for this switch */
@@ -212,11 +208,7 @@ const char*	const opts ;	/* A list of valid switches and controls */
  *  will start at the beginning of the list.
  */
 
-#ifdef	__STDC__
-void	OptionInit( void )
-#else
-void	OptionInit()
-#endif
+void	OptionInit PARAM_0()
 {
 	argchar = argnum = 1 ;
 	OptionSwitch = NULL ;
@@ -240,14 +232,7 @@ void	OptionInit()
  *  to be ascii.
  */
 
-#ifdef	__STDC__
-void	OptionReset( const char switchchar, const char errorflag, const char externflag )
-#else
-void	OptionReset( switchchar, errorflag, externflag )
-const char	switchchar ;
-const char	errorflag ;
-const char	externflag ;
-#endif
+void	OptionReset PARAM_3( const char, switchchar, const char, errorflag, const char, externflag )
 {
 	swflag = ( switchchar == '\0' ) ? '-' : toascii( switchchar ) ;
 	errflg = ( errorflag == '\0' ) ? '-' : toascii( errorflag ) ;
@@ -261,13 +246,7 @@ const char	externflag ;
  *  various switches are.
  */
 
-#ifdef	__STDC__
-int	main( int argc, char** argv )
-#else
-int	main( argc, argv )
-int	argc ;
-char**	argv ;
-#endif
+int	main PARAM_2( int, argc, char**, argv )
 {
 	int	c ;
 	int	i ;
