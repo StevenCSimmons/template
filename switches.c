@@ -2,16 +2,19 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.17 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.18 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:38 $
+ *  $Author: scs $	$Date: 1989/11/24 14:40:51 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
- *  Revision 0.17  1989/11/12 22:01:38  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.18  1989/11/24 14:40:51  scs
+ *  Added permission to use null file names with stdout.
  *
+ *  Revision 0.17  89/11/12  22:01:38  scs
+ *  First production release.  Stripped all useless history and side-alleys.
+ *  
  */
 
 #ifdef	TEST
@@ -20,7 +23,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.17 1989/11/12 22:01:38 scs Production $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.18 1989/11/24 14:40:51 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -47,7 +50,7 @@ static char* const	template_list = NULL ;	/* for -T<list> */
 static const char const		switch_list[] = "lLvVoT:e:" ;
 static const char const* const	usage_msg[] = {
 	"Proper usage for extracting templates is:",
-	"  template [-lLvVo] [ -T <template list> ] [ -e <extension> ] file(s)",
+	"  template [-lLvVo] [ -T <template list> ] [ -e <extension> ] [ file(s) ]",
 	NULL
 } ;
 
@@ -166,7 +169,7 @@ const char*			file_list[] ;
 	
 	/* Cross-check the combinations */
 
-	if ( ( *file_list == NULL ) && ( ( !DirList ) && ( !DirContents ) ) )
+	if ( ( *file_list == NULL ) && ( ( !UsingStdout ) && ( !DirList ) && ( !DirContents ) ) )
 		usage( "Sorry, you must specify some files." ) ;
 
 	/* Switch combinations are legal.  Finish setting up. */
