@@ -3,16 +3,19 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.13 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.14 $
  *
- *  $Author: scs $	$Date: 1990/10/14 10:51:12 $
+ *  $Author: scs $	$Date: 1990/10/14 22:36:08 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
- *  Revision 0.13  1990/10/14 10:51:12  scs
- *  Converted to new parameters format.
+ *  Revision 0.14  1990/10/14 22:36:08  scs
+ *  Fixed bug with stdout and unmodifiable files.
  *
+ *  Revision 0.13  90/10/14  10:51:12  scs
+ *  Converted to new parameters format.
+ *  
  *  Revision 0.12  90/07/15  17:47:09  scs
  *  Added POSIX umask definition.
  *  
@@ -30,7 +33,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.13 1990/10/14 10:51:12 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.14 1990/10/14 22:36:08 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -198,7 +201,7 @@ void	CreateTarget PARAM_2( char*, template_name, char*, target_name )
 		{
 			if ( *target_name != NULL )
 			{
-				target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify" ) ;
+				target = open_file( target_name, O_RDONLY, "read" ) ;
 				if ( ! copyfile( 2, target ) )
 				{
 					(void) sprintf( message,
