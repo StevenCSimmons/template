@@ -1,17 +1,18 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.7 $
+#  $RCSfile: Makefile,v $	$Revision: 0.8 $
 #
-#  $Author: scs $	$Date: 1989/11/12 22:02:43 $
+#  $Author: scs $	$Date: 1990/07/15 17:49:42 $
 #
-#  $State: Production $	$Locker:  $
+#  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
-#  Revision 0.7  1989/11/12 22:02:43  scs
+#  Revision 0.8  1990/07/15 17:49:42  scs
+#  Added POSIX switch.
+#
+#  Revision 0.7  89/11/12  22:02:43  scs
 #  First production release.  Stripped all extraneous comments and side
 #  paths.
-#
-#  
 
 TARGET	=	template
 
@@ -34,15 +35,22 @@ CC	= gcc
 # General definitions here which apply to all -- form -DDEF
 #  If you have stdc.h in your /usr/include, you
 #  don't need the -I./ switch
-DEFS	= -I./
+CLUDDIR	= -I./
 # Link libraries -- form -lLIB
-LIBS	= -llocal
+LIBS	=
 # Lint definitions -- same as DEFS, but form -D DEF
 LDEFS	= -I ./
 # Lint libraries -- same as LIBS, but form -l LIB
 LLIBS	=
 # Set to -g for debugging, -O for optimise, or both if compiler handles it
 DEBUG	= -g -O
+# Define BSD for BSD 4.X or derivatives thereof.
+OS	= -DBSD
+# Define this if you have POSIX compatibility
+POSIX	= -DPOSIX
+
+DEFS	= $(OS) $(CLUDDIR) $(POSIX)
+
 CFLAGS	= $(DEBUG) $(DEFS)
 
 SRCS	= copyfile.c list.c main.c mktempl.c switches.c templist.c $(LIBSRCS)
