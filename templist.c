@@ -5,16 +5,19 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.10 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.11 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:12:11 $
+ *  $Author: scs $	$Date: 1990/10/14 11:21:05 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
- *  Revision 0.10  1989/12/09 15:12:11  scs
- *  Upgraded to new version of ANSI C compatibility macros.
+ *  Revision 0.11  1990/10/14 11:21:05  scs
+ *  Corrected usage of PARAM_0
  *
+ *  Revision 0.10  89/12/09  15:12:11  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
+ *  
  *  Revision 0.9  89/11/12  22:01:44  scs
  *  First production release.  Stripped all useless history and side-alleys.
  *  
@@ -26,7 +29,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.10 1989/12/09 15:12:11 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.11 1990/10/14 11:21:05 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -49,7 +52,7 @@ extern char*	getenv( PROTO_1( char* ) ) ;
 extern int	fprintf( PROTO_2PL( FILE*, char* ) ) ;
 extern int	access( PROTO_2( char*, int ) ) ;
 extern voidptr	malloc( PROTO_1( unsigned ) ) ;
-extern char*	getlogin( PROTO_0() ) ;
+extern char*	getlogin( PROTO_0 ) ;
 extern struct passwd*	getpwnam( PROTO_1( char* ) ) ;
 
 #ifndef	BSD
@@ -76,7 +79,7 @@ int	Max_Template_Dir = 0 ;
  *  No parameters, no return value.
  */
 
-static void	dump_template_list PARAM_0()
+static void	dump_template_list PARAM_0
 {
 	register int	i, max ;
 
