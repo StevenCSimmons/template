@@ -1,13 +1,17 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.18 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.19 $
  *
- *  $Author: scs $	$Date: 1992/06/06 15:54:32 $
+ *  $Author: scs $	$Date: 1996/09/28 23:23:55 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
+ *  Revision 0.19  1996/09/28 23:23:55  scs
+ *  Removed all PROTO/PARAM items, first pass towards fixing core dump
+ *  when stdout used without name but with forced extension.
+ *
  *  Revision 0.18  1992/06/06 15:54:32  scs
  *  Added handling for stdout.
  *
@@ -30,7 +34,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.18 1992/06/06 15:54:32 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.19 1996/09/28 23:23:55 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -39,20 +43,20 @@ static char	rcsid[] = "$Id: mktempl.c,v 0.18 1992/06/06 15:54:32 scs Exp $" ;
 
 # define	MAX_NAMES	(3)
 
-extern char*	strrchr( PROTO_2( char*, char ) ) ;
-extern int	access( PROTO_2( char*, int ) ) ;
-extern void	free( PROTO_1( char* ) ) ;
+extern char*	strrchr( char*, char ) ;
+extern int	access( char*, int ) ;
+extern void	free( char* ) ;
 
 #ifndef	BSD
-extern int	sprintf( PROTO_2PL( char*, char* ) ) ;
+extern int	sprintf( char*, char* ) ;
 #endif
 
 extern int	errno ;
 
-extern void	CreateTarget( PROTO_2( char*, char* ) ) ;
-extern char*	strcat( PROTO_2( char*, char* ) ) ;
-extern char*	strncpy( PROTO_3( char*, char*, int ) ) ;
-extern void	exit( PROTO_1( int ) ) ;
+extern void	CreateTarget( char*, char* ) ;
+extern char*	strcat( char*, char* ) ;
+extern char*	strncpy( char*, char*, int ) ;
+extern void	exit( int ) ;
 
 extern char*	Template_List[] ;
 
@@ -71,7 +75,7 @@ char*	UserExtension ;
  *  to the full path.
  */
 
-static char*	check_for_file PARAM_2( char*, dir, char*, file )
+static char*	check_for_file( char* dir, char* file )
 {
 	static char	template_path[ MAXPATHLEN ] ;
 
@@ -97,7 +101,7 @@ static char*	check_for_file PARAM_2( char*, dir, char*, file )
  *  list of possible file names and find the first match.
  */
 
-static char*	get_template_file PARAM_0
+static char*	get_template_file()
 {
 	char**	name ;
 	char**	dir ;
@@ -153,7 +157,7 @@ static char*	get_template_file PARAM_0
  *	nothing
  */
 
-static void	generate_names PARAM_1( char*, in_name )
+static void	generate_names( char* in_name )
 {
 	char*	suffix ;	/* an extension */
 	int	try_number ;
@@ -161,10 +165,13 @@ static void	generate_names PARAM_1( char*, in_name )
 	int	len ;
 	char	stem[ MAXPATHLEN ] ;
 
-	if ( in_name == NULL && !ForceExtension )
-		Fatal( "Got a NULL name in generate_names!" ) ;
-	if ( *in_name == NULL && !ForceExtension )
-		Fatal( "Got an empty name in generate_names!" ) ;
+	if ( !ForceExtension )
+	{
+		if ( in_name == NULL )
+			Fatal( "Got a NULL name in generate_names!" ) ;
+		else if ( *in_name == NULL )
+			Fatal( "Got an empty name in generate_names!" ) ;
+	}
 
 	/* Clear out the old names */
 
@@ -249,7 +256,7 @@ static void	generate_names PARAM_1( char*, in_name )
  *  Nothing fancy or efficient, just do it.
  */
 
-static void	pass_thru PARAM_0
+static void	pass_thru()
 {
 	int	inchar ;
 
@@ -271,7 +278,7 @@ static void	pass_thru PARAM_0
  *  and the user has forced an extension.
  */
 
-static void	proc_file PARAM_1( char*, request )
+static void	proc_file( char* request )
 {
 	char*	template_file ;
 	char	msgbuf[ BUFSIZ ] ;
@@ -324,7 +331,7 @@ static void	proc_file PARAM_1( char*, request )
  *      the request.
  */
 
-void	ProcessFiles PARAM_1( char**, request_list )
+void	ProcessFiles( char** request_list )
 {
 	char**	request ;
 
@@ -360,13 +367,13 @@ char*	list[] = { "foo", "bar.c", "baz.", NULL } ;
 char*	Template_List[] = {
 	"/usr/local/lib/Templates", "./.Templates", ".", NULL } ;
 
-void	CreateTarget PARAM_2( char*, template, char*, target )
+void	CreateTarget( char* template, char* target )
 {
 	(void) printf( "CreateTarget: would make `%s' from `%s'\n",
 		target, template ) ;
 }
 
-int main PARAM_2( int, argc, char**, argv )
+int main( int argc, char** argv )
 {
 	ProgramName = argv[ 0 ] ;
 	Verbose = TRUE ;
