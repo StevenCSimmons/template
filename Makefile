@@ -1,13 +1,16 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.12 $
+#  $RCSfile: Makefile,v $	$Revision: 0.13 $
 #
-#  $Author: scs $	$Date: 1993/06/28 01:13:28 $
+#  $Author: scs $	$Date: 1993/06/28 02:34:39 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
-#  Revision 0.12  1993/06/28 01:13:28  scs
+#  Revision 0.13  1993/06/28 02:34:39  scs
+#  Added template.shar.
+#
+#  Revision 0.12  1993/06/28  01:13:28  scs
 #  Back to /usr/local/man/man for man pages.
 #
 #  Revision 0.11  1992/06/06  16:07:42  scs
@@ -100,6 +103,9 @@ tags:	$(SRCS)
 
 TAGS:	$(SRCS) $(CLUDES)
 	etags $(SRCS) $(CLUDES)
+
+shar:	ReadMe $(TARGET).1 optparse.3 Makefile $(SRCS) $(CLUDES)
+	shar ReadMe Templatelib Templatelib/* Makefile $(TARGET).1 optparse.3 $(SRCS) $(CLUDES) > template.shar
 
 install:	$(TARGET) $(TARGET).1 optparse.3
 	install -o root -g bin -m 511 -s -c $(TARGET) $(BIN)
