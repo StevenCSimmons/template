@@ -1,26 +1,29 @@
+.TH TEMPLATE 1L "Nov 12, 1989"
+.\"  
 .\"  Manual page for template
 .\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.5 $
+.\"  $RCSfile: template.1,v $	$Revision: 0.6 $
 .\"
-.\"  $Author: scs $	$Date: 1989/11/12 22:02:38 $
+.\"  $Author: scs $	$Date: 1990/10/30 16:05:02 $
 .\"
-.\"  $State: Production $	$Locker:  $
+.\"  $State: Exp $	$Locker:  $
 .\"
 .\"  $Log: template.1,v $
-.\"  Revision 0.5  1989/11/12 22:02:38  scs
+.\"  Revision 0.6  1990/10/30 16:05:02  scs
+.\"  Revisions as per Tim Belch's suggestions.
+.\"
+.\"  Revision 0.5  89/11/12  22:02:38  scs
 .\"  First production release.  Stripped all extraneous comments and side
 .\"  paths.
-.\"
 .\"  
-.TH TEMPLATE 1L "Nov 12, 1989"
 .SH NAME
 template - Create files from templates, add templates to existing files
 .SH SYNOPSIS
 template
 [ \-dDlLvVo ]
-[ \-e \fItemplate\fR ]
+[ \-e \fIextension\fR ]
 [ \-T \fItemplate-list\fR ]
-.I "\[ file \[ file ... ] ]"
+[ \fIfile\fR \[ \fIfile\fR ... ] ]"
 .SH DESCRIPTION
 .I Template
 creates or modifies files for use in accordance with local standards.
@@ -29,7 +32,7 @@ control systems as
 .I rcs(1)
 or
 .I sccs(1),
-or simply to grab standard forms from an archive.
+or simply to grab standard forms from a library.
 .PP 
 .I Template
 looks at the file name(s) you have given,
@@ -40,7 +43,7 @@ Should
 .I file
 already exist
 .I template
-will put a copy of what it finds at the front of the file.
+will put a copy of what it finds at the front of
 .I file.
 Otherwise it copy the template to a new file named
 .I file.
@@ -56,9 +59,9 @@ It looks first for a template whose name exactly matches
 the file name you gave.
 If there is no such template,
 it will look at whatever follows the
-last period in the file name and use it as the name of the template.
-If this fails too, it will look for a template
-named
+last period in the file name (the \fIextension\fR)
+and use it as the name of the template.
+If this fails too, it will look for a template named
 .I default.
 If that fails,
 it will give you an error message.
@@ -96,12 +99,16 @@ but not actually do anything.
 looks for templates in a number of places.
 This list of places is called the
 .I template_list.
-It is a list of directories whose names are separated by colons.
+The
+.I template_list
+is a list of directories whose names are separated by colons.
 If you let
 .I template
 decide on it's own, it will use
 the template list
-.I ./.Templates:$HOME/.Templates:/usr/local/lib/Templates.
+.RS
+.I ./.Templates:$HOME/.Templates:/usr/local/lib/Templates
+.RE
 Thus it would look first in a directory named
 .I .Templates
 in your current directory, then in a directory named
@@ -116,11 +123,12 @@ until it either finds a template file
 or runs out of places to look.
 .PP
 There are a number of ways to change the template list.
-If the environment variable ``TEMPLATES'' is present, it
-will be used as a template list instead of the default list.
-In addition, you can specify a template list with the
+If the environment variable
+.B TEMPLATES
+is present, it will be used as a template list instead of the default list.
+Alternatively, you can specify a template list with the
 .I -T
-switch.
+switch (see below).
 The use of
 .I -T
 will override the use of the ``TEMPLATES'' environment
@@ -133,33 +141,46 @@ The system default will be inserted at that point.
 .SH OPTIONS
 .TP 5
 .B "-l"
-List all the template directories that template would use.
+This will cause
+.I template
+to print out the names of all the template directories it will search though.
 .TP 5
 .B "-L"
-List all the template directories that template would use,
+This will cause
+.I template
+to print out the names of all the template directories it will search though
 along with the contents of each directory.
 .TP 5
 .B "-v"
 Verbose.
-Tell where every template is obtained from and how the
-files are created.
+This will cause
+.I template
+to tell you what it's doing
+in the process of creating files.
 .TP 5
 .B "-V"
 Verbose but no action.
-Tell where every template would be obtained from and how the
-files would be created,
-but don't create or change any files.
+This will cause
+.I template
+to tell you what it would do
+in the process of creating files,
+but does not create or change any files.
+This is very useful for beginners who aren't sure how all of
+this works.
 .TP 5
-.B "-e template"
-Override the normal rules for determining template names and
-act as if the extension (the part of the file name following
-the last period) was \fItemplate\fR.
+.B "-e extension"
+This will cause
+.I template
+to override the normal rules for determining template names
+and act as if the extension
+(the part of the file name following the last period) was
+.I extension.
 Thus the command
 .RS
-\fBtemplate -e mm Makefile\fR
+\fBtemplate -e text Makefile\fR
 .RE
-would look for a template named \fIMakefile.mm\fR.
-Handy if you'd like to have one standard \fIMakefile\fR for
+would look for a template named \fIMakefile.text\fR.
+This is very handy if you'd like to have one standard \fIMakefile\fR for
 writing code and another for writing documents.
 .TP 5
 .B "-o"
@@ -168,24 +189,24 @@ Will make the resultant template file be placed
 on stdout rather than a file.
 Useful when creating templates of functions, many of
 which may be in the same file.
-In \fIvi\fR, the command
-.RS
-\fB:r !template -o func.c\fR
-.RE
+In \fIvi\fR, the command \fB:r !template -o func.c\fR
 would print out a template for \fIfunc.c\fR which \fIvi\fR
 would insert into the file you are editing.
 .TP 5
 .B "-T"
-Template list.
+Define a new template directory list for this run only.
 This is a list of directories,
-separated by commas,
+separated by colons,
 which will be searched for templates.
 See
-.B TEMPLATES
+.B TEMPLATE DIRECTORIES
 (above) for details.
 .TP 5
 .B "-d"
 Force debugging on.
+This is usually useful only for someone trying to fix bugs in
+.I template,
+not for regular users.
 .TP 5
 .B "-D"
 Force debugging off.
@@ -195,8 +216,7 @@ $HOME/.Templates,
 ./.Templates.
 .SH "ENVIRONMENT VARIABLES"
 .B TEMPLATES:
-A list of template directories,
-as defined above.
+A list of template directories, as defined above.
 .SH "SEE ALSO"
 rcs(1), sccs(1), make(1)
 .SH DIAGNOSTICS
