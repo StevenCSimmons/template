@@ -1,0 +1,235 @@
+.TH OPTPARSE 3
+.\"
+.\"  $RCSfile: optparse.3,v $	$Revision: 0.3 $
+.\"
+.\"  $Author: scs $	$Date: 1989/11/12 22:02:15 $
+.\"
+.\"  $State: Production $	$Locker:  $
+.\"
+.\"  $Log: optparse.3,v $
+.\"  Revision 0.3  1989/11/12 22:02:15  scs
+.\"  First production release.  Stripped all extraneous comments and side
+.\"  paths.
+.\"
+.\"
+.SH NAME
+OptionParse \- scan the arg list and return the next arg
+.SH SYNOPSIS
+.P
+\fBint OptionParse( argc, argv, opts ) ;
+.br
+int	argc ;
+.br
+char	**argv ;
+.br
+char	*opts ;
+.sp
+void OptionInit() ;
+.sp
+void OptionReset( switch, errflag, externflag )
+.br
+char	switch, errflag, externflag ;
+.sp
+extern char *OptSwitch ;\fR
+.SH DESCRIPTION
+This suite of functions is an extension to the now-standard
+.I getopt(3)
+option fetching routines.
+.I OptionParse()
+and it's helping routines are considerably more flexible,
+plus don't do such unfriendly or annoying things as writing unexpected
+error messages or making your program call
+.I
+.I exit().
+.PP
+.I OptionParse()
+returns an integer value containing a character.
+It scans the arguement list passed in, starting
+from an internal pointer into the list.
+Each time it is called,
+the internal pointer is reset so the next call will
+scan the next arg.
+.PP
+An arguement is first checked to see if it begins with the
+switch character.
+If it does not, it is assumed to be a
+non-switched arguement (eg, a file name).
+A pointer to is is copied into
+.I OptSwitch,
+and
+.I OptionParse()
+returns a null character.
+.PP
+If it is a switched arg, the first character
+following the switch is checked against the
+.I opts
+list.
+If invalid,
+.I OptSwitch
+is set to point to the invalid flag and
+.I errflag
+is returned.
+If valid,
+.I OptionParse()
+then checks to see if there should be an extended
+arguement.
+If there should not be,
+.I OptSwitch
+is set to the null pointer
+and the switch character is returned.
+.pp
+If there should be an extended arg, it is checked for in two
+places: first, following the switch character in the same
+arguement.
+If not found there, the next arguement is examined.
+If not found, 
+.I OptSwitch
+is set to the null pointer
+and the switch character is returned.
+.PP
+When the end of the arguement list is found,
+.I OptionParse()
+returns
+.I EOF
+as defined in
+.I stdio.h.
+.PP
+Format of 
+.I opts:
+all of the valid switches
+lumped together into a single string.
+Switches which have
+extended arguements must be followed by the extended arg
+flag, ':' for default (the extended arg flag may be reset by
+calling optargs()).
+Thus "abc:d" would mean the switches
+-a, -b, -c, and -d are all legal.
+In addition, the -c
+switch may have some sort of trailing parameter.
+More than one switch may be concatenated into a single arguement.
+Thus
+.I OptionParse()
+would treat
+.I "-a -b"
+and
+.I -ab
+as identical.
+It would also treat
+.I "-c fred"
+and
+.I -cfred
+as identical, ie, switch
+.I c
+was found with the extended arguement
+.I fred.
+.PP
+.I OptionInit()
+is a way of forcing
+.I OptionParse()
+to reset to the beginning of the arguement list.
+The next time 
+.I OptionParse()
+is called, it will return as if that were the first time it had been called.
+Useful if you want to re-scan an arguement list,
+possibly with different switch characters.
+.PP
+One can use
+.I OptionReset()
+to redefine the characters used to indicate a switch (default is '-'),
+the character used to indicate an error (default is '?'),
+and the character in
+.I opts
+(on the
+.I OptionParse()
+call) that indicates an extended arguement.
+In this way one could handle switches that began with '+'
+or use '-:' as a switch.
+.PP
+.I OptionReset()
+does not force an
+.I OptionInit().
+Any character(s) in the
+.I OptionReset()
+call which are null are reset to the default value(s).
+.PP
+The following code fragment,
+taken from the AT&T manual on
+.I getopt(),
+shows how one might process the arguements for a command
+that can take the mutually exclusive options
+\fBa\fR and \fBb\fR, and the options \fBf\fR and \fBo\fR,
+both of which require extended arguements.
+.sp
+.li
+main( argc, argv )
+int	argc ;
+char	**argv ;
+{
+  int sw_char ;
+  extern int  OptionParse() ;
+  extern char  OptSwitch ;
+  .
+  .
+  .
+  while ( ( EOF != ( sw_char = OptionParse( argc, argv ) ) )
+    switch ( sw_char )
+    {
+      case 'a':
+        if ( bflag )
+          ++errflag ;  
+        else
+          aflag ;
+        break ;
+      case 'b':
+        if ( aflag )
+          ++errflag ;  
+        else
+          bflag ;
+        break ;
+      case 'f':
+        infile = OptSwitch ;
+        break ;
+      case 'o':
+        outfile = OptSwitch ;
+        break ;
+      case '?':
+        errflag++ ;
+        illflag( "Illegal flag", *OptSwitch ) ;
+      default:
+        errflag++ ;
+        illflag( "OptionParse failed on character", (char) sw_char ) ;
+        break ;
+    }
+    .
+    .
+    .
+}
+.fi
+.PP
+Needless to say, the \fBdefault\fR case above should never occur!
+.SH WARNINGS
+.PP
+These routines all use
+.I stdio.h.
+If you don't want that, you're out of luck.
+.SH "SEE ALSO"
+getopt(3)
+.SH DIAGNOSTICS
+None.
+.SH WARNINGS
+If you don't check the return value properly you can get yourself
+into an infinite loop.
+.SH "COPYRIGHT STATUS"
+The OptionParse function and this manual page are
+Copyright 1989 Steven C. Simmons.
+They may be freely distributed and used as you please
+provided this notice remains intact.
+.SH AUTHOR
+Steven C. Simmons,
+Inland Sea Software, Ltd.
+9353 Hidden Lake Circle,
+Dexter, MI. 48130.
+scs@lokkur.dexter.mi.us
+.SH BUGS
+None known.
+Please report any strange behavior to the author.

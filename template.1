@@ -1,0 +1,213 @@
+.\"  Manual page for template
+.\"
+.\"  $RCSfile: template.1,v $	$Revision: 0.5 $
+.\"
+.\"  $Author: scs $	$Date: 1989/11/12 22:02:38 $
+.\"
+.\"  $State: Production $	$Locker:  $
+.\"
+.\"  $Log: template.1,v $
+.\"  Revision 0.5  1989/11/12 22:02:38  scs
+.\"  First production release.  Stripped all extraneous comments and side
+.\"  paths.
+.\"
+.\"  
+.TH TEMPLATE 1L "Nov 12, 1989"
+.SH NAME
+template - Create files from templates, add templates to existing files
+.SH SYNOPSIS
+template
+[ \-dDlLvVo ]
+[ \-e \fItemplate\fR ]
+[ \-T \fItemplate-list\fR ]
+.I "\[ file \[ file ... ] ]"
+.SH DESCRIPTION
+.I Template
+creates or modifies files for use in accordance with local standards.
+It can be used to initialize files for such source code
+control systems as
+.I rcs(1)
+or
+.I sccs(1),
+or simply to grab standard forms from an archive.
+.PP 
+.I Template
+looks at the file name(s) you have given,
+then tries to match them up to a series of templates.
+If it finds a match,
+it will use it as a guide for building the file.
+Should
+.I file
+already exist
+.I template
+will put a copy of what it finds at the front of the file.
+.I file.
+Otherwise it copy the template to a new file named
+.I file.
+.PP
+If no file name is given but there is enough
+information to select a template,
+\fItemplate\fR will print
+that template on \fIstdout\fR.
+.SH TEMPLATES
+.I Template's
+matching rules are fairly simple.
+It looks first for a template whose name exactly matches
+the file name you gave.
+If there is no such template,
+it will look at whatever follows the
+last period in the file name and use it as the name of the template.
+If this fails too, it will look for a template
+named
+.I default.
+If that fails,
+it will give you an error message.
+For example, if you give the command
+.RS
+\fBtemplate doc.me\fR
+.RE
+it will first look for a template with the name
+.I doc.me.
+If not found, it will then look for a template
+with the name
+.I me.
+If not found, it will then look for a template named
+.I default.
+.PP
+If you give the command
+.RS
+\fBtemplate Makefile\fR
+.RE
+it will look for a template with the name
+.I Makefile.
+It will then look for a template named
+.I default.
+.PP
+If you're still confused, use the `verbose' version of template,
+.RS
+\fBtemplate -V doc.me\fR
+.RE
+This will make
+.I template
+tell you in detail what it would do,
+but not actually do anything.
+.SH "TEMPLATE DIRECTORIES"
+.I Template
+looks for templates in a number of places.
+This list of places is called the
+.I template_list.
+It is a list of directories whose names are separated by colons.
+If you let
+.I template
+decide on it's own, it will use
+the template list
+.I ./.Templates:$HOME/.Templates:/usr/local/lib/Templates.
+Thus it would look first in a directory named
+.I .Templates
+in your current directory, then in a directory named
+.I .Templates
+in your home directory,
+and last in a system directory named
+.I /usr/local/bin/Templates.
+(Note that your site may have configured \fItemplate\fR
+to use some other system directory; see the \fI-l\fR switch).
+It will look through these one by one
+until it either finds a template file
+or runs out of places to look.
+.PP
+There are a number of ways to change the template list.
+If the environment variable ``TEMPLATES'' is present, it
+will be used as a template list instead of the default list.
+In addition, you can specify a template list with the
+.I -T
+switch.
+The use of
+.I -T
+will override the use of the ``TEMPLATES'' environment
+variable.
+In either case, you can add the system default
+by simply putting the name
+.I DEFAULT
+in the list.
+The system default will be inserted at that point.
+.SH OPTIONS
+.TP 5
+.B "-l"
+List all the template directories that template would use.
+.TP 5
+.B "-L"
+List all the template directories that template would use,
+along with the contents of each directory.
+.TP 5
+.B "-v"
+Verbose.
+Tell where every template is obtained from and how the
+files are created.
+.TP 5
+.B "-V"
+Verbose but no action.
+Tell where every template would be obtained from and how the
+files would be created,
+but don't create or change any files.
+.TP 5
+.B "-e template"
+Override the normal rules for determining template names and
+act as if the extension (the part of the file name following
+the last period) was \fItemplate\fR.
+Thus the command
+.RS
+\fBtemplate -e mm Makefile\fR
+.RE
+would look for a template named \fIMakefile.mm\fR.
+Handy if you'd like to have one standard \fIMakefile\fR for
+writing code and another for writing documents.
+.TP 5
+.B "-o"
+Use standard out.
+Will make the resultant template file be placed
+on stdout rather than a file.
+Useful when creating templates of functions, many of
+which may be in the same file.
+In \fIvi\fR, the command
+.RS
+\fB:r !template -o func.c\fR
+.RE
+would print out a template for \fIfunc.c\fR which \fIvi\fR
+would insert into the file you are editing.
+.TP 5
+.B "-T"
+Template list.
+This is a list of directories,
+separated by commas,
+which will be searched for templates.
+See
+.B TEMPLATES
+(above) for details.
+.TP 5
+.B "-d"
+Force debugging on.
+.TP 5
+.B "-D"
+Force debugging off.
+.SH FILES
+/usr/local/lib/Templates,
+$HOME/.Templates,
+./.Templates.
+.SH "ENVIRONMENT VARIABLES"
+.B TEMPLATES:
+A list of template directories,
+as defined above.
+.SH "SEE ALSO"
+rcs(1), sccs(1), make(1)
+.SH DIAGNOSTICS
+Hopefully self-explaining.
+.SH BUGS
+None known.
+Please report them to the author.
+.SH AUTHOR
+Steve Simmons,
+scs@lokkur.dexter.mi.us.
+.SH "COPYRIGHT STATUS"
+Copyright 1989 Steven C. Simmons.
+Freely redistributable provided copyright notices remain intact.
+For details see the source code.
