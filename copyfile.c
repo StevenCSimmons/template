@@ -3,16 +3,19 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.11 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.12 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:11:34 $
+ *  $Author: scs $	$Date: 1990/07/15 17:47:09 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
- *  Revision 0.11  1989/12/09 15:11:34  scs
- *  Upgraded to new version of ANSI C compatibility macros.
+ *  Revision 0.12  1990/07/15 17:47:09  scs
+ *  Added POSIX umask definition.
  *
+ *  Revision 0.11  89/12/09  15:11:34  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
+ *  
  *  Revision 0.10  89/11/12  22:00:47  scs
  *  First production release.  Stripped all useless history and side-alleys.
  *  
@@ -24,7 +27,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.11 1989/12/09 15:11:34 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.12 1990/07/15 17:47:09 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -42,7 +45,12 @@ extern int	read( PROTO_3( int, char*, unsigned ) ) ;
 extern int	write( PROTO_3( int, char*, unsigned ) ) ;
 extern int	close( PROTO_1( int ) ) ;
 extern int	unlink( PROTO_1( char* ) ) ;
+
+#ifdef	POSIX
+extern mode_t	umask( PROTO_1( int ) ) ;
+#else
 extern int	umask( PROTO_1( int ) ) ;
+#endif
 
 #ifndef	BSD
 extern int	sprintf( PROTO_2PL( char*, char* ) ) ;
