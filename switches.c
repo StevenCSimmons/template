@@ -2,16 +2,19 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.19 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.20 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:11:56 $
+ *  $Author: scs $	$Date: 1992/06/06 15:55:08 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
- *  Revision 0.19  1989/12/09 15:11:56  scs
- *  Upgraded to new version of ANSI C compatibility macros.
+ *  Revision 0.20  1992/06/06 15:55:08  scs
+ *  Added error message for no parameters.
  *
+ *  Revision 0.19  89/12/09  15:11:56  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
+ *  
  *  Revision 0.18  89/11/24  14:40:51  scs
  *  Added permission to use null file names with stdout.
  *  
@@ -26,7 +29,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.19 1989/12/09 15:11:56 scs Exp $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.20 1992/06/06 15:55:08 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -109,8 +112,6 @@ void	ProcessSwitches PARAM_3( const int, argc, const char* const* const, argv, c
 	char			msgbuf[ BUFSIZ ] ;
 	char const* const*	user_files = file_list ;
 
-	if ( argc == 1 )
-		usage( "What do you want template to do?" ) ;
 	while ( EOF != ( option = OptionParse( argc, argv, switch_list ) ) )
 		switch( option )
 		{
