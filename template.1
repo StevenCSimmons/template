@@ -2,13 +2,16 @@
 .\"  
 .\"  Manual page for template
 .\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.10 $
+.\"  $RCSfile: template.1,v $	$Revision: 0.11 $
 .\"
-.\"  $Author: scs $	$Date: 2003/04/14 14:52:33 $
+.\"  $Author: scs $	$Date: 2003/04/14 15:00:42 $
 .\"
 .\"  $State: Exp $	$Locker:  $
 .\"
 .\"  $Log: template.1,v $
+.\"  Revision 0.11  2003/04/14 15:00:42  scs
+.\"  Removed references to 'default' as a master file; never implemented.
+.\"
 .\"  Revision 0.10  2003/04/14 14:52:33  scs
 .\"  Removed ANS paths.
 .\"
@@ -73,8 +76,6 @@ If there is no such template,
 it will look at whatever follows the
 last period in the file name (the \fIextension\fR)
 and use it as the name of the template.
-If this fails too, it will look for a template named
-.I default.
 If that fails,
 it will give you an error message.
 For example, if you give the command
@@ -86,8 +87,6 @@ it will first look for a template with the name
 If not found, it will then look for a template
 with the name
 .I me.
-If not found, it will then look for a template named
-.I default.
 .PP
 If you give the command
 .RS
@@ -95,8 +94,6 @@ If you give the command
 .RE
 it will look for a template with the name
 .I Makefile.
-It will then look for a template named
-.I default.
 .PP
 If you're still confused, use the `verbose' version of \fIistemplate\fR,
 .RS

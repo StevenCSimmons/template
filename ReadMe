@@ -20,7 +20,9 @@ DESCRIPTION
 This is the beta and possibly omega release of template.  Had perl
 existed when template was first written I'd have written it in perl,
 but what the hell.  Template was written for SunOS 4.X and Ultrix 3.1;
-it's been ported to ultrixes up to 4.2.
+it's been ported to pretty much all unixes up through Solaris 2.7,
+Linux, and *BSD.  I've only used it myself on SunOS, Ultrix, Solaris
+and FreeBSD.
 
 Template (IMHO) has two big wins.  The first is the library usage.  It
 lets you set site-wide standard templates, project-wide ones, and
@@ -47,23 +49,19 @@ TEMPLATES
 	for a template whose name exactly matches the file name you
 	gave.  If there is no such template, it will look at what-
 	ever follows the last period in the file name (the exten-
-	sion) and use it as the name of the template.  If this fails
-	too, it will look for a template named default.  If that
+	sion) and use it as the name of the template.  If that
 	fails, it will give you an error message.  For example, if
 	you give the command
 		template doc.me
 	it will first look for a template with the name doc.me.  If
-	not found, it will then look for a template with the name
-	me.  If not found, it will then look for a template named
-	default.
+	not found, it will then look for a template with the name me.
 
 	If you give the command
 		template Makefile
-	it will look for a template with the name Makefile.  It will
-	then look for a template named default.
+	it will look for a template with the name Makefile.
 
-	If you're still confused, use the `verbose' version of tem-
-	plate,
+	If you're confused about what template matches and when, use
+	the `verbose' version of template,
 		template -V doc.me
 	This will make template tell you in detail what it would do,
 	but not actually do anything.
@@ -91,23 +89,21 @@ TEMPLATE DIRECTORIES
 	``TEMPLATES'' environment variable.  In either case, you can
 	add the system default by simply putting the name DEFAULT in
 	the list.  The system default will be inserted at that
-	point.
+	point.  Thus TEMPLATES=/my/proj/Templates:DEFAULT simply adds
+	your project template directory to the front of the standard
+	TEMPLATES list.
 
 There are more options than you can shake a stick at, but most of
 them are actually useful -- ie, I use them.  A few were put in at the
 request of some users.  Special thanks to Tim Belch for many of the
 suggestions and bug fixes.
 
-Major lack -- template has never been tried on System V.
-
 Some errata:
-
-There are remains or fragments of several projects in here.  stdc.h
-is an unfinished library to let me move from ANSI to non-ANSI compilers
-without losing functionality.  It got abandoned when gcc came out on
-the MIPS-based ultrix systems.
 
 The files errors.c, newnstr.c, newstr.c and optparse.c contain general
 use subroutines.  There is a separate manpage for the last.
+
+I've had a couple of bug reports about core dumps when using the stdout
+switch but have not been able to duplicate it.
 
 Steve
