@@ -5,14 +5,17 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.11 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.12 $
  *
- *  $Author: scs $	$Date: 1990/10/14 11:21:05 $
+ *  $Author: scs $	$Date: 1992/06/06 15:55:38 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
- *  Revision 0.11  1990/10/14 11:21:05  scs
+ *  Revision 0.12  1992/06/06 15:55:38  scs
+ *  Made the HOME environment variable honored.
+ *
+ *  Revision 0.11  1990/10/14  11:21:05  scs
  *  Corrected usage of PARAM_0
  *
  *  Revision 0.10  89/12/09  15:12:11  scs
@@ -29,7 +32,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.11 1990/10/14 11:21:05 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.12 1992/06/06 15:55:38 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -141,7 +144,7 @@ static char*	interpret_specials PARAM_1( char*, string )
 	if ( ( 0 == strncmp( string, "$HOME/", 6 ) ) ||
 	     ( 0 == strcmp( string, "$HOME" ) ) )
 	{
-		(void) strcpy( dir_path, get_home( NULL ) ) ;
+		(void) strcpy( dir_path, getenv( "HOME" ) ) ;
 		(void) strcat( dir_path, string + 5 ) ;
 		return dir_path ;
 	}
