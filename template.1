@@ -1,14 +1,17 @@
-.TH TEMPLATE 1L "June 27, 1993"
+.TH ISTEMPLATE 1L "June 27, 1993"
 .\"  
 .\"  Manual page for template
 .\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.7 $
+.\"  $RCSfile: template.1,v $	$Revision: 0.8 $
 .\"
-.\"  $Author: scs $	$Date: 1993/06/28 01:22:03 $
+.\"  $Author: scs $	$Date: 2000/03/11 03:28:21 $
 .\"
 .\"  $State: Exp $	$Locker:  $
 .\"
 .\"  $Log: template.1,v $
+.\"  Revision 0.8  2000/03/11 03:28:21  scs
+.\"  Customized for ANS.
+.\"
 .\"  Revision 0.7  1993/06/28 01:22:03  scs
 .\"  One minor formatting fix.  We're all done now, right?
 .\"
@@ -20,7 +23,7 @@
 .\"  paths.
 .\"  
 .SH NAME
-template - Create files from templates, add templates to existing files
+istemplate - Create files from templates, add templates to existing files
 .SH SYNOPSIS
 template
 [ \-dDlLvVo ]
@@ -28,7 +31,7 @@ template
 [ \-T \fItemplate-list\fR ]
 [ \fIfile\fR \[ \fIfile\fR ... ] ]
 .SH DESCRIPTION
-.I Template
+.I Istemplate
 creates or modifies files for use in accordance with local standards.
 It can be used to initialize files for such source code
 control systems as
@@ -37,7 +40,7 @@ or
 .I sccs(1),
 or simply to grab standard forms from a library.
 .PP 
-.I Template
+.I Istemplate
 looks at the file name(s) you have given,
 then tries to match them up to a series of templates.
 If it finds a match,
@@ -45,7 +48,7 @@ it will use it as a guide for building the file.
 Should
 .I file
 already exist
-.I template
+.I istemplate
 will put a copy of what it finds at the front of
 .I file.
 Otherwise it copy the template to a new file named
@@ -53,10 +56,10 @@ Otherwise it copy the template to a new file named
 .PP
 If no file name is given but there is enough
 information to select a template,
-\fItemplate\fR will print
+\fIistemplate\fR will print
 that template on \fIstdout\fR.
 .SH TEMPLATES
-.I Template's
+.I Istemplate's
 matching rules are fairly simple.
 It looks first for a template whose name exactly matches
 the file name you gave.
@@ -82,23 +85,23 @@ If not found, it will then look for a template named
 .PP
 If you give the command
 .RS
-\fBtemplate Makefile\fR
+\fBistemplate Makefile\fR
 .RE
 it will look for a template with the name
 .I Makefile.
 It will then look for a template named
 .I default.
 .PP
-If you're still confused, use the `verbose' version of template,
+If you're still confused, use the `verbose' version of \fIistemplate\fR,
 .RS
-\fBtemplate -V doc.me\fR
+\fBistemplate -V doc.me\fR
 .RE
 This will make
-.I template
-tell you in detail what it would do,
+.I istemplate
+tell you in detail what it would do to make \fBdoc.me\fR,
 but not actually do anything.
 .SH "TEMPLATE DIRECTORIES"
-.I Template
+.I Istemplate
 looks for templates in a number of places.
 This list of places is called the
 .I template_list.
@@ -106,20 +109,22 @@ The
 .I template_list
 is a list of directories whose names are separated by colons.
 If you let
-.I template
+.I istemplate
 decide on it's own, it will use
 the template list
 .RS
-.I ./.Templates:$HOME/.Templates:/usr/local/lib/Templates
+.I ./.Templates:$HOME/.Templates:/afs/ans.net/group/bdeng/Templates:/usr/local/lib/Templates
 .RE
 Thus it would look first in a directory named
 .I .Templates
 in your current directory, then in a directory named
 .I .Templates
 in your home directory,
+then the BDeng directory
+.I /afs/ans.net/group/bdeng/Templates
 and last in a system directory named
 .I /usr/local/bin/Templates.
-(Note that your site may have configured \fItemplate\fR
+(Note that your site may have configured \fIistemplate\fR
 to use some other system directory; see the \fI-l\fR switch).
 It will look through these one by one
 until it either finds a template file
@@ -145,26 +150,26 @@ The system default will be inserted at that point.
 .TP 5
 .B "-l"
 This will cause
-.I template
+.I istemplate
 to print out the names of all the template directories it will search though.
 .TP 5
 .B "-L"
 This will cause
-.I template
+.I istemplate
 to print out the names of all the template directories it will search though
 along with the contents of each directory.
 .TP 5
 .B "-v"
 Verbose.
 This will cause
-.I template
+.I istemplate
 to tell you what it's doing
 in the process of creating files.
 .TP 5
 .B "-V"
 Verbose but no action.
 This will cause
-.I template
+.I istemplate
 to tell you what it would do
 in the process of creating files,
 but does not create or change any files.
@@ -173,12 +178,12 @@ this works.
 .TP 5
 .B "-e extension"
 This will cause
-.I template
+.I istemplate
 to override the normal rules for determining template names
 and act as if the extension
 (the part of the file name following the last period) was
 .I extension.
-Thus the command \fBtemplate -e text Makefile\fR
+Thus the command \fBistemplate -e text Makefile\fR
 would look for a template named \fIMakefile.text\fR.
 This is very handy if you'd like to have one standard \fIMakefile\fR for
 writing code and another for writing documents.
@@ -205,13 +210,14 @@ See
 .B "-d"
 Force debugging on.
 This is usually useful only for someone trying to fix bugs in
-.I template,
+.I istemplate,
 not for regular users.
 .TP 5
 .B "-D"
 Force debugging off.
 .SH FILES
 /usr/local/lib/Templates,
+/afs/ans.net/group/bdeng/bin/Templates,
 $HOME/.Templates,
 ./.Templates.
 .SH "ENVIRONMENT VARIABLES"
@@ -231,3 +237,8 @@ scs@lokkur.dexter.mi.us.
 Copyright 1993 Steven C. Simmons.
 Freely redistributable provided copyright notices remain intact.
 For details see the source code.
+.SH "ABOUT THE NAME"
+In the rest of the known universe, this command is called \fItemplate\fR.
+But ANS already has somethng which conflicts with that name,
+so it was changed to `istemplate' here only.
+`Is' stands for `Inland Sea', my former consultancy.
