@@ -3,13 +3,16 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 0.16 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 0.17 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2002/04/25 03:45:04 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 0.17  2002/04/25 03:45:04  scs
+ *  Reset a few things for FreeBSD use and compilation.
+ *
  *  Revision 0.16  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -39,7 +42,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 0.16 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 0.17 2002/04/25 03:45:04 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -49,8 +52,12 @@ static char	rcsid[] = "$Id: copyfile.c,v 0.16 1996/09/29 01:05:49 scs Exp $" ;
 # define	TEMPFILE	"/tmp/tmplXXXXXX"
 # define	IO_CHUNK	( BUFSIZ * 8 )
 
-extern char*	mktemp( char* ) ;
+extern char*	mkstemp( char* ) ;
+
+#ifndef _LSEEK_DECLARED
 extern long	lseek( int, long, int ) ;
+#endif
+
 extern int	open( char*, int, ... ) ;
 extern int	read( int, char*, unsigned ) ;
 extern int	write( int, char*, unsigned ) ;
@@ -273,7 +280,7 @@ void	InitCopying()
 	int	old_umask = umask( 0 ) ;
 
 	(void) strcpy( tempfile_name, TEMPFILE ) ;
-	(void) mktemp( tempfile_name ) ;
+	(void) mkstemp( tempfile_name ) ;
 
 	(void) umask( old_umask ) ;
 	file_mask = ( ( ~old_umask ) & 0666 ) ;
