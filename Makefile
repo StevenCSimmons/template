@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.15 $
+#  $RCSfile: Makefile,v $	$Revision: 0.16 $
 #
-#  $Author: scs $	$Date: 2001/02/08 19:48:19 $
+#  $Author: scs $	$Date: 2001/02/08 19:51:37 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.16  2001/02/08 19:51:37  scs
+#  Lightened permissions on binary so ordinary users can copy it.
+#
 #  Revision 0.15  2001/02/08 19:48:19  scs
 #  Added ANS-format install, creation of subdirs.
 #
@@ -112,7 +115,7 @@ shar:	ReadMe $(TARGET).1 optparse.3 Makefile $(SRCS) $(CLUDES)
 	shar ReadMe Templatelib Templatelib/* Makefile $(TARGET).1 optparse.3 $(SRCS) $(CLUDES) > template.shar
 
 install:	$(TARGET) $(TARGET).1 optparse.3 installdirs
-	install -o root -g bin -m 511 -s -c $(TARGET) $(BIN)/is$(TARGET)
+	install -o root -g bin -m 755 -s -c $(TARGET) $(BIN)/is$(TARGET)
 	install -o root -g bin -m 644 -c $(TARGET).1 $(MAN1)/is$(TARGET).1
 	install -o root -g bin -m 644 -c optparse.3 $(MAN3)/optparse.3
 
