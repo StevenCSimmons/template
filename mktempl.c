@@ -1,16 +1,19 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.16 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.17 $
  *
- *  $Author: scs $	$Date: 1990/10/14 11:35:48 $
+ *  $Author: scs $	$Date: 1990/10/30 11:00:34 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
- *  Revision 0.16  1990/10/14 11:35:48  scs
- *  Corrected usage of PARAM_0/PROTO_0
+ *  Revision 0.17  1990/10/30 11:00:34  scs
+ *  Added check for empty as well as null file names.
  *
+ *  Revision 0.16  90/10/14  11:35:48  scs
+ *  Corrected usage of PARAM_0/PROTO_0
+ *  
  *  Revision 0.15  89/12/09  15:30:51  scs
  *  Cahnges to use ANSI C compatability macros, first pass at fileless output.
  *  
@@ -24,7 +27,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.16 1990/10/14 11:35:48 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.17 1990/10/30 11:00:34 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -104,9 +107,12 @@ static char*	get_template_file PARAM_0
 		{
 			if ( name != NULL )
 			{
-				file = check_for_file( *dir, *name ) ;
-				if ( file != NULL )
-					return file ;
+				if ( *name != NULL )
+				{
+					file = check_for_file( *dir, *name ) ;
+					if ( file != NULL )
+						return file ;
+				}
 			}
 		}
 	}
