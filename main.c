@@ -9,17 +9,20 @@
  *  any particular usage style (like, for example, mine) on the
  *  writer.
  *
- *  $RCSfile: main.c,v $	$Revision: 0.15 $
+ *  $RCSfile: main.c,v $	$Revision: 0.16 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:27:58 $
+ *  $Author: scs $	$Date: 1990/10/14 11:28:48 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: main.c,v $
- *  Revision 0.15  1989/12/09 15:27:58  scs
+ *  Revision 0.16  1990/10/14 11:28:48  scs
+ *  Corrected use of PARAM_0/PROTO_0.
+ *
+ *  Revision 0.15  89/12/09  15:27:58  scs
  *  Upgraded to new ANSI C compatibility macros, minor change to shut lint
  *  up.
- *
+ *  
  *  Revision 0.14  89/11/24  14:40:00  scs
  *  Changed patchlevel printout style.
  *  
@@ -29,7 +32,7 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.15 1989/12/09 15:27:58 scs Exp $" ;
+static char	rcsid[] = "$Id: main.c,v 0.16 1990/10/14 11:28:48 scs Exp $" ;
 #endif
 #endif
 
@@ -40,7 +43,7 @@ static char	rcsid[] = "$Id: main.c,v 0.15 1989/12/09 15:27:58 scs Exp $" ;
 
 extern void	ProcessSwitches( PROTO_3( int, char**, char** ) ) ;
 extern void	ProcessFiles( PROTO_1( char** ) ) ;
-extern void	InitCopying( PROTO_0() ) ;
+extern void	InitCopying( PROTO_0 ) ;
 extern void	ListTemplateDirs( PROTO_1( boolean ) ) ;
 
 extern char*	strrchr( PROTO_2( char *a, char b ) ) ;
@@ -65,7 +68,7 @@ void	ProcessSwitches PARAM_3( int, i, char**, c, char**, l )
 	(void) printf( "ProcessSwitches called.\n" ) ;
 }
 
-void	InitCopying PARAM_0()
+void	InitCopying PARAM_0
 {
 	(void) printf( "InitCopying called.\n" ) ;
 }

@@ -15,16 +15,19 @@
  *
  *  See the individual routines below for detailed descriptions.
  *
- *  $RCSfile: optparse.c,v $	$Revision: 0.6 $
+ *  $RCSfile: optparse.c,v $	$Revision: 0.7 $
  *
- *  $Author: scs $	$Date: 1989/12/09 15:12:20 $
+ *  $Author: scs $	$Date: 1990/10/14 11:28:59 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: optparse.c,v $
- *  Revision 0.6  1989/12/09 15:12:20  scs
- *  Upgraded to new version of ANSI C compatibility macros.
+ *  Revision 0.7  1990/10/14 11:28:59  scs
+ *  Corrected use of PARAM_0/PROTO_0.
  *
+ *  Revision 0.6  89/12/09  15:12:20  scs
+ *  Upgraded to new version of ANSI C compatibility macros.
+ *  
  *  Revision 0.5  89/11/12  22:01:33  scs
  *  First production release.  Stripped all useless history and side-alleys.
  *  
@@ -39,7 +42,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: optparse.c,v 0.6 1989/12/09 15:12:20 scs Exp $" ;
+static char	rcsid[] = "$Id: optparse.c,v 0.7 1990/10/14 11:28:59 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
@@ -208,7 +211,7 @@ int	OptionParse PARAM_3( const int, argc, const char** const, argv, const char* 
  *  will start at the beginning of the list.
  */
 
-void	OptionInit PARAM_0()
+void	OptionInit PARAM_0
 {
 	argchar = argnum = 1 ;
 	OptionSwitch = NULL ;
