@@ -2,13 +2,16 @@
 .\"  
 .\"  Manual page for template
 .\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.8 $
+.\"  $RCSfile: template.1,v $	$Revision: 0.9 $
 .\"
-.\"  $Author: scs $	$Date: 2000/03/11 03:28:21 $
+.\"  $Author: scs $	$Date: 2001/02/08 19:47:32 $
 .\"
 .\"  $State: Exp $	$Locker:  $
 .\"
 .\"  $Log: template.1,v $
+.\"  Revision 0.9  2001/02/08 19:47:32  scs
+.\"  More minor upgrades for move to BDCS.
+.\"
 .\"  Revision 0.8  2000/03/11 03:28:21  scs
 .\"  Customized for ANS.
 .\"
@@ -113,19 +116,15 @@ If you let
 decide on it's own, it will use
 the template list
 .RS
-.I ./.Templates:$HOME/.Templates:/afs/ans.net/group/bdeng/Templates:/usr/local/lib/Templates
+.I ./.Templates:$HOME/.Templates:/usr/local/lib/Templates
 .RE
 Thus it would look first in a directory named
 .I .Templates
 in your current directory, then in a directory named
 .I .Templates
 in your home directory,
-then the BDeng directory
-.I /afs/ans.net/group/bdeng/Templates
-and last in a system directory named
+then in a system directory named
 .I /usr/local/bin/Templates.
-(Note that your site may have configured \fIistemplate\fR
-to use some other system directory; see the \fI-l\fR switch).
 It will look through these one by one
 until it either finds a template file
 or runs out of places to look.
