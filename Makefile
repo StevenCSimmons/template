@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.17 $
+#  $RCSfile: Makefile,v $	$Revision: 0.18 $
 #
-#  $Author: scs $	$Date: 2002/04/25 03:44:27 $
+#  $Author: scs $	$Date: 2003/04/14 15:01:37 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.18  2003/04/14 15:01:37  scs
+#  Added build of tests.
+#
 #  Revision 0.17  2002/04/25 03:44:27  scs
 #  Reset a few things for FreeBSD use and Inland Sea.
 #
@@ -56,8 +59,9 @@ LDEFS	= -I .
 LLIBS	=
 # Set to -g for debugging, -O for optimise, or both if compiler handles it
 DEBUG	= -g
-# Define BSD for BSD 4.X or derivatives thereof.
-OS	= -DBSD
+# Define BSD for BSD 4.X or derivatives thereof.  Don't define if the
+# local system does it for you.
+#OS	= -DBSD
 # Define this if you have POSIX compatibility
 POSIX	= -DPOSIX
 
@@ -68,6 +72,11 @@ CFLAGS	= $(DEBUG) $(DEFS)
 SRCS	= copyfile.c list.c main.c mktempl.c switches.c templist.c $(LIBSRCS)
 OBJS	= copyfile.o list.o main.o mktempl.o switches.o templist.o $(LIBOBJS)
 CLUDES	= stdc.h template.h patchlevel.h
+
+# Units which can be self-tested.
+
+TESTS	= copyfile.test list.test mktempl.test optparse.test \
+	switches.test templist.test
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
@@ -99,7 +108,10 @@ analysis:	tags TAGS cflow calls lint # cxref
 clean:
 	rm -f $(OBJS) core lint tags TAGS $(TARGET).man *~ #*#
 
-clobber:	clean
+clean.tests:
+	rm -f $(TESTS)
+
+clobber:	clean clean.tests
 	rm -f $(TARGET) Make.Log $(SHARS)
 
 lint:	$(SRCS)
@@ -118,6 +130,8 @@ install:	$(TARGET) $(TARGET).1 optparse.3 installdirs
 	install -o root -g bin -m 755 -s -c $(TARGET) $(BIN)/$(TARGET)
 	install -o root -g bin -m 644 -c $(TARGET).1 $(MAN1)/$(TARGET).1
 	install -o root -g bin -m 644 -c optparse.3 $(MAN3)/optparse.3
+
+# Only install templatelib if you want *my* templates as *your* defaults!
 
 install.templatelib:
 	if [ ! -d ${LIB}/Templates ] ; then	\
@@ -141,3 +155,26 @@ installdirs:
 			chmod 755 $$D ; \
 		fi \
 	done
+
+copyfile.test:	copyfile.c errors.o
+	$(CC) $(CFLAGS) -DTEST copyfile.c errors.o -o copyfile.test
+
+list.test:	list.c errors.o
+	$(CC) $(CFLAGS) -DTEST list.c errors.o -o list.test
+
+mktempl.test:	mktempl.c errors.o newnstr.o newstr.o
+	$(CC) $(CFLAGS) -DTEST mktempl.c errors.o newnstr.o newstr.o -o mktempl.test
+
+optparse.test:	optparse.c errors.o
+	$(CC) $(CFLAGS) -DTEST optparse.c errors.o -o optparse.test
+
+switches.test:	switches.c errors.o newnstr.o newstr.o optparse.o
+	$(CC) $(CFLAGS) -DTEST switches.c errors.o newnstr.o newstr.o optparse.o -o switches.test
+
+optparse.test:	optparse.c errors.o
+	$(CC) $(CFLAGS) -DTEST optparse.c errors.o -o optparse.test
+
+templist.test:	optparse.c errors.o newnstr.o newstr.o
+	$(CC) $(CFLAGS) -DTEST templist.c errors.o newnstr.o newstr.o -o templist.test
+
+tests:	$(TESTS)
