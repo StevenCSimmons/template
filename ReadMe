@@ -17,7 +17,7 @@ DESCRIPTION
 	select a template, template will print that template on
 	stdout.
 
-This is the first and possibly omega release of template.  Had perl
+This is the beta and possibly omega release of template.  Had perl
 existed when template was first written I'd have written it in perl,
 but what the hell.  Template was written for SunOS 4.X and Ultrix 3.1;
 it's been ported to ultrixes up to 4.2.
