@@ -100,4 +100,14 @@ suggestions and bug fixes.
 
 Major lack -- template has never been tried on System V.
 
+Some errata:
+
+There are remains or fragments of several projects in here.  stdc.h
+is an unfinished library to let me move from ANSI to non-ANSI compilers
+without losing functionality.  It got abandoned when gcc came out on
+the MIPS-based ultrix systems.
+
+The files errors.c, newnstr.c, newstr.c and optparse.c contain general
+use subroutines.  There is a separate manpage for the last.
+
 Steve
