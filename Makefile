@@ -1,24 +1,17 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.10 $
+#  $RCSfile: Makefile,v $	$Revision: 0.11 $
 #
-#  $Author: scs $	$Date: 1990/10/30 17:04:59 $
+#  $Author: scs $	$Date: 1992/06/06 16:07:42 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
-#  Revision 0.10  1990/10/30 17:04:59  scs
-#  Changed template directory created by install.
+#  Revision 0.11  1992/06/06 16:07:42  scs
+#  Added installation of templates directory.
 #
-#  Revision 0.9  90/10/27  13:04:22  scs
-#  Added TAGS, some comment improvements.
-#  
-#  Revision 0.8  90/07/15  17:49:42  scs
-#  Added POSIX switch.
-#  
-#  Revision 0.7  89/11/12  22:02:43  scs
-#  First production release.  Stripped all extraneous comments and side
-#  paths.
+#  Revision 0.10  1990/10/30  17:04:59  scs
+#  Changed template directory created by install.
 
 TARGET	=	template
 
@@ -106,10 +99,16 @@ TAGS:	$(SRCS) $(CLUDES)
 	etags $(SRCS) $(CLUDES)
 
 install:	$(TARGET) $(TARGET).1 optparse.3
-	install -o bin -g bin -m 511 -s -c $(TARGET) $(BIN)
-	install -o bin -g bin -m 644 -c $(TARGET).1 $(MAN)1
-	install -o bin -g bin -m 644 -c optparse.3 $(MAN)3
-	mkdir ${LIB}/Templates
-	chmod 755 ${LIB}/Templates
-	chown bin ${LIB}/Templates
-	chgrp bin ${LIB}/Templates
+	install -o root -g bin -m 511 -s -c $(TARGET) $(BIN)
+	install -o root -g bin -m 644 -c $(TARGET).1 $(MAN)1
+	install -o root -g bin -m 644 -c optparse.3 $(MAN)3
+	if [ ! -d ${LIB}/Templates ] ; then	\
+		mkdir -f ${LIB}/Templates ;	\
+		chmod 755 ${LIB}/Templates ;	\
+		chown root ${LIB}/Templates ;	\
+		chgrp bin ${LIB}/Templates ;	\
+		cp Templatelib/* ${LIB}/Templates ; \
+		chmod 444 ${LIB}/Templates/* ;	\
+		chown root ${LIB}/Templates/* ;	\
+		chgrp bin ${LIB}/Templates/* ;	\
+	fi
