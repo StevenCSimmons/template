@@ -9,21 +9,23 @@
  *  any particular usage style (like, for example, mine) on the
  *  writer.
  *
- *  $RCSfile: main.c,v $	$Revision: 0.13 $
+ *  $RCSfile: main.c,v $	$Revision: 0.14 $
  *
- *  $Author: scs $	$Date: 1989/11/12 22:01:18 $
+ *  $Author: scs $	$Date: 1989/11/24 14:40:00 $
  *
- *  $State: Production $	$Locker:  $
+ *  $State: Exp $	$Locker:  $
  *
  *  $Log: main.c,v $
- *  Revision 0.13  1989/11/12 22:01:18  scs
- *  First production release.  Stripped all useless history and side-alleys.
+ *  Revision 0.14  1989/11/24 14:40:00  scs
+ *  Changed patchlevel printout style.
  *
+ *  Revision 0.13  89/11/12  22:01:18  scs
+ *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.13 1989/11/12 22:01:18 scs Production $" ;
+static char	rcsid[] = "$Id: main.c,v 0.14 1989/11/24 14:40:00 scs Exp $" ;
 #endif
 #endif
 
@@ -117,7 +119,7 @@ char**	argv ;
 	{
 		(void) printf( "%s: Version %d.%d", ProgramName, version, release ) ;
 		if ( PATCHLEVEL > 0 )
-			(void) printf( "PL%d\n", PATCHLEVEL ) ;
+			(void) printf( ".%d\n", PATCHLEVEL ) ;
 		else
 			(void) putchar( '\n' ) ;
 	}
