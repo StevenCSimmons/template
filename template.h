@@ -1,13 +1,17 @@
 /*
  *  Definitions file for template command.
  *
- *  $RCSfile: template.h,v $	$Revision: 0.7 $
+ *  $RCSfile: template.h,v $	$Revision: 0.8 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2006/01/27 15:01:16 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: template.h,v $
+ *  Revision 0.8  2006/01/27 15:01:16  scs
+ *  Added a few things that are now ubiquitous in posix, tightened up
+ *  usage of parameters in some cases.
+ *
  *  Revision 0.7  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -19,8 +23,10 @@
 #ifndef	TEMPLATE_H
 #define	TEMPLATE_H
 
-# include	<stdc.h>
 # include	<stdio.h>
+# include	<stdlib.h>
+# include	<string.h>
+# include	<errno.h>
 
 typedef char	boolean ;
 
@@ -37,8 +43,8 @@ extern char*	ProgramName ;
 
 extern char*	NewString( char* ) ;
 extern char*	NewNString( char*, unsigned ) ;
-extern void	Warning( char* ) ;
-extern void	Error( char* ) ;
-extern void	Fatal( char* ) ;
+extern void	Warning( const char const* ) ;
+extern void	Error( const char const* ) ;
+extern void	Fatal( const char const* ) ;
 
 #endif	/* of ifdef TEMPLATE_H */
