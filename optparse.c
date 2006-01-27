@@ -15,13 +15,16 @@
  *
  *  See the individual routines below for detailed descriptions.
  *
- *  $RCSfile: optparse.c,v $	$Revision: 0.8 $
+ *  $RCSfile: optparse.c,v $	$Revision: 0.9 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2006/01/27 14:58:18 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: optparse.c,v $
+ *  Revision 0.9  2006/01/27 14:58:18  scs
+ *  Removed use of my private stdc.h; not needed in modern UNIXes.
+ *
  *  Revision 0.8  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -44,13 +47,12 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: optparse.c,v 0.8 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: optparse.c,v 0.9 2006/01/27 14:58:18 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
 # include	<stdio.h>
 # include	<ctype.h>
-# include	<stdc.h>
 
 /*	Functions from standard system libraries	*/
 
