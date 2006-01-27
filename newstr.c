@@ -2,13 +2,16 @@
  *  Library function to create new copies of strings.  Creates
  *  exactly the same size offered.
  *
- *  $RCSfile: newstr.c,v $	$Revision: 1.5 $
+ *  $RCSfile: newstr.c,v $	$Revision: 1.6 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2006/01/27 14:57:45 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: newstr.c,v $
+ *  Revision 1.6  2006/01/27 14:57:45  scs
+ *  Removed stuff that's in posix system; it's a posix world.
+ *
  *  Revision 1.5  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -22,14 +25,14 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: newstr.c,v 1.5 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: newstr.c,v 1.6 2006/01/27 14:57:45 scs Exp $" ;
 #endif
 #endif
 
 # include	<stdio.h>
-# include	<stdc.h>
+# include	<string.h>
 
-extern voidptr	malloc( int ) ;
+extern void*	malloc( int ) ;
 
 /*
  *  Create a new string.  Return a pointer to it.  Return null
