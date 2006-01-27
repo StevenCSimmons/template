@@ -3,13 +3,16 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 1.4 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 1.5 $
  *
- *  $Author: scs $	$Date: 2006/01/27 15:13:39 $
+ *  $Author: scs $	$Date: 2006/01/27 15:30:52 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 1.5  2006/01/27 15:30:52  scs
+ *  Convert to more secure mkstemp.
+ *
  *  Revision 1.4  2006/01/27 15:13:39  scs
  *  Removed deprecated sys_errlist in favor of strerror().
  *
@@ -33,7 +36,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 1.4 2006/01/27 15:13:39 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 1.5 2006/01/27 15:30:52 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -47,7 +50,7 @@ static char	rcsid[] = "$Id: copyfile.c,v 1.4 2006/01/27 15:13:39 scs Exp $" ;
 extern boolean	Verbose ;
 extern boolean	UsingStdout ;
 
-static int	tempfile = -1 ;		/* fd for writing tempfile */
+static int	tempfd = -1 ;		/* fd for writing tempfile */
 static int	template = -1 ;		/* fd for reading template */
 static int	target = -1 ;		/* fd for read/write target */
 static char	tempfile_name[ sizeof( TEMPFILE ) + 1 ] ;
@@ -66,9 +69,9 @@ static char	message[ 512 ] ;
 static void	module_cleanup()
 {
 	(void) close( template ) ;
-	(void) close( tempfile ) ;
+	(void) close( tempfd ) ;
 	(void) close( target ) ;
-	tempfile = template = target = -1 ;
+	tempfd = template = target = -1 ;
 	(void) unlink( tempfile_name ) ;
 	if ( message[ 0 ] != '\0' )
 		Fatal( message ) ;
@@ -196,21 +199,20 @@ void	CreateTarget( char* template_name, char* target_name )
 		if ( Verbose )
 			(void) fprintf( stderr, "Creating/rewriting `%s' with template `%s'.\n",
 				target_name, template_name ) ;
-		tempfile = open_file( tempfile_name, ( O_CREAT | O_RDWR | O_EXCL ), "create" ) ;
 		target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify" ) ;
-		if ( ! copyfile( tempfile, template ) )
+		if ( ! copyfile( tempfd, template ) )
 		{
 			(void) sprintf( message,
 				"Error in copying `%s' to `%s': %s",
 				target_name, tempfile_name, strerror( errno ) ) ;
 		}
-		else if ( ! copyfile( tempfile, target ) )
+		else if ( ! copyfile( tempfd, target ) )
 		{
 			(void) sprintf( message,
 				"Error in copying `%s' to `%s': %s",
 				tempfile_name, target_name, strerror( errno ) ) ;
 		}
-		else if ( 0 != lseek( tempfile, (off_t) 0, (off_t) 0 ) )
+		else if ( 0 != lseek( tempfd, (off_t) 0, (off_t) 0 ) )
 		{
 			(void) sprintf( message,
 				"Could not reset `%s' to beginning of file: %s",
@@ -222,7 +224,7 @@ void	CreateTarget( char* template_name, char* target_name )
 				"Could not reset `%s' to start of file: %s",
 				target_name, strerror( errno ) ) ;
 		}
-		else if ( ! copyfile( target, tempfile ) )
+		else if ( ! copyfile( target, tempfd ) )
 		{
 			(void) sprintf( message,
 				"Error in copying `%s' to `%s': %s",
@@ -245,7 +247,7 @@ void	InitCopying()
 	int	old_umask = umask( 0 ) ;
 
 	(void) strcpy( tempfile_name, TEMPFILE ) ;
-	(void) mktemp( tempfile_name ) ;
+	tempfd = mkstemp( tempfile_name ) ;
 
 	(void) umask( old_umask ) ;
 	file_mask = ( ( ~old_umask ) & 0666 ) ;
