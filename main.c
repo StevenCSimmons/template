@@ -9,13 +9,16 @@
  *  any particular usage style (like, for example, mine) on the
  *  writer.
  *
- *  $RCSfile: main.c,v $	$Revision: 0.17 $
+ *  $RCSfile: main.c,v $	$Revision: 0.18 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2006/01/27 13:50:30 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: main.c,v $
+ *  Revision 0.18  2006/01/27 13:50:30  scs
+ *  Let template.h include string defs.
+ *
  *  Revision 0.17  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -35,7 +38,7 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.17 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: main.c,v 0.18 2006/01/27 13:50:30 scs Exp $" ;
 #endif
 #endif
 
@@ -48,8 +51,6 @@ extern void	ProcessSwitches( int, char**, char** ) ;
 extern void	ProcessFiles( char** ) ;
 extern void	InitCopying( void ) ;
 extern void	ListTemplateDirs( boolean ) ;
-
-extern char*	strrchr( char *a, char b ) ;
 
 extern boolean	DirList ;
 extern boolean	DirContents ;
