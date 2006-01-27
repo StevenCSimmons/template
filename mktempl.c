@@ -1,13 +1,16 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.21 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.22 $
  *
- *  $Author: scs $	$Date: 2006/01/27 13:52:11 $
+ *  $Author: scs $	$Date: 2006/01/27 14:56:22 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
+ *  Revision 0.22  2006/01/27 14:56:22  scs
+ *  Removed a lot of definitions that are now standard C includes.
+ *
  *  Revision 0.21  2006/01/27 13:52:11  scs
  *  Let template.h include string definitions. Refined types on null
  *  character checking.
@@ -41,7 +44,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.21 2006/01/27 13:52:11 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.22 2006/01/27 14:56:22 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -50,18 +53,7 @@ static char	rcsid[] = "$Id: mktempl.c,v 0.21 2006/01/27 13:52:11 scs Exp $" ;
 
 # define	MAX_NAMES	(3)
 
-extern int	access( char*, int ) ;
-extern void	free( char* ) ;
-
-#ifndef	BSD
-extern int	sprintf( char*, char* ) ;
-#endif
-
-extern int	errno ;
-
 extern void	CreateTarget( char*, char* ) ;
-extern void	exit( int ) ;
-
 extern char*	Template_List[] ;
 
 static char*	possibilities[ MAX_NAMES ] = { NULL, NULL, NULL } ;
