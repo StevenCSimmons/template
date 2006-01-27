@@ -5,13 +5,16 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.17 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.18 $
  *
- *  $Author: scs $	$Date: 2006/01/27 15:00:16 $
+ *  $Author: scs $	$Date: 2006/01/27 15:17:46 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
+ *  Revision 0.18  2006/01/27 15:17:46  scs
+ *  Removed deprecated sys_errlist in favor of strerror().
+ *
  *  Revision 0.17  2006/01/27 15:00:16  scs
  *  Removed a lot of stuff not needed in a posix world, used null
  *  pointer and null char checks reasonably.
@@ -47,7 +50,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.17 2006/01/27 15:00:16 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.18 2006/01/27 15:17:46 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -179,7 +182,7 @@ static boolean	valid_template_dir( char* dir )
 	if ( Verbose )
 	{
 		(void) sprintf( msgbuf, "can't access `%s' (%s)",
-			dir, sys_errlist[ errno ] ) ;
+			dir, strerror( errno ) ) ;
 		Warning( msgbuf ) ;
 	}
 	return FALSE ;

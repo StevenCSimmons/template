@@ -3,13 +3,16 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 1.3 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 1.4 $
  *
- *  $Author: scs $	$Date: 2006/01/27 14:54:29 $
+ *  $Author: scs $	$Date: 2006/01/27 15:13:39 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 1.4  2006/01/27 15:13:39  scs
+ *  Removed deprecated sys_errlist in favor of strerror().
+ *
  *  Revision 1.3  2006/01/27 14:54:29  scs
  *  Removed a lot of old history and stuff that is now a standard part
  *  of the posix world.
@@ -30,7 +33,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 1.3 2006/01/27 14:54:29 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 1.4 2006/01/27 15:13:39 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -95,7 +98,7 @@ static int	open_file( char* name, int mode, char* detail )
 	{
 		(void) sprintf( message,
 			"Couldn't open (%s) file `%s': %s",
-			detail, name, sys_errlist[ errno ] ) ;
+			detail, name, strerror( errno ) ) ;
 		module_cleanup() ;
 	}
 	return fd ;
@@ -172,7 +175,7 @@ void	CreateTarget( char* template_name, char* target_name )
 			if ( ! copyfile( 2, template ) )
 				(void) sprintf( message,
 					"Error in copying `%s' to standard out: %s",
-					template_name, sys_errlist[ errno ] ) ;
+					template_name, strerror( errno ) ) ;
 		}
 		if ( target_name != NULL )
 		{
@@ -183,7 +186,7 @@ void	CreateTarget( char* template_name, char* target_name )
 				{
 					(void) sprintf( message,
 						"Error in copying `%s' to stdout: %s",
-						target_name, sys_errlist[ errno ] ) ;
+						target_name, strerror( errno ) ) ;
 				}
 			}
 		}
@@ -199,31 +202,31 @@ void	CreateTarget( char* template_name, char* target_name )
 		{
 			(void) sprintf( message,
 				"Error in copying `%s' to `%s': %s",
-				target_name, tempfile_name, sys_errlist[ errno ] ) ;
+				target_name, tempfile_name, strerror( errno ) ) ;
 		}
 		else if ( ! copyfile( tempfile, target ) )
 		{
 			(void) sprintf( message,
 				"Error in copying `%s' to `%s': %s",
-				tempfile_name, target_name, sys_errlist[ errno ] ) ;
+				tempfile_name, target_name, strerror( errno ) ) ;
 		}
 		else if ( 0 != lseek( tempfile, (off_t) 0, (off_t) 0 ) )
 		{
 			(void) sprintf( message,
 				"Could not reset `%s' to beginning of file: %s",
-				tempfile_name, sys_errlist[ errno ] ) ;
+				tempfile_name, strerror( errno ) ) ;
 		}
 		else if ( 0 != lseek( target, (off_t) 0, (off_t) 0 ) )
 		{
 			(void) sprintf( message,
 				"Could not reset `%s' to start of file: %s",
-				target_name, sys_errlist[ errno ] ) ;
+				target_name, strerror( errno ) ) ;
 		}
 		else if ( ! copyfile( target, tempfile ) )
 		{
 			(void) sprintf( message,
 				"Error in copying `%s' to `%s': %s",
-				target_name, tempfile_name, sys_errlist[ errno ] ) ;
+				target_name, tempfile_name, strerror( errno ) ) ;
 		}
 	}
 	module_cleanup() ;
