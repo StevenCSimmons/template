@@ -2,13 +2,16 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.22 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.23 $
  *
- *  $Author: scs $	$Date: 2003/04/14 14:48:07 $
+ *  $Author: scs $	$Date: 2006/01/27 14:58:54 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
+ *  Revision 0.23  2006/01/27 14:58:54  scs
+ *  Better usage (or non-usage) of consts.
+ *
  *  Revision 0.22  2003/04/14 14:48:07  scs
  *  Updated tests to reflect newer switches.
  *
@@ -26,7 +29,6 @@
  *  
  *  Revision 0.17  89/11/12  22:01:38  scs
  *  First production release.  Stripped all useless history and side-alleys.
- *  
  */
 
 #ifdef	TEST
@@ -35,18 +37,19 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.22 2003/04/14 14:48:07 scs Exp $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.23 2006/01/27 14:58:54 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
 # include	"template.h"
 
-extern int		OptionParse( int, char**, char* ) ;
+extern int		OptionParse( int, char**, const char const * ) ;
+# ifndef	TEST
 extern void		GetTemplList( char* ) ;
-extern void		exit( int ) ;
+# endif
 
-extern const char*	OptionSwitch ;
-extern char*		UserExtension ;
+extern char*	OptionSwitch ;
+extern char*	UserExtension ;
 
 boolean Verbose = FALSE ;	/* -[vV] - be noisy? */
 boolean NoAction = FALSE ;	/* -V - be noisy and fake it? */
@@ -55,7 +58,7 @@ boolean DirContents = FALSE ;	/* -L - list template dirs and contents */
 boolean UsingStdout = FALSE ;	/* -o - send output to stdout */
 boolean ForceExtension = FALSE;	/* -e - use user-supplied extension */
 
-static char* const	template_list = NULL ;	/* for -T<list> */
+static char* template_list = NULL ;	/* for -T<list> */
 
 static const char const		switch_list[] = "lLvVoT:e:" ;
 static const char const* const	usage_msg[] = {
@@ -71,13 +74,13 @@ static const char const* const	usage_msg[] = {
 
 static void	usage( const char* const msg )
 {
-	char**	umsg = usage_msg ;
+	/* char **	umsg = usage_msg ; */
+	int i;
 
 	(void) fprintf( stderr, "%s usage: %s\n", ProgramName, msg ) ;
-	while ( *umsg != NULL )
-	{
-		(void) fprintf( stderr, "%s\n", *umsg ) ;
-		umsg++ ;
+	/* while ( *umsg != NULL ) */
+	for ( i = 0; usage_msg[i] != (char) NULL; i++ ) {
+		(void) fprintf( stderr, "%s\n", *usage_msg[i] ) ;
 	}
 	exit( 1 ) ;
 }
@@ -116,7 +119,8 @@ void	ProcessSwitches( int argc, char** argv, const char** file_list )
 {
 	int			option ;
 	char			msgbuf[ BUFSIZ ] ;
-	char const* const*	user_files = file_list ;
+	/* char const* const*	user_files = file_list ; */
+	char const**	user_files = file_list ;
 
 	while ( EOF != ( option = OptionParse( argc, argv, switch_list ) ) )
 		switch( option )
