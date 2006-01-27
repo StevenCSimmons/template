@@ -1,13 +1,17 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.20 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.21 $
  *
- *  $Author: scs $	$Date: 2003/04/14 14:48:07 $
+ *  $Author: scs $	$Date: 2006/01/27 13:52:11 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
+ *  Revision 0.21  2006/01/27 13:52:11  scs
+ *  Let template.h include string definitions. Refined types on null
+ *  character checking.
+ *
  *  Revision 0.20  2003/04/14 14:48:07  scs
  *  Updated tests to reflect newer switches.
  *
@@ -37,7 +41,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.20 2003/04/14 14:48:07 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.21 2006/01/27 13:52:11 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -46,7 +50,6 @@ static char	rcsid[] = "$Id: mktempl.c,v 0.20 2003/04/14 14:48:07 scs Exp $" ;
 
 # define	MAX_NAMES	(3)
 
-extern char*	strrchr( char*, char ) ;
 extern int	access( char*, int ) ;
 extern void	free( char* ) ;
 
@@ -57,8 +60,6 @@ extern int	sprintf( char*, char* ) ;
 extern int	errno ;
 
 extern void	CreateTarget( char*, char* ) ;
-extern char*	strcat( char*, char* ) ;
-extern char*	strncpy( char*, char*, int ) ;
 extern void	exit( int ) ;
 
 extern char*	Template_List[] ;
@@ -84,11 +85,11 @@ static char*	check_for_file( char* dir, char* file )
 
 	if ( dir == NULL )
 		Fatal( "internal error in check_for_file - null path" ) ;
-	if ( *dir == NULL )
+	if ( *dir == (char) NULL )
 		Fatal( "internal error in check_for_file - empty path" ) ;
 	if ( file == NULL )
 		Fatal( "internal error in check_for_file - null file" ) ;
-	if ( *file == NULL )
+	if ( *file == (char) NULL )
 		Fatal( "internal error in check_for_file - empty file" ) ;
 	(void) sprintf( template_path, "%s/%s", dir, file ) ;
 	errno = 0 ;
@@ -172,7 +173,7 @@ static void	generate_names( char* in_name )
 	{
 		if ( in_name == NULL )
 			Fatal( "Got a NULL name in generate_names!" ) ;
-		else if ( *in_name == NULL )
+		else if ( *in_name == (char) NULL )
 			Fatal( "Got an empty name in generate_names!" ) ;
 	}
 
