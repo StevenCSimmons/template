@@ -1,13 +1,16 @@
 /*
  *  Definitions file for template command.
  *
- *  $RCSfile: template.h,v $	$Revision: 0.8 $
+ *  $RCSfile: template.h,v $	$Revision: 0.9 $
  *
- *  $Author: scs $	$Date: 2006/01/27 15:01:16 $
+ *  $Author: scs $	$Date: 2006/01/27 15:17:08 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: template.h,v $
+ *  Revision 0.9  2006/01/27 15:17:08  scs
+ *  Removed useless consts.
+ *
  *  Revision 0.8  2006/01/27 15:01:16  scs
  *  Added a few things that are now ubiquitous in posix, tightened up
  *  usage of parameters in some cases.
@@ -17,7 +20,6 @@
  *
  *  Revision 0.6  1989/11/12 22:01:53  scs
  *  First production release.  Stripped all useless history and side-alleys.
- *
  */
 
 #ifndef	TEMPLATE_H
@@ -43,8 +45,8 @@ extern char*	ProgramName ;
 
 extern char*	NewString( char* ) ;
 extern char*	NewNString( char*, unsigned ) ;
-extern void	Warning( const char const* ) ;
-extern void	Error( const char const* ) ;
-extern void	Fatal( const char const* ) ;
+extern void	Warning( char const* ) ;
+extern void	Error( char const* ) ;
+extern void	Fatal( char const* ) ;
 
 #endif	/* of ifdef TEMPLATE_H */

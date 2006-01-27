@@ -2,13 +2,16 @@
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
  *
- *  $RCSfile: switches.c,v $	$Revision: 0.23 $
+ *  $RCSfile: switches.c,v $	$Revision: 0.24 $
  *
- *  $Author: scs $	$Date: 2006/01/27 14:58:54 $
+ *  $Author: scs $	$Date: 2006/01/27 15:16:44 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: switches.c,v $
+ *  Revision 0.24  2006/01/27 15:16:44  scs
+ *  Removed useless consts.
+ *
  *  Revision 0.23  2006/01/27 14:58:54  scs
  *  Better usage (or non-usage) of consts.
  *
@@ -37,13 +40,13 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.23 2006/01/27 14:58:54 scs Exp $" ;
+static char	rcsid[] = "$Id: switches.c,v 0.24 2006/01/27 15:16:44 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
 # include	"template.h"
 
-extern int		OptionParse( int, char**, const char const * ) ;
+extern int		OptionParse( int, char**, char const * ) ;
 # ifndef	TEST
 extern void		GetTemplList( char* ) ;
 # endif
@@ -60,8 +63,8 @@ boolean ForceExtension = FALSE;	/* -e - use user-supplied extension */
 
 static char* template_list = NULL ;	/* for -T<list> */
 
-static const char const		switch_list[] = "lLvVoT:e:" ;
-static const char const* const	usage_msg[] = {
+static char const		switch_list[] = "lLvVoT:e:" ;
+static char const* const	usage_msg[] = {
 	"Proper usage for extracting templates is:",
 	"  template [-lLvVo] [ -T <template list> ] [ -e <extension> ] [ file(s) ]",
 	NULL
