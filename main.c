@@ -9,13 +9,16 @@
  *  any particular usage style (like, for example, mine) on the
  *  writer.
  *
- *  $RCSfile: main.c,v $	$Revision: 0.18 $
+ *  $RCSfile: main.c,v $	$Revision: 0.19 $
  *
- *  $Author: scs $	$Date: 2006/01/27 13:50:30 $
+ *  $Author: scs $	$Date: 2006/01/27 14:56:00 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: main.c,v $
+ *  Revision 0.19  2006/01/27 14:56:00  scs
+ *  Port to Darwin/MacOS.
+ *
  *  Revision 0.18  2006/01/27 13:50:30  scs
  *  Let template.h include string defs.
  *
@@ -38,7 +41,7 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.18 2006/01/27 13:50:30 scs Exp $" ;
+static char	rcsid[] = "$Id: main.c,v 0.19 2006/01/27 14:56:00 scs Exp $" ;
 #endif
 #endif
 
@@ -59,7 +62,7 @@ extern boolean	Verbose ;
 static int	version = 1 ;
 static int	release = 0 ;
 
-static const char*	file_list[ MAX_FILES + 1 ] ;
+static char*	file_list[ MAX_FILES + 1 ] ;
 
 #ifdef	TEST
 
