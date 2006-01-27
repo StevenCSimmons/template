@@ -1,13 +1,16 @@
 /*
  *  Error handling routines
  *
- *  $RCSfile: errors.c,v $	$Revision: 0.9 $
+ *  $RCSfile: errors.c,v $	$Revision: 0.10 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2006/01/27 14:55:20 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: errors.c,v $
+ *  Revision 0.10  2006/01/27 14:55:20  scs
+ *  Removed a few things not needed for modern posix systems.
+ *
  *  Revision 0.9  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -16,18 +19,15 @@
  *
  *  Revision 0.7  89/11/12  22:01:11  scs
  *  First production release.  Stripped all useless history and side-alleys.
- *  
  */
 
 #ifndef	lint
 # ifndef lib
-static char	rcsid[] = "$Id: errors.c,v 0.9 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: errors.c,v 0.10 2006/01/27 14:55:20 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
 # include	"template.h"
-
-extern void	exit( int ) ;
 
 /*
  *  Print an error message on stderr and return.
@@ -65,6 +65,8 @@ void	Fatal( const char* const msg )
 #endif
 	(void) fprintf( stderr, "fatal error: %s\n", msg ) ;
 	exit( 1 ) ;
+	/* NOTREACHED */
+	return ;
 }
 
 
