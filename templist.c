@@ -5,13 +5,17 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.16 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.17 $
  *
- *  $Author: scs $	$Date: 2003/04/14 14:48:22 $
+ *  $Author: scs $	$Date: 2006/01/27 15:00:16 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
+ *  Revision 0.17  2006/01/27 15:00:16  scs
+ *  Removed a lot of stuff not needed in a posix world, used null
+ *  pointer and null char checks reasonably.
+ *
  *  Revision 0.16  2003/04/14 14:48:22  scs
  *  Removed ANS-specific paths from default template.
  *
@@ -35,7 +39,6 @@
  *  
  *  Revision 0.9  89/11/12  22:01:44  scs
  *  First production release.  Stripped all useless history and side-alleys.
- *  
  */
 
 #ifdef	TEST
@@ -44,33 +47,21 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.16 2003/04/14 14:48:22 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.17 2006/01/27 15:00:16 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
-# include	<stdio.h>
+# include	"template.h"
+# include	<unistd.h>
 # include	<sys/param.h>
 # include	<pwd.h>
-# include	"template.h"
 
 # define	MAX_TEMPLATE_DIRS	(64)
 
-extern char*	strpbrk( char*, char* ) ;
-extern char*	getenv( char* ) ;
-extern int	access( char*, int ) ;
-extern voidptr	malloc( unsigned ) ;
-extern char*	getlogin() ;
-
-extern int	errno ;
-
-#if defined(_ANSI_SOURCE) || defined(_POSIX_SOURCE)
-extern char*	sys_errlist[] ;
-#endif
-
 extern boolean	Verbose ;
 
-static boolean			default_seen = FALSE ;
-static const char* const	default_list = 
+static boolean	default_seen = FALSE ;
+static char*	default_list = 
 	"./.Templates:$HOME/.Templates:/usr/local/lib/Templates" ;
 
 /*	The public variables	*/
@@ -178,7 +169,7 @@ static boolean	valid_template_dir( char* dir )
 
 	if ( dir == NULL )
 		Fatal( "internal error in valid_template_dir - null path" ) ;
-	if ( *dir == NULL )
+	if ( *dir == (char) NULL )
 		Fatal( "internal error in valid_template_dir - empty path" ) ;
 	if ( NULL == ( path = NewNString( dir, (unsigned) ( strlen( dir ) + 2 ) ) ) )
 		Fatal( "out of memory in valid_template_dir" ) ;
@@ -228,7 +219,7 @@ static char*	get_next_colon( char** instr )
 		*instr = end ;
 		return oldstr ;
 	}
-	if ( *end == NULL )
+	if ( *end == (char) NULL )
 	{
 		oldstr = *instr ;
 		*instr = end ;
@@ -267,7 +258,7 @@ static void	process_list( char* templ_list )
 
 	if ( templ_list == NULL )
 		return ;
-	if ( *templ_list == NULL )
+	if ( *templ_list == (char) NULL )
 		return ;
 	while ( NULL != ( dir = get_next_colon( &tmp_list ) ) )
 	{
@@ -316,7 +307,8 @@ static void	process_list( char* templ_list )
  *     void
  */
 
-void	GetTemplList( const char* const user_list )
+/* void	GetTemplList( const char* const user_list ) */
+void	GetTemplList( char* user_list )
 {
 	char*	environment_list = getenv( "TEMPLATES" ) ;
 
