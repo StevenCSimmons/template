@@ -3,13 +3,17 @@
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
  *
- *  $RCSfile: copyfile.c,v $	$Revision: 1.2 $
+ *  $RCSfile: copyfile.c,v $	$Revision: 1.3 $
  *
- *  $Author: scs $	$Date: 2003/04/14 14:48:07 $
+ *  $Author: scs $	$Date: 2006/01/27 14:54:29 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: copyfile.c,v $
+ *  Revision 1.3  2006/01/27 14:54:29  scs
+ *  Removed a lot of old history and stuff that is now a standard part
+ *  of the posix world.
+ *
  *  Revision 1.2  2003/04/14 14:48:07  scs
  *  Updated tests to reflect newer switches.
  *
@@ -18,28 +22,6 @@
  *
  *  Revision 0.17  2002/04/25 03:45:04  scs
  *  Reset a few things for FreeBSD use and compilation.
- *
- *  Revision 0.16  1996/09/29 01:05:49  scs
- *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
- *
- *  Revision 0.15  1995/05/23 13:07:37  scs
- *  More portable open, fixed umask.
- *
- *  Revision 0.14  1990/10/14  22:36:08  scs
- *  Fixed bug with stdout and unmodifiable files.
- *
- *  Revision 0.13  90/10/14  10:51:12  scs
- *  Converted to new parameters format.
- *  
- *  Revision 0.12  90/07/15  17:47:09  scs
- *  Added POSIX umask definition.
- *  
- *  Revision 0.11  89/12/09  15:11:34  scs
- *  Upgraded to new version of ANSI C compatibility macros.
- *  
- *  Revision 0.10  89/11/12  22:00:47  scs
- *  First production release.  Stripped all useless history and side-alleys.
- *  
  */
 
 #ifdef	TEST
@@ -48,7 +30,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 1.2 2003/04/14 14:48:07 scs Exp $" ;
+static char	rcsid[] = "$Id: copyfile.c,v 1.3 2006/01/27 14:54:29 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -58,31 +40,6 @@ static char	rcsid[] = "$Id: copyfile.c,v 1.2 2003/04/14 14:48:07 scs Exp $" ;
 
 # define	TEMPFILE	"/tmp/template.XXXXXX"
 # define	IO_CHUNK	( BUFSIZ * 8 )
-
-extern char*	mkstemp( char* ) ;
-
-#ifndef _LSEEK_DECLARED
-extern long	lseek( int, long, int ) ;
-#endif
-
-extern int	open( char*, int, ... ) ;
-extern int	read( int, char*, unsigned ) ;
-extern int	write( int, char*, unsigned ) ;
-extern int	close( int ) ;
-extern int	unlink( char* ) ;
-
-#ifdef	POSIX
-extern mode_t	umask( unsigned short ) ;
-#else
-extern int	umask( int ) ;
-#endif
-
-#ifndef	BSD
-extern int	sprintf( char*, char* ) ;
-#endif
-
-extern int	errno ;
-extern char*	sys_errlist[] ;
 
 extern boolean	Verbose ;
 extern boolean	UsingStdout ;
@@ -136,8 +93,6 @@ static int	open_file( char* name, int mode, char* detail )
 
 	if ( -1 == ( fd = open( name, mode, file_mask ) ) )
 	{
-		if ( UsingStdout)
-			return NULL ;
 		(void) sprintf( message,
 			"Couldn't open (%s) file `%s': %s",
 			detail, name, sys_errlist[ errno ] ) ;
@@ -212,7 +167,7 @@ void	CreateTarget( char* template_name, char* target_name )
 			(void) fprintf( stderr, "Will copy `%s' and `%s' to stdout.\n",
 				template_name, target_name ) ;
 		}
-		if ( NULL != template )
+		if ( -1 != template )
 		{
 			if ( ! copyfile( 2, template ) )
 				(void) sprintf( message,
@@ -221,7 +176,7 @@ void	CreateTarget( char* template_name, char* target_name )
 		}
 		if ( target_name != NULL )
 		{
-			if ( *target_name != NULL )
+			if ( *target_name != (char) NULL )
 			{
 				target = open_file( target_name, O_RDONLY, "read" ) ;
 				if ( ! copyfile( 2, target ) )
@@ -252,16 +207,16 @@ void	CreateTarget( char* template_name, char* target_name )
 				"Error in copying `%s' to `%s': %s",
 				tempfile_name, target_name, sys_errlist[ errno ] ) ;
 		}
-		else if ( 0 != lseek( tempfile, 0L, 0 ) )
+		else if ( 0 != lseek( tempfile, (off_t) 0, (off_t) 0 ) )
 		{
 			(void) sprintf( message,
 				"Could not reset `%s' to beginning of file: %s",
 				tempfile_name, sys_errlist[ errno ] ) ;
 		}
-		else if ( 0 != lseek( target, 0L, 0 ) )
+		else if ( 0 != lseek( target, (off_t) 0, (off_t) 0 ) )
 		{
 			(void) sprintf( message,
-				"Could not reset `%s' to beginning of file: %s",
+				"Could not reset `%s' to start of file: %s",
 				target_name, sys_errlist[ errno ] ) ;
 		}
 		else if ( ! copyfile( target, tempfile ) )
