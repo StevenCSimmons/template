@@ -1,13 +1,16 @@
 /*
  *  Library function to create a new string.
  *
- *  $RCSfile: newnstr.c,v $	$Revision: 1.6 $
+ *  $RCSfile: newnstr.c,v $	$Revision: 1.7 $
  *
- *  $Author: scs $	$Date: 2006/01/27 13:52:53 $
+ *  $Author: scs $	$Date: 2006/01/27 14:57:13 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: newnstr.c,v $
+ *  Revision 1.7  2006/01/27 14:57:13  scs
+ *  Removed use of my private stdc.h; it's all a posix world now.
+ *
  *  Revision 1.6  2006/01/27 13:52:53  scs
  *  Started using standard posix string include definitions.
  *
@@ -23,12 +26,11 @@
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: newnstr.c,v 1.6 2006/01/27 13:52:53 scs Exp $" ;
+static char	rcsid[] = "$Id: newnstr.c,v 1.7 2006/01/27 14:57:13 scs Exp $" ;
 #endif
 #endif
 
 # include	<stdio.h>
-# include	<stdc.h>
 # include	<string.h>
 
 extern void*	malloc( int ) ;
