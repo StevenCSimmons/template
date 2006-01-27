@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.19 $
+#  $RCSfile: Makefile,v $	$Revision: 0.20 $
 #
-#  $Author: scs $	$Date: 2006/01/27 13:46:02 $
+#  $Author: scs $	$Date: 2006/01/27 15:19:22 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.20  2006/01/27 15:19:22  scs
+#  Removed my locally developed stdc.h.
+#
 #  Revision 0.19  2006/01/27 13:46:02  scs
 #  Removed double definition of optparse.test.
 #
@@ -34,9 +37,7 @@ TARGET	=	template
 #
 LIBSRCS	= newstr.c newnstr.c errors.c optparse.c
 LIBOBJS	= newstr.o newnstr.o errors.o optparse.o
-#  If you have stdc.h in your /usr/include, you don't need it
-#  as one of the LIBCLUDES.
-LIBCLUDES	= stdc.h
+LIBCLUDES	=
 
 #  Feel free to change these to match your local definitions
 
@@ -49,10 +50,8 @@ MAN3	= $(MANTOP)/man3
 PKGDIRS = $(PREFIX) $(BIN) $(LIB) $(MANTOP) $(MAN1) $(MAN3)
 SHELL	= /bin/sh
 
-CC	= cc
+CC	= gcc
 # General definitions here which apply to all -- form -DDEF
-#  If you have stdc.h in your /usr/include, you
-#  don't need the -I. switch
 CLUDDIR	= -I.
 # Link libraries -- form -lLIB
 LIBS	=
@@ -74,7 +73,7 @@ CFLAGS	= $(DEBUG) $(DEFS)
 
 SRCS	= copyfile.c list.c main.c mktempl.c switches.c templist.c $(LIBSRCS)
 OBJS	= copyfile.o list.o main.o mktempl.o switches.o templist.o $(LIBOBJS)
-CLUDES	= stdc.h template.h patchlevel.h
+CLUDES	= template.h patchlevel.h
 
 # Units which can be self-tested.
 
