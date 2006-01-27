@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.18 $
+#  $RCSfile: Makefile,v $	$Revision: 0.19 $
 #
-#  $Author: scs $	$Date: 2003/04/14 15:01:37 $
+#  $Author: scs $	$Date: 2006/01/27 13:46:02 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.19  2006/01/27 13:46:02  scs
+#  Removed double definition of optparse.test.
+#
 #  Revision 0.18  2003/04/14 15:01:37  scs
 #  Added build of tests.
 #
@@ -61,7 +64,7 @@ LLIBS	=
 DEBUG	= -g
 # Define BSD for BSD 4.X or derivatives thereof.  Don't define if the
 # local system does it for you.
-#OS	= -DBSD
+OS	= -DBSD
 # Define this if you have POSIX compatibility
 POSIX	= -DPOSIX
 
@@ -164,9 +167,6 @@ list.test:	list.c errors.o
 
 mktempl.test:	mktempl.c errors.o newnstr.o newstr.o
 	$(CC) $(CFLAGS) -DTEST mktempl.c errors.o newnstr.o newstr.o -o mktempl.test
-
-optparse.test:	optparse.c errors.o
-	$(CC) $(CFLAGS) -DTEST optparse.c errors.o -o optparse.test
 
 switches.test:	switches.c errors.o newnstr.o newstr.o optparse.o
 	$(CC) $(CFLAGS) -DTEST switches.c errors.o newnstr.o newstr.o optparse.o -o switches.test
