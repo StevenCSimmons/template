@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.20 $
+#  $RCSfile: Makefile,v $	$Revision: 0.21 $
 #
-#  $Author: scs $	$Date: 2006/01/27 15:19:22 $
+#  $Author: scs $	$Date: 2008/04/10 14:42:41 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.21  2008/04/10 14:42:41  scs
+#  Clean up last remaining bits of my old posix/os macros.
+#
 #  Revision 0.20  2006/01/27 15:19:22  scs
 #  Removed my locally developed stdc.h.
 #
@@ -31,7 +34,7 @@
 #  Revision 0.13  1993/06/28 02:34:39  scs
 #  Added template.shar.
 
-TARGET	=	template
+TARGET	=	istemplate
 
 # For the support library
 #
@@ -41,7 +44,7 @@ LIBCLUDES	=
 
 #  Feel free to change these to match your local definitions
 
-PREFIX  = /usr/inland-sea
+PREFIX  = /usr
 BIN	= $(PREFIX)/bin
 LIB	= $(PREFIX)/lib
 MANTOP	= $(PREFIX)/man
@@ -61,13 +64,8 @@ LDEFS	= -I .
 LLIBS	=
 # Set to -g for debugging, -O for optimise, or both if compiler handles it
 DEBUG	= -g
-# Define BSD for BSD 4.X or derivatives thereof.  Don't define if the
-# local system does it for you.
-OS	= -DBSD
-# Define this if you have POSIX compatibility
-POSIX	= -DPOSIX
 
-DEFS	= $(OS) $(CLUDDIR) $(POSIX)
+DEFS	= $(CLUDDIR)
 
 CFLAGS	= $(DEBUG) $(DEFS)
 
