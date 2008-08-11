@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.21 $
+#  $RCSfile: Makefile,v $	$Revision: 0.22 $
 #
-#  $Author: scs $	$Date: 2008/04/10 14:42:41 $
+#  $Author: scs $	$Date: 2008/08/11 21:40:28 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.22  2008/08/11 21:40:28  scs
+#  Move to stock name.
+#
 #  Revision 0.21  2008/04/10 14:42:41  scs
 #  Clean up last remaining bits of my old posix/os macros.
 #
@@ -34,7 +37,7 @@
 #  Revision 0.13  1993/06/28 02:34:39  scs
 #  Added template.shar.
 
-TARGET	=	istemplate
+TARGET	=	template
 
 # For the support library
 #
