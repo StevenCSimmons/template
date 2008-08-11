@@ -2,13 +2,16 @@
 .\"  
 .\"  Manual page for template
 .\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.13 $
+.\"  $RCSfile: template.1,v $	$Revision: 0.14 $
 .\"
-.\"  $Author: scs $	$Date: 2008/08/11 21:49:50 $
+.\"  $Author: scs $	$Date: 2008/08/11 22:06:34 $
 .\"
 .\"  $State: Exp $	$Locker:  $
 .\"
 .\"  $Log: template.1,v $
+.\"  Revision 0.14  2008/08/11 22:06:34  scs
+.\"  Removed /usr/local reference from man page.
+.\"
 .\"  Revision 0.13  2008/08/11 21:49:50  scs
 .\"  Removed old name.
 .\"
@@ -122,7 +125,7 @@ If you let
 decide on it's own, it will use
 the template list
 .RS
-.I ./.Templates:$HOME/.Templates:/usr/local/lib/Templates
+.I ./.Templates:$HOME/.Templates:/usr/lib/Templates
 .RE
 Thus it would look first in a directory named
 .I .Templates
@@ -130,7 +133,7 @@ in your current directory, then in a directory named
 .I .Templates
 in your home directory,
 then in a system directory named
-.I /usr/local/bin/Templates.
+.I /usr/bin/Templates.
 It will look through these one by one
 until it either finds a template file
 or runs out of places to look.
@@ -221,7 +224,7 @@ not for regular users.
 .B "-D"
 Force debugging off.
 .SH FILES
-/usr/local/lib/Templates,
+/usr/lib/Templates,
 $HOME/.Templates,
 ./.Templates.
 .SH "ENVIRONMENT VARIABLES"
