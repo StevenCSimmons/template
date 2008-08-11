@@ -5,13 +5,16 @@
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
  *
- *  $RCSfile: templist.c,v $	$Revision: 0.18 $
+ *  $RCSfile: templist.c,v $	$Revision: 0.19 $
  *
- *  $Author: scs $	$Date: 2006/01/27 15:17:46 $
+ *  $Author: scs $	$Date: 2008/08/11 21:39:38 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: templist.c,v $
+ *  Revision 0.19  2008/08/11 21:39:38  scs
+ *  Move to umich/itcs standards for location.
+ *
  *  Revision 0.18  2006/01/27 15:17:46  scs
  *  Removed deprecated sys_errlist in favor of strerror().
  *
@@ -50,7 +53,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.18 2006/01/27 15:17:46 scs Exp $" ;
+static char	rcsid[] = "$Id: templist.c,v 0.19 2008/08/11 21:39:38 scs Exp $" ;
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 
@@ -65,7 +68,7 @@ extern boolean	Verbose ;
 
 static boolean	default_seen = FALSE ;
 static char*	default_list = 
-	"./.Templates:$HOME/.Templates:/usr/local/lib/Templates" ;
+	"./.Templates:$HOME/.Templates:/usr/lib/Templates" ;
 
 /*	The public variables	*/
 

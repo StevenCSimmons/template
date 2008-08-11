@@ -1,13 +1,16 @@
 /*
  *  This module creates the requested template.
  *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.22 $
+ *  $RCSfile: mktempl.c,v $	$Revision: 0.23 $
  *
- *  $Author: scs $	$Date: 2006/01/27 14:56:22 $
+ *  $Author: scs $	$Date: 2008/08/11 21:39:38 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: mktempl.c,v $
+ *  Revision 0.23  2008/08/11 21:39:38  scs
+ *  Move to umich/itcs standards for location.
+ *
  *  Revision 0.22  2006/01/27 14:56:22  scs
  *  Removed a lot of definitions that are now standard C includes.
  *
@@ -44,7 +47,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.22 2006/01/27 14:56:22 scs Exp $" ;
+static char	rcsid[] = "$Id: mktempl.c,v 0.23 2008/08/11 21:39:38 scs Exp $" ;
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 
@@ -365,7 +368,7 @@ boolean UsingStdout = FALSE ;
 
 char*	list[] = { "foo", "bar.c", "baz.", NULL } ;
 char*	Template_List[] = {
-	"/usr/local/lib/Templates", "./.Templates", ".", NULL } ;
+	"/usr/lib/Templates", "./.Templates", ".", NULL } ;
 
 void	CreateTarget( char* template, char* target )
 {

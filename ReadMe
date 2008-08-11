@@ -72,11 +72,11 @@ TEMPLATE DIRECTORIES
 	template_list is a list of directories whose names are
 	separated by colons.  If you let template decide on it's
 	own, it will use the template list
-		./.Templates:$HOME/.Templates:/usr/local/lib/Templates
+		./.Templates:$HOME/.Templates:/usr/lib/Templates
 	Thus it would look first in a directory named .Templates in
 	your current directory, then in a directory named .Templates
 	in your home directory, and last in a system directory named
-	/usr/local/bin/Templates.  (Note that your site may have con-
+	/usr/lib/Templates.  (Note that your site may have con-
 	figured template to use some other system directory; see the
 	-l switch).  It will look through these one by one until it
 	either finds a template file or runs out of places to look.
