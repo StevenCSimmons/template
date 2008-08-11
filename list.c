@@ -1,13 +1,16 @@
 /*
  *  Module to do the list (-l, -L) switches.
  *
- *  $RCSfile: list.c,v $	$Revision: 0.5 $
+ *  $RCSfile: list.c,v $	$Revision: 0.6 $
  *
- *  $Author: scs $	$Date: 1996/09/29 01:05:49 $
+ *  $Author: scs $	$Date: 2008/08/11 21:48:48 $
  *
  *  $State: Exp $	$Locker:  $
  *
  *  $Log: list.c,v $
+ *  Revision 0.6  2008/08/11 21:48:48  scs
+ *  Updated test to use /usr/lib/Templates.
+ *
  *  Revision 0.5  1996/09/29 01:05:49  scs
  *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
  *
@@ -21,7 +24,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: list.c,v 0.5 1996/09/29 01:05:49 scs Exp $" ;
+static char	rcsid[] = "$Id: list.c,v 0.6 2008/08/11 21:48:48 scs Exp $" ;
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 
@@ -69,6 +72,7 @@ void ListTemplateDirs( const boolean List_Contents )
 #ifdef	TEST
 
 char*	Template_List[] = {
+	"/usr/lib/Templates", 
 	"/usr/local/lib/Templates", 
 	"./Templates",
 	".",
