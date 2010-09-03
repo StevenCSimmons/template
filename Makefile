@@ -1,12 +1,15 @@
 #  Makefile for template command
 #
-#  $RCSfile: Makefile,v $	$Revision: 0.22 $
+#  $RCSfile: Makefile,v $	$Revision: 0.23 $
 #
-#  $Author: scs $	$Date: 2008/08/11 21:40:28 $
+#  $Author: scs $	$Date: 2010/09/03 21:01:23 $
 #
 #  $State: Exp $	$Locker:  $
 #
 #  $Log: Makefile,v $
+#  Revision 0.23  2010/09/03 21:01:23  scs
+#  Added cscope build.
+#
 #  Revision 0.22  2008/08/11 21:40:28  scs
 #  Move to stock name.
 #
@@ -122,6 +125,9 @@ lint:	$(SRCS)
 
 tags:	$(SRCS)
 	ctags $(SRCS)
+
+cscope:	$(SRCS)
+	cscope -R -b
 
 TAGS:	$(SRCS) $(CLUDES)
 	etags $(SRCS) $(CLUDES)
