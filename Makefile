@@ -112,7 +112,7 @@ calls:	$(SRCS) $(HDRS)
 analysis:	tags TAGS cflow calls lint # cxref
 
 clean:
-	rm -f $(OBJS) core lint tags TAGS $(TARGET).man *~ #*#
+	rm -f $(OBJS) core lint tags TAGS $(TARGET).man cscope.out *~ #*#
 
 clean.tests:
 	rm -f $(TESTS)
@@ -126,7 +126,7 @@ lint:	$(SRCS)
 tags:	$(SRCS)
 	ctags $(SRCS)
 
-cscope:	$(SRCS)
+cscope cscope.out:	$(SRCS)
 	cscope -R -b
 
 TAGS:	$(SRCS) $(CLUDES)
