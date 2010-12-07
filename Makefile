@@ -38,6 +38,7 @@ CFLAGS	= $(DEBUG) $(DEFS)
 SRCS	= copyfile.c list.c main.c mktempl.c switches.c templist.c $(LIBSRCS)
 OBJS	= copyfile.o list.o main.o mktempl.o switches.o templist.o $(LIBOBJS)
 CLUDES	= template.h patchlevel.h
+MANS	= template.1 optparse.3
 
 # Units which can be self-tested.
 
@@ -62,9 +63,8 @@ man:	$(TARGET).1
 optparse.man:	optparse.3
 	nroff -man optparse.3 > optparse.man
 
-Manifest:	$(SRCS) Makefile
-	touch Manifest
-	ls -ls $(SRCS) Makefile > Manifest
+Manifest:	ReadMe Makefile $(SRCS) $(CLUDES) $(MANS)
+	for F in ReadMe Makefile $(SRCS) $(CLUDES) $(MANS) ; do md5 -r $$F || md5sum $$F ; done > Manifest
 
 calls:	$(SRCS) $(HDRS)
 	calls $(DEFS) $(SRCS) > calls
