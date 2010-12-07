@@ -1,3 +1,5 @@
 *.o
 *.ps
 template
+.gitignore
+Manifest
