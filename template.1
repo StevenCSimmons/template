@@ -1,47 +1,6 @@
 .TH template 1L "June 27, 1993"
 .\"  
 .\"  Manual page for template
-.\"
-.\"  $RCSfile: template.1,v $	$Revision: 0.15 $
-.\"
-.\"  $Author: scs $	$Date: 2008/08/11 22:16:50 $
-.\"
-.\"  $State: Exp $	$Locker:  $
-.\"
-.\"  $Log: template.1,v $
-.\"  Revision 0.15  2008/08/11 22:16:50  scs
-.\"  Removed ANS references.
-.\"
-.\"  Revision 0.14  2008/08/11 22:06:34  scs
-.\"  Removed /usr/local reference from man page.
-.\"
-.\"  Revision 0.13  2008/08/11 21:49:50  scs
-.\"  Removed old name.
-.\"
-.\"  Revision 0.12  2008/07/22 19:46:57  scs
-.\"  Fix missing escape, updated contact address.
-.\"
-.\"  Revision 0.11  2003/04/14 15:00:42  scs
-.\"  Removed references to 'default' as a master file; never implemented.
-.\"
-.\"  Revision 0.10  2003/04/14 14:52:33  scs
-.\"  Removed ANS paths.
-.\"
-.\"  Revision 0.9  2001/02/08 19:47:32  scs
-.\"  More minor upgrades for move to BDCS.
-.\"
-.\"  Revision 0.8  2000/03/11 03:28:21  scs
-.\"  Customized for ANS.
-.\"
-.\"  Revision 0.7  1993/06/28 01:22:03  scs
-.\"  One minor formatting fix.  We're all done now, right?
-.\"
-.\"  Revision 0.6  1990/10/30  16:05:02  scs
-.\"  Revisions as per Tim Belch's suggestions.
-.\"
-.\"  Revision 0.5  89/11/12  22:02:38  scs
-.\"  First production release.  Stripped all extraneous comments and side
-.\"  paths.
 .\"  
 .SH NAME
 template - Create files from templates, add templates to existing files
@@ -56,9 +15,9 @@ template
 creates or modifies files for use in accordance with local standards.
 It can be used to initialize files for such source code
 control systems as
-.I rcs(1)
+.I cvs(1)
 or
-.I sccs(1),
+.I svn(1),
 or simply to grab standard forms from a library.
 .PP 
 .I template
@@ -234,7 +193,7 @@ $HOME/.Templates,
 .B TEMPLATES:
 A list of template directories, as defined above.
 .SH "SEE ALSO"
-rcs(1), sccs(1), make(1)
+cvs(1), svn(1), make(1)
 .SH DIAGNOSTICS
 Hopefully self-explaining.
 .SH BUGS

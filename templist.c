@@ -4,47 +4,6 @@
  *  GetTemplList, which initializes the two public variables.
  *  The public variables are a list of template directories
  *  and a count of how many are in the list.
- *
- *  $RCSfile: templist.c,v $	$Revision: 0.19 $
- *
- *  $Author: scs $	$Date: 2008/08/11 21:39:38 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: templist.c,v $
- *  Revision 0.19  2008/08/11 21:39:38  scs
- *  Move to umich/itcs standards for location.
- *
- *  Revision 0.18  2006/01/27 15:17:46  scs
- *  Removed deprecated sys_errlist in favor of strerror().
- *
- *  Revision 0.17  2006/01/27 15:00:16  scs
- *  Removed a lot of stuff not needed in a posix world, used null
- *  pointer and null char checks reasonably.
- *
- *  Revision 0.16  2003/04/14 14:48:22  scs
- *  Removed ANS-specific paths from default template.
- *
- *  Revision 0.15  2002/04/25 03:43:32  scs
- *  Added definition check so compiles/runs cleanly on FreeBSD.
- *
- *  Revision 0.14  2001/11/30 18:23:18  scs
- *  Added bdcs home.
- *
- *  Revision 0.13  1996/09/29 01:05:49  scs
- *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
- *
- *  Revision 0.12  1992/06/06 15:55:38  scs
- *  Made the HOME environment variable honored.
- *
- *  Revision 0.11  1990/10/14  11:21:05  scs
- *  Corrected usage of PARAM_0
- *
- *  Revision 0.10  89/12/09  15:12:11  scs
- *  Upgraded to new version of ANSI C compatibility macros.
- *  
- *  Revision 0.9  89/11/12  22:01:44  scs
- *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifdef	TEST
@@ -53,7 +12,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: templist.c,v 0.19 2008/08/11 21:39:38 scs Exp $" ;
+static char	gitid[] = "$Id$";
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 

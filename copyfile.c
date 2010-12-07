@@ -2,32 +2,6 @@
  *  Build an actual file from a template and source.  Module has
  *  two entry points -- an initializer InitCopying(), and a service
  *  provider CreateTarget().
- *
- *  $RCSfile: copyfile.c,v $	$Revision: 1.5 $
- *
- *  $Author: scs $	$Date: 2006/01/27 15:30:52 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: copyfile.c,v $
- *  Revision 1.5  2006/01/27 15:30:52  scs
- *  Convert to more secure mkstemp.
- *
- *  Revision 1.4  2006/01/27 15:13:39  scs
- *  Removed deprecated sys_errlist in favor of strerror().
- *
- *  Revision 1.3  2006/01/27 14:54:29  scs
- *  Removed a lot of old history and stuff that is now a standard part
- *  of the posix world.
- *
- *  Revision 1.2  2003/04/14 14:48:07  scs
- *  Updated tests to reflect newer switches.
- *
- *  Revision 1.1  2002/08/25 01:50:22  scs
- *  Moved to FreeBSD style tempfiles.
- *
- *  Revision 0.17  2002/04/25 03:45:04  scs
- *  Reset a few things for FreeBSD use and compilation.
  */
 
 #ifdef	TEST
@@ -36,7 +10,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: copyfile.c,v 1.5 2006/01/27 15:30:52 scs Exp $" ;
+static char	gitid[] = "$Id$";
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 

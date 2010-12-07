@@ -4,7 +4,7 @@
 
 #ifndef lint
 # ifndef  lib
-static char rcsid[] = "$Id: list.c,v 0.6 2008/08/11 21:48:48 scs Exp $" ;
+static char gitid[] = "$Id$";
 # endif /* if ifndef lib */
 #endif  /* if ifndef lint */
 

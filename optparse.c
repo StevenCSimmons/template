@@ -14,28 +14,6 @@
  *	OptionSwitch -- extended arguement associated with a switch
  *
  *  See the individual routines below for detailed descriptions.
- *
- *  $RCSfile: optparse.c,v $	$Revision: 0.9 $
- *
- *  $Author: scs $	$Date: 2006/01/27 14:58:18 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: optparse.c,v $
- *  Revision 0.9  2006/01/27 14:58:18  scs
- *  Removed use of my private stdc.h; not needed in modern UNIXes.
- *
- *  Revision 0.8  1996/09/29 01:05:49  scs
- *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
- *
- *  Revision 0.7  1990/10/14 11:28:59  scs
- *  Corrected use of PARAM_0/PROTO_0.
- *
- *  Revision 0.6  89/12/09  15:12:20  scs
- *  Upgraded to new version of ANSI C compatibility macros.
- *  
- *  Revision 0.5  89/11/12  22:01:33  scs
- *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifdef		TEST
@@ -47,7 +25,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: optparse.c,v 0.9 2006/01/27 14:58:18 scs Exp $" ;
+static char	gitid[] = "$Id$";
 # endif	/* if ifndef lib */
 #endif	/* if ifndef lint */
 

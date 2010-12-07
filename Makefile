@@ -1,44 +1,4 @@
 #  Makefile for template command
-#
-#  $RCSfile: Makefile,v $	$Revision: 0.23 $
-#
-#  $Author: scs $	$Date: 2010/09/03 21:01:23 $
-#
-#  $State: Exp $	$Locker:  $
-#
-#  $Log: Makefile,v $
-#  Revision 0.23  2010/09/03 21:01:23  scs
-#  Added cscope build.
-#
-#  Revision 0.22  2008/08/11 21:40:28  scs
-#  Move to stock name.
-#
-#  Revision 0.21  2008/04/10 14:42:41  scs
-#  Clean up last remaining bits of my old posix/os macros.
-#
-#  Revision 0.20  2006/01/27 15:19:22  scs
-#  Removed my locally developed stdc.h.
-#
-#  Revision 0.19  2006/01/27 13:46:02  scs
-#  Removed double definition of optparse.test.
-#
-#  Revision 0.18  2003/04/14 15:01:37  scs
-#  Added build of tests.
-#
-#  Revision 0.17  2002/04/25 03:44:27  scs
-#  Reset a few things for FreeBSD use and Inland Sea.
-#
-#  Revision 0.16  2001/02/08 19:51:37  scs
-#  Lightened permissions on binary so ordinary users can copy it.
-#
-#  Revision 0.15  2001/02/08 19:48:19  scs
-#  Added ANS-format install, creation of subdirs.
-#
-#  Revision 0.14  1996/10/31 19:37:51  scs
-#  Moved to GCC.
-#
-#  Revision 0.13  1993/06/28 02:34:39  scs
-#  Added template.shar.
 
 TARGET	=	template
 

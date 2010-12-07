@@ -3,7 +3,7 @@ Quoting from the manual page:
 DESCRIPTION
 	Template creates or modifies files for use in accordance
 	with local standards.  It can be used to initialize files
-	for such source code control systems as rcs(1) or sccs(1),
+	for such source code control systems as cvs(1) or svn(1),
 	or simply to grab standard forms from a library.
 
 	Template looks at the file name(s) you have given, then

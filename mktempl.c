@@ -1,44 +1,5 @@
 /*
  *  This module creates the requested template.
- *
- *  $RCSfile: mktempl.c,v $	$Revision: 0.23 $
- *
- *  $Author: scs $	$Date: 2008/08/11 21:39:38 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: mktempl.c,v $
- *  Revision 0.23  2008/08/11 21:39:38  scs
- *  Move to umich/itcs standards for location.
- *
- *  Revision 0.22  2006/01/27 14:56:22  scs
- *  Removed a lot of definitions that are now standard C includes.
- *
- *  Revision 0.21  2006/01/27 13:52:11  scs
- *  Let template.h include string definitions. Refined types on null
- *  character checking.
- *
- *  Revision 0.20  2003/04/14 14:48:07  scs
- *  Updated tests to reflect newer switches.
- *
- *  Revision 0.19  1996/09/28 23:23:55  scs
- *  Removed all PROTO/PARAM items, first pass towards fixing core dump
- *  when stdout used without name but with forced extension.
- *
- *  Revision 0.18  1992/06/06 15:54:32  scs
- *  Added handling for stdout.
- *
- *  Revision 0.17  90/10/30  11:00:34  scs
- *  Added check for empty as well as null file names.
- *  
- *  Revision 0.16  90/10/14  11:35:48  scs
- *  Corrected usage of PARAM_0/PROTO_0
- *  
- *  Revision 0.15  89/12/09  15:30:51  scs
- *  Cahnges to use ANSI C compatability macros, first pass at fileless output.
- *  
- *  Revision 0.14  89/11/12  22:01:22  scs
- *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifdef	TEST
@@ -47,7 +8,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: mktempl.c,v 0.23 2008/08/11 21:39:38 scs Exp $" ;
+static char	gitid[] = "$Id$";
 # endif	/* of ifndef lib */
 #endif	/* of ifndef lint */
 

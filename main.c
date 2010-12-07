@@ -8,40 +8,11 @@
  *  which will be used for source code control without imposing
  *  any particular usage style (like, for example, mine) on the
  *  writer.
- *
- *  $RCSfile: main.c,v $	$Revision: 0.19 $
- *
- *  $Author: scs $	$Date: 2006/01/27 14:56:00 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: main.c,v $
- *  Revision 0.19  2006/01/27 14:56:00  scs
- *  Port to Darwin/MacOS.
- *
- *  Revision 0.18  2006/01/27 13:50:30  scs
- *  Let template.h include string defs.
- *
- *  Revision 0.17  1996/09/29 01:05:49  scs
- *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
- *
- *  Revision 0.16  1990/10/14 11:28:48  scs
- *  Corrected use of PARAM_0/PROTO_0.
- *
- *  Revision 0.15  89/12/09  15:27:58  scs
- *  Upgraded to new ANSI C compatibility macros, minor change to shut lint
- *  up.
- *  
- *  Revision 0.14  89/11/24  14:40:00  scs
- *  Changed patchlevel printout style.
- *  
- *  Revision 0.13  89/11/12  22:01:18  scs
- *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: main.c,v 0.19 2006/01/27 14:56:00 scs Exp $" ;
+static char	gitid[] = "$Id$";
 #endif
 #endif
 

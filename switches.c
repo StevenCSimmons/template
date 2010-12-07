@@ -1,37 +1,6 @@
 /*
  *  This module reads all the user switches, error-checks them,
  *  and initialize the system appropriately.
- *
- *  $RCSfile: switches.c,v $	$Revision: 0.24 $
- *
- *  $Author: scs $	$Date: 2006/01/27 15:16:44 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: switches.c,v $
- *  Revision 0.24  2006/01/27 15:16:44  scs
- *  Removed useless consts.
- *
- *  Revision 0.23  2006/01/27 14:58:54  scs
- *  Better usage (or non-usage) of consts.
- *
- *  Revision 0.22  2003/04/14 14:48:07  scs
- *  Updated tests to reflect newer switches.
- *
- *  Revision 0.21  1996/09/29 01:05:49  scs
- *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
- *
- *  Revision 0.20  1992/06/06 15:55:08  scs
- *  Added error message for no parameters.
- *
- *  Revision 0.19  89/12/09  15:11:56  scs
- *  Upgraded to new version of ANSI C compatibility macros.
- *  
- *  Revision 0.18  89/11/24  14:40:51  scs
- *  Added permission to use null file names with stdout.
- *  
- *  Revision 0.17  89/11/12  22:01:38  scs
- *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifdef	TEST
@@ -40,7 +9,7 @@
 
 #ifndef	lint
 # ifndef	lib
-static char	rcsid[] = "$Id: switches.c,v 0.24 2006/01/27 15:16:44 scs Exp $" ;
+static char	gitid[] = "$Id$";
 # endif	/* of ifdef lib */
 #endif	/* of ifdef lint */
 

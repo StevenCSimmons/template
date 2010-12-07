@@ -1,32 +1,10 @@
 /*
  *  Library function to create a new string.
- *
- *  $RCSfile: newnstr.c,v $	$Revision: 1.7 $
- *
- *  $Author: scs $	$Date: 2006/01/27 14:57:13 $
- *
- *  $State: Exp $	$Locker:  $
- *
- *  $Log: newnstr.c,v $
- *  Revision 1.7  2006/01/27 14:57:13  scs
- *  Removed use of my private stdc.h; it's all a posix world now.
- *
- *  Revision 1.6  2006/01/27 13:52:53  scs
- *  Started using standard posix string include definitions.
- *
- *  Revision 1.5  1996/09/29 01:05:49  scs
- *  Removed old stdc stuff, minor bug fixes for stdin-only mode.
- *
- *  Revision 1.4  1989/12/09 15:11:52  scs
- *  Upgraded to new version of ANSI C compatibility macros.
- *
- *  Revision 1.3  89/11/12  22:01:28  scs
- *  First production release.  Stripped all useless history and side-alleys.
  */
 
 #ifndef	lint
 #ifndef	lib
-static char	rcsid[] = "$Id: newnstr.c,v 1.7 2006/01/27 14:57:13 scs Exp $" ;
+static char	gitid[] = "$Id$";
 #endif
 #endif
 
