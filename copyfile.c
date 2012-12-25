@@ -4,33 +4,33 @@
  *  provider CreateTarget().
  */
 
-#ifdef	TEST
-# define	MAIN
+#ifdef    TEST
+# define    MAIN
 #endif
 
-#ifndef	lint
-# ifndef	lib
-static char	gitid[] = "$Id$";
-# endif	/* of ifndef lib */
-#endif	/* of ifndef lint */
+#ifndef    lib
+static char    gitid[] = "$Id$";
+#pragma unused(gitid)
+#endif    /* of ifndef lib */
 
-# include	"template.h"
-# include	<sys/param.h>
-# include	<fcntl.h>
+# include    "template.h"
+# include    <sys/stat.h>
+# include    <fcntl.h>
+# include    <stdlib.h>
 
-# define	TEMPFILE	"/tmp/template.XXXXXX"
-# define	IO_CHUNK	( BUFSIZ * 8 )
+# define    TEMPFILE    "/tmp/template.XXXXXX"
+# define    IO_CHUNK    ( BUFSIZ * 8 )
 
-extern boolean	Verbose ;
-extern boolean	UsingStdout ;
+extern boolean    Verbose;
+extern boolean    UsingStdout;
 
-static int	tempfd = -1 ;		/* fd for writing tempfile */
-static int	template = -1 ;		/* fd for reading template */
-static int	target = -1 ;		/* fd for read/write target */
-static char	tempfile_name[ sizeof( TEMPFILE ) + 1 ] ;
-static int	file_mask = 0600 ;	/* file creation mask */
+static int    tempfd = -1 ;        /* fd for writing tempfile */
+static int    template = -1 ;      /* fd for reading template */
+static int    target = -1 ;        /* fd for read/write target */
+static char   tempfile_name[ sizeof( TEMPFILE ) + 1 ];
+static int    file_mask = 0600 ;   /* file creation mask */
 
-static char	message[ 512 ] ;
+static char    message[ 512 ];
 
 
 /*
@@ -40,16 +40,16 @@ static char	message[ 512 ] ;
  *  If so, print it and die.  No parameters, no return value.
  */
 
-static void	module_cleanup()
+static void    module_cleanup()
 {
-	(void) close( template ) ;
-	(void) close( tempfd ) ;
-	(void) close( target ) ;
-	tempfd = template = target = -1 ;
-	(void) unlink( tempfile_name ) ;
-	if ( message[ 0 ] != '\0' )
-		Fatal( message ) ;
-	return ;
+    (void) close( template );
+    (void) close( tempfd );
+    (void) close( target );
+    tempfd = template = target = -1;
+    (void) unlink( tempfile_name );
+    if ( message[ 0 ] != '\0' )
+        Fatal( message );
+    return;
 }
 
 
@@ -59,26 +59,24 @@ static void	module_cleanup()
  *  messages should something go wrong.
  *
  *  Incoming parameters:
- *	name	- path of file to be opened
- *	mode	- how we are to open it
- *	detail	- handy string to use in error messages
+ *    name    - path of file to be opened
+ *    mode    - how we are to open it
+ *    detail    - handy string to use in error messages
  *
  *  Returns
- *	an opened fd if successful, -1 if not
+ *    an opened fd if successful, -1 if not
  */
 
-static int	open_file( char* name, int mode, char* detail )
-{
-	int	fd ;
+static int    open_file( char* name, int mode, char* detail ) {
+    int    fd;
 
-	if ( -1 == ( fd = open( name, mode, file_mask ) ) )
-	{
-		(void) sprintf( message,
-			"Couldn't open (%s) file `%s': %s",
-			detail, name, strerror( errno ) ) ;
-		module_cleanup() ;
-	}
-	return fd ;
+    if ( -1 == ( fd = open( name, mode, file_mask ) ) ) {
+        (void) sprintf( message,
+            "Couldn't open (%s) file `%s': %s",
+            detail, name, strerror( errno ) );
+        module_cleanup();
+    }
+    return fd;
 }
 
 
@@ -90,32 +88,30 @@ static int	open_file( char* name, int mode, char* detail )
  *  detailed message and return false immediately.
  *
  *  Incoming parameters:
- *	to   - fd for the file to be copied to
- *	from - fd for the file to be copied from
+ *    to   - fd for the file to be copied to
+ *    from - fd for the file to be copied from
  *
  *  Returns
- *	TRUE/FALSE, if succeeded or failed.
+ *    TRUE/FALSE, if succeeded or failed.
  */
 
-static boolean	copyfile( int to, int from )
-{
-	char	buffer[ IO_CHUNK ] ;
-	int	inlen = IO_CHUNK ;
-	int	outlen ;
+static boolean    copyfile( int to, int from ) {
+    char    buffer[ IO_CHUNK ];
+    size_t    inlen = IO_CHUNK;
+    size_t    outlen;
 
-	for ( ; ; )
-	{
-		errno = 0 ;
-		inlen = read( from, buffer, (unsigned) inlen ) ;
-		if ( inlen == 0 )
-			return TRUE ;
-		else if ( inlen == -1 )
-			return FALSE ;
-		errno = 0 ;
-		outlen = write( to, buffer, (unsigned) inlen ) ;
-		if ( ( outlen == -1 ) || ( inlen != outlen ) )
-			return FALSE ;	/* write error */
-	}
+    for ( ;;) {
+        errno = 0;
+        inlen = read( from, buffer, inlen );
+        if ( inlen == 0 )
+            return TRUE;
+        else if ( inlen == -1 )
+            return FALSE;
+        errno = 0;
+        outlen = write( to, buffer, (unsigned) inlen );
+        if ( ( outlen == -1 ) || ( inlen != outlen ) )
+            return FALSE ;    /* write error */
+    }
 }
 
 
@@ -127,7 +123,7 @@ static boolean	copyfile( int to, int from )
  *  Given the name of a template and a target file, create a copy
  *  of the file with the template included.  Algorithm is:
  *    Open a tempfile read-write, the target read-write-create
- *	but not truncate, and the template read-only.
+ *    but not truncate, and the template read-only.
  *    Copy the template to the tempfile.
  *    Copy the target to the tempfile, appending.
  *    Reset the target to beginning of file.
@@ -136,77 +132,60 @@ static boolean	copyfile( int to, int from )
  *  Bitch mightily and die about any errors along the way.
  */
 
-void	CreateTarget( char* template_name, char* target_name )
-{
-	message[ 0 ] = '\0' ;
-	template = open_file( template_name, O_RDONLY, "read" ) ;
-	if ( UsingStdout )
-	{
-		if ( Verbose )
-		{
-			(void) fprintf( stderr, "Will copy `%s' and `%s' to stdout.\n",
-				template_name, target_name ) ;
-		}
-		if ( -1 != template )
-		{
-			if ( ! copyfile( 2, template ) )
-				(void) sprintf( message,
-					"Error in copying `%s' to standard out: %s",
-					template_name, strerror( errno ) ) ;
-		}
-		if ( target_name != NULL )
-		{
-			if ( *target_name != (char) NULL )
-			{
-				target = open_file( target_name, O_RDONLY, "read" ) ;
-				if ( ! copyfile( 2, target ) )
-				{
-					(void) sprintf( message,
-						"Error in copying `%s' to stdout: %s",
-						target_name, strerror( errno ) ) ;
-				}
-			}
-		}
-	}
-	else	/* copying to file, not stdout */
-	{
-		if ( Verbose )
-			(void) fprintf( stderr, "Creating/rewriting `%s' with template `%s'.\n",
-				target_name, template_name ) ;
-		target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify" ) ;
-		if ( ! copyfile( tempfd, template ) )
-		{
-			(void) sprintf( message,
-				"Error in copying `%s' to `%s': %s",
-				target_name, tempfile_name, strerror( errno ) ) ;
-		}
-		else if ( ! copyfile( tempfd, target ) )
-		{
-			(void) sprintf( message,
-				"Error in copying `%s' to `%s': %s",
-				tempfile_name, target_name, strerror( errno ) ) ;
-		}
-		else if ( 0 != lseek( tempfd, (off_t) 0, (off_t) 0 ) )
-		{
-			(void) sprintf( message,
-				"Could not reset `%s' to beginning of file: %s",
-				tempfile_name, strerror( errno ) ) ;
-		}
-		else if ( 0 != lseek( target, (off_t) 0, (off_t) 0 ) )
-		{
-			(void) sprintf( message,
-				"Could not reset `%s' to start of file: %s",
-				target_name, strerror( errno ) ) ;
-		}
-		else if ( ! copyfile( target, tempfd ) )
-		{
-			(void) sprintf( message,
-				"Error in copying `%s' to `%s': %s",
-				target_name, tempfile_name, strerror( errno ) ) ;
-		}
-	}
-	module_cleanup() ;
-	return ;
+void    CreateTarget( char* template_name, char* target_name ) {
+    message[ 0 ] = '\0';
+    template = open_file( template_name, O_RDONLY, "read" );
+    if ( UsingStdout ) {
+        if ( Verbose ) {
+            (void) fprintf( stderr, "Will copy `%s' and `%s' to stdout.\n",
+                template_name, target_name );
+        }
+        if ( -1 != template ) {
+            if ( ! copyfile( 2, template ) )
+                (void) sprintf( message,
+                    "Error in copying `%s' to standard out: %s",
+                    template_name, strerror( errno ) );
+        }
+        if ( target_name != NULL ) {
+            if ( *target_name != NULL_CHAR ) {
+                target = open_file( target_name, O_RDONLY, "read" );
+                if ( ! copyfile( 2, target ) ) {
+                    (void) sprintf( message,
+                        "Error in copying `%s' to stdout: %s",
+                        target_name, strerror( errno ) );
+                }
+            }
+        }
+    } else {
+        /* copying to file, not stdout */
+        if ( Verbose )
+            (void) fprintf( stderr, "Creating/rewriting `%s' with template `%s'.\n",
+                target_name, template_name );
+        target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify" );
+        if ( ! copyfile( tempfd, template ) ) {
+            (void) sprintf( message,
+                "Error in copying `%s' to `%s': %s",
+                target_name, tempfile_name, strerror( errno ) );
+        } else if ( ! copyfile( tempfd, target ) ) {
+            (void) sprintf( message,
+                "Error in copying `%s' to `%s': %s",
+                tempfile_name, target_name, strerror( errno ) );
+        } else if ( 0 != lseek( tempfd, (off_t) 0, (off_t) 0 ) ) {
+            (void) sprintf( message,
+                "Could not reset `%s' to beginning of file: %s",
+                tempfile_name, strerror( errno ) );
+        } else if ( 0 != lseek( target, (off_t) 0, (off_t) 0 ) ) {
+            (void) sprintf( message,
+                "Could not reset `%s' to start of file: %s",
+                target_name, strerror( errno ) );
+        } else if ( ! copyfile( target, tempfd ) ) {
+            (void) sprintf( message,
+                "Error in copying `%s' to `%s': %s",
+                target_name, tempfile_name, strerror( errno ) );
+        }
+    }
+    module_cleanup();
+    return;
 }
 
 
@@ -216,30 +195,28 @@ void	CreateTarget( char* template_name, char* target_name )
  *  is entered.
  */
 
-void	InitCopying()
-{
-	int	old_umask = umask( 0 ) ;
+void    InitCopying() {
+    int    old_umask = umask( 0 );
 
-	(void) strcpy( tempfile_name, TEMPFILE ) ;
-	tempfd = mkstemp( tempfile_name ) ;
+    (void) strcpy( tempfile_name, TEMPFILE );
+    tempfd = mkstemp( tempfile_name );
 
-	(void) umask( old_umask ) ;
-	file_mask = ( ( ~old_umask ) & 0666 ) ;
+    (void) umask( old_umask );
+    file_mask = ( ( ~old_umask ) & 0666 );
 }
 
-#ifdef	TEST
+#ifdef    TEST
 
-boolean	Verbose = TRUE ;
-boolean UsingStdout = FALSE ;
+boolean    Verbose = TRUE;
+boolean UsingStdout = FALSE;
 
-int main( int argc, char* argv[] )
-{
-	ProgramName = argv[ 0 ] ;
-	Verbose = TRUE ;
-	if ( argc != 1 )
-		Warning( "This test ignores args." ) ;
-	InitCopying() ;
-	CreateTarget( "bar.c", "baz.c" ) ;
-	CreateTarget( "/etc/motd", "bar.c" ) ;
+int main( int argc, char* argv[] ) {
+    ProgramName = argv[ 0 ];
+    Verbose = TRUE;
+    if ( argc != 1 )
+        Warning( "This test ignores args." );
+    InitCopying();
+    CreateTarget( "bar.c", "baz.c" );
+    CreateTarget( "/etc/motd", "bar.c" );
 }
 #endif /* of ifdef TEST */

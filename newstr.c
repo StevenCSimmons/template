@@ -3,16 +3,17 @@
  *  exactly the same size offered.
  */
 
-#ifndef	lint
-#ifndef	lib
-static char	gitid[] = "$Id$";
+#ifndef    lint
+#ifndef    lib
+static char    gitid[] = "$Id$";
+#pragma unused(gitid)
 #endif
 #endif
 
-# include	<stdio.h>
-# include	<string.h>
+# include    <stdio.h>
+# include    <string.h>
 
-extern void*	malloc( int ) ;
+extern void*    malloc( size_t );
 
 /*
  *  Create a new string.  Return a pointer to it.  Return null
@@ -21,16 +22,15 @@ extern void*	malloc( int ) ;
  *  we'll duplicate it.
  */
 
-char*	NewString( register char* string )
-{
-	register unsigned	len ;
-	register char*		new_string ;
+char*    NewString( register char* string ) {
+    register size_t    len;
+    register char*        new_string;
 
-	if ( string == NULL )
-		return NULL ;
-	len = strlen( string ) ;
-	if ( NULL == ( new_string = malloc( len + 1 ) ) )
-		return NULL ;
-	(void) strcpy( new_string, string ) ;
-	return new_string ;
+    if ( string == NULL )
+        return NULL;
+    len = strlen( string );
+    if ( NULL == ( new_string = malloc( len + 1 ) ) )
+        return NULL;
+    (void) strcpy( new_string, string );
+    return new_string;
 }

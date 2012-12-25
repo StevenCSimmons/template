@@ -10,82 +10,77 @@
  *  writer.
  */
 
-#ifndef	lint
-#ifndef	lib
-static char	gitid[] = "$Id$";
+#ifndef    lint
+#ifndef    lib
+static char    gitid[] = "$Id$";
+#pragma unused(gitid)
 #endif
 #endif
 
-#define	MAIN
+#define    MAIN
 
-# include	"template.h"
-# include	"patchlevel.h"
+# include    "template.h"
+# include    "patchlevel.h"
 
-extern void	ProcessSwitches( int, char**, char** ) ;
-extern void	ProcessFiles( char** ) ;
-extern void	InitCopying( void ) ;
-extern void	ListTemplateDirs( boolean ) ;
+extern void    ProcessSwitches( int, char**, char** );
+extern void    ProcessFiles( char** );
+extern void    InitCopying( void );
+extern void    ListTemplateDirs( boolean );
 
-extern boolean	DirList ;
-extern boolean	DirContents ;
-extern boolean	Verbose ;
+extern boolean    DirList;
+extern boolean    DirContents;
+extern boolean    Verbose;
 
-static int	version = 1 ;
-static int	release = 0 ;
+static int    version = 1;
+static int    release = 0;
 
-static char*	file_list[ MAX_FILES + 1 ] ;
+static char*    file_list[ MAX_FILES + 1 ];
 
-#ifdef	TEST
+#ifdef    TEST
 
-boolean	DirList = FALSE ;
-boolean	DirContents = FALSE ;
-boolean	Verbose = TRUE ;
+boolean    DirList = FALSE;
+boolean    DirContents = FALSE;
+boolean    Verbose = TRUE;
 
-void	ProcessSwitches( int i, char** c, char** l )
-{
-	(void) printf( "ProcessSwitches called.\n" ) ;
+void    ProcessSwitches( int i, char** c, char** l ) {
+    (void) printf( "ProcessSwitches called.\n" );
 }
 
-void	InitCopying()
-{
-	(void) printf( "InitCopying called.\n" ) ;
+void    InitCopying() {
+    (void) printf( "InitCopying called.\n" );
 }
 
-void	ListTemplateDirs( boolean b )
-{
-	(void) printf( "ListTemplateDirs called.\n" ) ;
+void    ListTemplateDirs( boolean b ) {
+    (void) printf( "ListTemplateDirs called.\n" );
 }
 
-void	ProcessFiles( char** f )
-{
-	(void) printf( "ProcessFiles called.\n" ) ;
+void    ProcessFiles( char** f ) {
+    (void) printf( "ProcessFiles called.\n" );
 }
-#endif	/* of ifdef TEST */
+#endif    /* of ifdef TEST */
 
 /*
  *  The main.  Can we get much simpler?
  */
 
-int	main( int argc, char** argv )
-{
-	if ( NULL == ( ProgramName = strrchr( argv[ 0 ], '/' ) ) )
-		ProgramName = argv[ 0 ] ;
-	else
-		ProgramName++ ;
-	ProcessSwitches( argc, argv, file_list ) ;
-	if ( Verbose )
-	{
-		(void) printf( "%s: Version %d.%d", ProgramName, version, release ) ;
-#if	PATCHLEVEL
-		(void) printf( ".%d\n", PATCHLEVEL ) ;
+int    main( int argc, char** argv ) {
+    if ( NULL == ( ProgramName = strrchr( argv[ 0 ], '/' ) ) )
+        ProgramName = argv[ 0 ];
+    else
+        ProgramName++;
+    ProcessSwitches( argc, argv, file_list );
+    if ( Verbose ) {
+        (void) printf( "%s: Version %d.%d", ProgramName, version, release );
+#if    PATCHLEVEL
+        (void) printf( ".%d\n", PATCHLEVEL );
 #else
-		(void) putchar( '\n' ) ;
+        (void) putchar( '\n' );
 #endif
-	}
-	InitCopying() ;
-	if ( DirList || DirContents )
-		ListTemplateDirs( DirContents ) ;
-	else
-		ProcessFiles( file_list ) ;
-	return 0 ;
+    }
+    InitCopying();
+    if ( DirList || DirContents )
+        ListTemplateDirs( DirContents );
+    else
+        ProcessFiles( file_list );
+    return 0;
 }

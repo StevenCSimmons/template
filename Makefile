@@ -21,8 +21,10 @@ SHELL	= /bin/sh
 
 CC	= gcc
 # General definitions here which apply to all -- form -DDEF
+#CLUDDIR	= -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include
 CLUDDIR	= -I.
 # Link libraries -- form -lLIB
+#LIBS	= -L /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib
 LIBS	=
 # Lint definitions -- same as DEFS, but form -D DEF
 LDEFS	= -I .
