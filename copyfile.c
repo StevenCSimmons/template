@@ -9,7 +9,7 @@
 #endif
 
 #ifndef	lib
-static char gitid[] = "$Id: 61f97e947ba3c629dcc36d5dfe43cec7debab083 $";
+static char gitid[] = "$Id$";
 #pragma unused(gitid)
 #endif // of ifndef lib
 
