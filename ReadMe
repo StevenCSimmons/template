@@ -1,39 +1,39 @@
-Quoting from the manual page:
+Quoting from the original manual page:
 
 DESCRIPTION
 	Template creates or modifies files for use in accordance
-	with local standards.  It can be used to initialize files
+	with local standards. It can be used to initialize files
 	for such source code control systems as cvs(1) or svn(1),
 	or simply to grab standard forms from a library.
 
 	Template looks at the file name(s) you have given, then
-	tries to match them up to a series of templates.  If it
+	tries to match them up to a series of templates. If it
 	finds a match, it will use it as a guide for building the
-	file.  Should file already exist template will put a copy of
-	what it finds at the front of file.  Otherwise it copy the
+	file. Should file already exist template will put a copy of
+	what it finds at the front of file. Otherwise it copy the
 	template to a new file named file.
 
 	If no file name is given but there is enough information to
 	select a template, template will print that template on
 	stdout.
 
-This is the beta and possibly omega release of template.  Had perl
+This is the beta and possibly omega release of template. Had perl
 existed when template was first written I'd have written it in perl,
-but what the hell.  Template was written for SunOS 4.X and Ultrix 3.1;
+but what the hell. Template was written for SunOS 4.X and Ultrix 3.1;
 it's been ported to pretty much all unixes up through Solaris 2.7,
-Linux, and *BSD.  I've only used it myself on SunOS, Ultrix, Solaris
+Linux, and *BSD. I've only used it myself on SunOS, Ultrix, Solaris
 and FreeBSD.
 
-Template (IMHO) has two big wins.  The first is the library usage.  It
+Template (IMHO) has two big wins. The first is the library usage. It
 lets you set site-wide standard templates, project-wide ones, and
-personal ones.  You (the user) decide the order of precendence of the
-libraries.  You can have the same template style in many different
+personal ones. You (the user) decide the order of precendence of the
+libraries. You can have the same template style in many different
 libraries, and the library order will determine what is to be used.
 
-The second is the ease of use.  Since it works on both new and existing
+The second is the ease of use. Since it works on both new and existing
 files, it is easy to pull existing files into a schema and start new
-ones with it.  Since it will optionally put to stdout as well as a
-file, it can be used with any editor which accepts program input.  For
+ones with it. Since it will optionally put to stdout as well as a
+file, it can be used with any editor which accepts program input. For
 example, there is a template called "subr" in the supplied library.
 In vi, if you wish to start a new subroutine in a C program, do
 
@@ -45,15 +45,15 @@ at the current location.
 More quotes from the man page:
 
 TEMPLATES
-	Template's matching rules are fairly simple.  It looks first
+	Template's matching rules are fairly simple. It looks first
 	for a template whose name exactly matches the file name you
-	gave.  If there is no such template, it will look at what-
+	gave. If there is no such template, it will look at what-
 	ever follows the last period in the file name (the exten-
-	sion) and use it as the name of the template.  If that
-	fails, it will give you an error message.  For example, if
+	sion) and use it as the name of the template. If that
+	fails, it will give you an error message. For example, if
 	you give the command
 		template doc.me
-	it will first look for a template with the name doc.me.  If
+	it will first look for a template with the name doc.me. If
 	not found, it will then look for a template with the name me.
 
 	If you give the command
@@ -67,43 +67,45 @@ TEMPLATES
 	but not actually do anything.
 
 TEMPLATE DIRECTORIES
-	Template looks for templates in a number of places.  This
-	list of places is called the template_list.  The
+	Template looks for templates in a number of places. This
+	list of places is called the template_list. The
 	template_list is a list of directories whose names are
-	separated by colons.  If you let template decide on it's
+	separated by colons. If you let template decide on it's
 	own, it will use the template list
 		./.Templates:$HOME/.Templates:/usr/lib/Templates
 	Thus it would look first in a directory named .Templates in
 	your current directory, then in a directory named .Templates
 	in your home directory, and last in a system directory named
-	/usr/lib/Templates.  (Note that your site may have con-
+	/usr/lib/Templates. (Note that your site may have con-
 	figured template to use some other system directory; see the
-	-l switch).  It will look through these one by one until it
+	-l switch). It will look through these one by one until it
 	either finds a template file or runs out of places to look.
 
-	There are a number of ways to change the template list.  If
+	There are a number of ways to change the template list. If
 	the environment variable TEMPLATES is present, it will be
-	used as a template list instead of the default list.  Alter-
+	used as a template list instead of the default list. Alter-
 	natively, you can specify a template list with the -T switch
-	(see below).  The use of -T will override the use of the
-	``TEMPLATES'' environment variable.  In either case, you can
+	(see below). The use of -T will override the use of the
+	``TEMPLATES'' environment variable. In either case, you can
 	add the system default by simply putting the name DEFAULT in
-	the list.  The system default will be inserted at that
-	point.  Thus TEMPLATES=/my/proj/Templates:DEFAULT simply adds
+	the list. The system default will be inserted at that
+	point. Thus TEMPLATES=/my/proj/Templates:DEFAULT simply adds
 	your project template directory to the front of the standard
 	TEMPLATES list.
 
 There are more options than you can shake a stick at, but most of
-them are actually useful -- ie, I use them.  A few were put in at the
-request of some users.  Special thanks to Tim Belch for many of the
-suggestions and bug fixes.
+them are actually useful -- ie, I use them. A few were put in at the
+request of some users. Special thanks to Tim Belch of the Industrial
+Technology Institute for many of the suggestions and bug fixes.
 
 Some errata:
 
 The files errors.c, newnstr.c, newstr.c and optparse.c contain general
-use subroutines.  There is a separate manpage for the last.
+use subroutines. There is a separate manpage for the last.
 
 I've had a couple of bug reports about core dumps when using the stdout
 switch but have not been able to duplicate it.
 
 Steve
+
+File $Id$

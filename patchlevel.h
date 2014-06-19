@@ -1,6 +1,8 @@
 /*
  * Definition of the patch level. This is where we keep the master
  * history, too.
+ *
+ * git id: $Id$
  */
 
 #ifndef	PATCHLEVEL_H

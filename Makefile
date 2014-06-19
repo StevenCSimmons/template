@@ -1,4 +1,6 @@
-#  Makefile for template command
+# Makefile for template command
+#
+# git id $Id$
 
 TARGET	=	template
 
