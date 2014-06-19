@@ -18,9 +18,6 @@
 
 #ifdef  TEST
 #define MAIN
-#ifndef DEBUGGING
-#define DEBUGGING
-#endif // of ifdef DEBUGGING
 #endif // of ifdef TEST
 
 #ifndef lib
@@ -32,12 +29,17 @@ static char    gitid[] = "$Id$";
 #include    <stdlib.h>
 #include    <ctype.h>
 
+#include    "isdebug.h"
+
 /*    Functions from standard system libraries    */
 
 extern char* strchr();     // scan a string for a character
 
 /*    Module-wide variables    */
 
+#ifdef DEBUGGING
+#define MODULE_NAME "optparse"
+#endif
 static int  argnum = 1;     // current location in argv
 static int  argchar = 1;    // which character in arg we're looking at
 static char swflag = '-';   // what character delimits a switch
@@ -100,6 +102,7 @@ const char* OptionSwitch = NULL;  // pointer to return an extended arguement
  */
 
 int    OptionParse( const int argc, const char** const argv, const char* const opts ) {
+    DEBUGTRACE("OptionParse")
     register char    c;    // General char holder
     register char*   cp;   // Pointer into options list for this switch
 
@@ -185,6 +188,7 @@ int    OptionParse( const int argc, const char** const argv, const char* const o
  */
 
 void    OptionInit( void ) {
+    DEBUGTRACE("OptionInit")
     argchar = argnum = 1;
     OptionSwitch = NULL;
 }
@@ -208,6 +212,7 @@ void    OptionInit( void ) {
  */
 
 void    OptionReset( const char switchchar, const char errorflag, const char externflag ) {
+    DEBUGTRACE("OptionReset")
     swflag = ( switchchar == '\0' ) ? '-' : toascii( switchchar );
     errflg = ( errorflag == '\0' ) ? '-' : toascii( errorflag );
     extarg = ( externflag == '\0' ) ? '-' : toascii( externflag );

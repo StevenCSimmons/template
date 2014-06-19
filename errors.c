@@ -10,20 +10,18 @@ static char     gitid[] = "$Id$";
 #endif	// of ifndef lint
 
 #include    "template.h"
+#include    "isdebug.h"
+
+#ifdef DEBUGGING
+#define MODULE_NAME "errors"
+#endif // of ifdef DEBUGGING
 
 /*
  * Print an error message on stderr and return.
  */
 
 void    Error( const char* const msg ) {
-#ifdef DEBUGGING
-    if ( ProgramName != NULL )
-        (void) fprintf( stderr, "%s ", ProgramName );
-    if ( DBG_ModuleName != NULL )
-        (void) fprintf( stderr, "(module %s) ", DBG_ModuleName );
-    if ( DBG_FunctionName != NULL )
-        (void) fprintf( stderr, "[function %s] ", DBG_FunctionName );
-#endif
+    DEBUGTRACE("Error")
     (void) fprintf( stderr, "error: %s\n", msg );
     return;
 }
@@ -35,17 +33,7 @@ void    Error( const char* const msg ) {
  */
 
 void    Fatal( const char* const msg ) {
-#ifdef    DEBUGGING
-    if ( ProgramName != NULL ) {
-        (void) fprintf( stderr, "%s ", ProgramName );
-    }
-    if ( DBG_ModuleName != NULL ) {
-        (void) fprintf( stderr, "(module %s) ", DBG_ModuleName );
-    }
-    if ( DBG_FunctionName != NULL ) {
-        (void) fprintf( stderr, "[function %s] ", DBG_FunctionName );
-    }
-#endif
+    DEBUGTRACE("Fatal")
     (void) fprintf( stderr, "fatal error: %s\n", msg );
     exit( 1 );
     /* NOTREACHED */
@@ -58,17 +46,7 @@ void    Fatal( const char* const msg ) {
  */
 
 void    Warning( const char* const msg ) {
-#ifdef    DEBUGGING
-    if ( ProgramName != NULL ) {
-        (void) fprintf( stderr, "%s ", ProgramName );
-    }
-    if ( DBG_ModuleName != NULL ) {
-        (void) fprintf( stderr, "(module %s) ", DBG_ModuleName );
-    }
-    if ( DBG_FunctionName != NULL ) {
-        (void) fprintf( stderr, "[function %s] ", DBG_FunctionName );
-    }
-#endif
+    DEBUGTRACE("Warning")
     (void) fprintf( stderr, "warning: %s\n", msg );
     return;
 }
