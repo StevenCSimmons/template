@@ -1,21 +1,21 @@
 /*
- *  This program initializes files for source code control.  It is
- *  a spiritual descendant of rcsit, by Michael Cooper of USC, but
- *  contains no code from his original.  It does owe a tremendous
- *  debt of inspiration, however.
+ * This program initializes files for source code control. It is
+ * a spiritual descendant of rcsit, by Michael Cooper of USC, but
+ * contains no code from his original. It does owe a tremendous
+ * debt of inspiration, however.
  *
- *  The goal is to make it as easy as possible to create files
- *  which will be used for source code control without imposing
- *  any particular usage style (like, for example, mine) on the
- *  writer.
+ * The goal is to make it as easy as possible to create files
+ * which will be used for source code control without imposing
+ * any particular usage style (like, for example, mine) on the
+ * writer.
  */
 
-#ifndef    lint
-#ifndef    lib
+#ifndef lint
+#ifndef lib
 static char    gitid[] = "$Id$";
 #pragma unused(gitid)
-#endif
-#endif
+#endif // of ifndef lib
+#endif // of ifndef lint
 
 #define    MAIN
 
@@ -36,7 +36,7 @@ static int    release = 0;
 
 static char*    file_list[ MAX_FILES + 1 ];
 
-#ifdef    TEST
+#ifdef TEST
 
 boolean    DirList = FALSE;
 boolean    DirContents = FALSE;
@@ -57,30 +57,32 @@ void    ListTemplateDirs( boolean b ) {
 void    ProcessFiles( char** f ) {
     (void) printf( "ProcessFiles called.\n" );
 }
-#endif    /* of ifdef TEST */
+#endif // of ifdef TEST
 
 /*
- *  The main.  Can we get much simpler?
+ * The main. Can we get much simpler?
  */
 
 int    main( int argc, char** argv ) {
-    if ( NULL == ( ProgramName = strrchr( argv[ 0 ], '/' ) ) )
+    if ( NULL == ( ProgramName = strrchr( argv[ 0 ], '/' ) ) ) {
         ProgramName = argv[ 0 ];
-    else
+    } else {
         ProgramName++;
+    }
     ProcessSwitches( argc, argv, file_list );
     if ( Verbose ) {
         (void) printf( "%s: Version %d.%d", ProgramName, version, release );
-#if    PATCHLEVEL
+#if PATCHLEVEL
         (void) printf( ".%d\n", PATCHLEVEL );
 #else
         (void) putchar( '\n' );
 #endif
     }
     InitCopying();
-    if ( DirList || DirContents )
+    if ( DirList || DirContents ) {
         ListTemplateDirs( DirContents );
-    else
+    } else {
         ProcessFiles( file_list );
+    }
     return 0;
 }

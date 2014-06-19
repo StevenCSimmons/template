@@ -1,37 +1,38 @@
 /*
- *  Module to do the list (-l, -L) switches.
+ * Module to do the list (-l, -L) switches.
  */
 
 #ifndef lint
-# ifndef  lib
+#ifndef lib
 static char gitid[] = "$Id$";
 #pragma unused(gitid)
-# endif /* if ifndef lib */
-#endif  /* if ifndef lint */
+#endif  // if ifndef lib
+#endif  // if ifndef lint
 
 #ifdef  TEST
 #define MAIN
-#endif  /* if ifdef TEST */
+#endif  // if ifdef TEST
 
-# include    "template.h"
-# include    <sys/param.h>
+#include    "template.h"
+#include    <sys/param.h>
 
-extern char    *Template_List[];
+extern char *Template_List[];
 
 
 /*
- *  Main driver for this module.  One by one look up the
- *  directory names and print them.  If needed, print the
- *  full contents of each directory.
+ * Main driver for this module. One by one look up the
+ * directory names and print them. If needed, print the
+ * full contents of each directory.
  */
 
 void ListTemplateDirs( const boolean List_Contents ) {
-    char**   dir_list = Template_List;
-    char     buf[ MAXPATHLEN + 10 ];
+    char**  dir_list = Template_List;
+    char    buf[ MAXPATHLEN + 10 ];
 
     (void) printf( "The current template directories " );
-    if ( List_Contents )
+    if ( List_Contents ) {
         (void) printf( "and their contents " );
+    }
     (void) printf( "are:\n" );
     while ( *dir_list != NULL ) {
         if ( List_Contents ) {
@@ -61,10 +62,11 @@ int main( int argc, char** argv ) {
     char** lister;
 
     ProgramName = argv[ 0 ];
-    if ( argc != 1 )
+    if ( argc != 1 ) {
         Warning( "This test does not use switches.\n" );
+    }
     (void) printf( "The current template list is:\n" );
-    for ( lister = Template_List ; *lister != NULL ; lister++ ) {
+    for ( lister = Template_List; *lister != NULL; lister++ ) {
         (void) printf( "  `%s'\n", *lister );
     }
     (void) printf( "\nListing by list only:\n\n" );
@@ -73,4 +75,4 @@ int main( int argc, char** argv ) {
     ListTemplateDirs( TRUE );
     (void) printf( "\nTest completed.\n" );
 }
-#endif  /* of ifdef TEST */
+#endif // of ifdef TEST

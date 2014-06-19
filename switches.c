@@ -3,16 +3,16 @@
  *  and initialize the system appropriately.
  */
 
-#ifdef    TEST
-#define    MAIN
+#ifdef TEST
+#define MAIN
 #endif
 
-#ifndef    lint
-# ifndef    lib
+#ifndef lint
+#ifndef lib
 static char    gitid[] = "$Id$";
 #pragma unused(gitid)
-# endif    /* of ifdef lib */
-#endif    /* of ifdef lint */
+#endif // of ifdef lib
+#endif // of ifdef lint
 
 # include    "template.h"
 
@@ -24,14 +24,14 @@ extern void        GetTemplList( char* );
 extern char*    OptionSwitch;
 extern char*    UserExtension;
 
-boolean Verbose = FALSE ;    /* -[vV] - be noisy? */
-boolean NoAction = FALSE ;    /* -V - be noisy and fake it? */
-boolean DirList = FALSE ;    /* -l - list template directories */
-boolean DirContents = FALSE ;    /* -L - list template dirs and contents */
-boolean UsingStdout = FALSE ;    /* -o - send output to stdout */
-boolean ForceExtension = FALSE;    /* -e - use user-supplied extension */
+boolean Verbose = FALSE ;        // -[vV] - be noisy?
+boolean NoAction = FALSE ;       // -V - be noisy and fake it?
+boolean DirList = FALSE ;        // -l - list template directories
+boolean DirContents = FALSE ;    // -L - list template dirs and contents
+boolean UsingStdout = FALSE ;    // -o - send output to stdout
+boolean ForceExtension = FALSE;  // -e - use user-supplied extension
 
-static char* template_list = NULL ;    /* for -T<list> */
+static char* template_list = NULL ;   // for -T<list>
 
 static char const        switch_list[] = "lLvVoT:e:";
 static char const* const    usage_msg[] = {
@@ -46,11 +46,9 @@ static char const* const    usage_msg[] = {
  */
 
 static void    usage( const char* const msg ) {
-    /* char **    umsg = usage_msg ; */
     int i;
 
     (void) fprintf( stderr, "%s usage: %s\n", ProgramName, msg );
-    /* while ( *umsg != NULL ) */
     for ( i = 0; usage_msg[i] != NULL; i++ ) {
         (void) fprintf( stderr, "%s\n", usage_msg[i] );
     }
@@ -59,20 +57,24 @@ static void    usage( const char* const msg ) {
 
 
 /*
- *  If an optional arg exists, create a new copy of it and
- *  return it to the caller.  Otherwise print an error message,
- *  and exit with the usage message.
+ * If an optional arg exists, create a new copy of it and
+ * return it to the caller. Otherwise print an error message,
+ * and exit with the usage message.
  *
- *  Incoming parameters:
+ * WARNING - incomplete code
  *
- *  Returns:
- *    Pointer to new string
+ * Incoming parameters:
+ *   option
+ *   type
+ *
+ * Returns:
+ *   Pointer to new string
  */
 
 static const char    need_option[] = "The -%c option requires a %s name.";
 
-static char*    get_arg( const char option, const char* const type ) {
-    char*    opt;
+static char* get_arg( const char option, const char* const type ) {
+    char*   opt;
     char    msgbuf[ BUFSIZ ];
 
     if ( NULL == OptionSwitch ) {
@@ -142,7 +144,7 @@ void    ProcessSwitches( int argc, char** argv, const char** file_list ) {
     GetTemplList( template_list );
 }
 
-#ifdef    TEST
+#ifdef TEST
 
 #define    MAX_FILES    1024
 
@@ -156,24 +158,25 @@ void        GetTemplList( const char* const list ) {
 }
 
 static void    print_string( const char* const msg, const char* const value ) {
-    if ( msg == NULL )
+    if ( msg == NULL ) {
         (void) printf( "%s: NULL\n", msg );
-    else
+    } else {
         (void) printf( "%s: `%s'\n", msg, value );
+    }
 }
 
 static     void    print_bool( const char* const msg, const int value ) {
-    (void) printf( "%s: %s (0x%x)\n", msg,
-        value ? "TRUE" : "FALSE",
-        value );
+    (void) printf( "%s: %s (0x%x)\n",
+        msg, value ? "TRUE" : "FALSE", value );
 }
 
 int    main( const int argc, const char* const* const argv ) {
     register int    i;
 
     ProgramName = argv[ 0 ];
-    for ( i = 0 ; i < MAX_FILES ; i++ )
+    for ( i = 0 ; i < MAX_FILES ; i++ ) {
         file_list[ i ] = NULL;
+    }
     ProcessSwitches( argc, argv, file_list );
     print_bool( "Verbose switch (-v) is" , Verbose );
     print_bool( "Action switch (-V) is" , NoAction );
@@ -181,11 +184,13 @@ int    main( const int argc, const char* const* const argv ) {
     print_bool( "Template directory contents switch (-L) is" , DirList );
     print_bool( "Using standard out switch (-o) is" , UsingStdout );
     print_bool( "Forced extension switch (-e) is", ForceExtension  );
-    if ( ForceExtension )
+    if ( ForceExtension ) {
         (void) printf( "Forced extension name is (-e) is `%s'\n" , UserExtension );
+    }
     (void) printf( "List of files is:\n" );
-    for ( i = 0 ; file_list[ i ] != NULL && i < MAX_FILES ; i++ )
+    for ( i = 0 ; file_list[ i ] != NULL && i < MAX_FILES ; i++ ) {
         (void) printf( "  `%s'\n", file_list[ i ] );
+    }
     return 0;
 }
-#endif
+#endif // of ifdef TEST

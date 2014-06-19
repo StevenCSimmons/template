@@ -1,69 +1,72 @@
 /*
- *  Module to handle the template list.  Offers one entry
- *  point and two public variables.  The entry point is
- *  GetTemplList, which initializes the two public variables.
- *  The public variables are a list of template directories
- *  and a count of how many are in the list.
+ * Module to handle the template list. Offers one entry
+ * point and two public variables. The entry point is
+ * GetTemplList, which initializes the two public variables.
+ * The public variables are a list of template directories
+ * and a count of how many are in the list.
  */
 
-#ifdef    TEST
-# define    MAIN
-#endif    /* of ifdef TEST */
+#ifdef TEST
+#define MAIN
+#endif // of ifdef TEST
 
-#ifndef    lint
-# ifndef    lib
+#ifndef lint
+#ifndef lib
 static char    gitid[] = "$Id$";
 #pragma unused(gitid)
-# endif    /* of ifdef lib */
-#endif    /* of ifdef lint */
+#endif // of ifdef lib
+#endif // of ifdef lint
 
-# include    "template.h"
-# include    <pwd.h>
+#include    "template.h"
+#include    <pwd.h>
 
-# define    MAX_TEMPLATE_DIRS    (64)
+#define     MAX_TEMPLATE_DIRS    (64)
 
-extern boolean    Verbose;
+extern boolean  Verbose;
 
-static boolean    default_seen = FALSE;
+static boolean  default_seen = FALSE;
 static char*    default_list = 
     "./.Templates:$HOME/.Templates:/usr/lib/Templates";
 
 /*    The public variables    */
 
-char*    Template_List[ MAX_TEMPLATE_DIRS + 1 ];
+char*  Template_List[ MAX_TEMPLATE_DIRS + 1 ];
 int    Max_Template_Dir = 0;
 
 
 /*
- *  Dump the template list.  A debugging and error message aid.
- *  No parameters, no return value.
+ * Dump the template list. A debugging and error message aid.
+ * No parameters, no return value.
  */
 
 static void    dump_template_list() {
     register int    i, max;
 
     (void) fprintf( stderr, "There are %d template directories in the list:\n", Max_Template_Dir );
-    for ( i = 0, max = Max_Template_Dir ; i < max ; i++ )
+    for ( i = 0, max = Max_Template_Dir ; i < max ; i++ ) {
         (void) fprintf( stderr, " Dir #%2d:\t%s\n", i, Template_List[ i ] );
+    }
 }
 
 
 /*
- *  Find the home directory of the given user.  If the user is
- *  NULL, assume it's the current user.  If you cannot determine
- *  the requested home, print an error message and bomb.  If you
- *  can, return a pointer to the home path.
+ * Find the home directory of the given user. If the user is
+ * NULL, assume it's the current user. If you cannot determine
+ * the requested home, print an error message and bomb. If you
+ * can, return a pointer to the home path.
  */
 
 static char*    get_home( char* user ) {
     struct passwd*    pw_entry;
 
     if ( user == NULL ) {
-        if ( NULL == ( user = getlogin() ) )
+        if ( NULL == ( user = getlogin() ) ) {
             Fatal( "Can't find your login id!" );
+	}
     } else if ( *user == '\0' ) {
-        if ( NULL == ( user = getlogin() ) )
+        if ( NULL == ( user = getlogin() ) ) {
             Fatal( "Can't find your home directory!" );
+	}
     }
     if ( NULL == ( pw_entry = getpwnam( user ) ) ) {
         char    msgbuf[ 256 ];
@@ -76,11 +79,11 @@ static char*    get_home( char* user ) {
 
 
 /*
- *  Interpret special stuff inside a string.  We allow three
- *  kinds of specials:
- *    $HOME    user's home directory
- *      ~    user's home directory
- *      ~user   home directory of 'user'
+ * Interpret special stuff inside a string. We allow three
+ * kinds of specials:
+ *   $HOME   user's home directory
+ *   ~       user's home directory
+ *   ~user   home directory of 'user'
  *
  *  Once all the stuff is copied, return a pointer to the newly
  *  interpreted string.
@@ -89,8 +92,9 @@ static char*    get_home( char* user ) {
 static char*    interpret_specials( char* string ) {
     static char    dir_path[ MAXPATHLEN ];
 
-    if ( NULL == string )
+    if ( NULL == string ) {
         Fatal( "Internal error -- null string in interpret_specials" );
+    }
     if ( ( 0 == strncmp( string, "$HOME/", 6 ) ) ||
 	     ( 0 == strcmp( string, "$HOME" ) ) ) {
         (void) strcpy( dir_path, getenv( "HOME" ) );
@@ -101,8 +105,9 @@ static char*    interpret_specials( char* string ) {
         char*    user_name = user_name_buf;
         char*    sptr = string + 1;
 
-        while ( ( *sptr != '/' ) && ( *sptr != '\0' ) )
+        while ( ( *sptr != '/' ) && ( *sptr != '\0' ) ) {
             *user_name++ = *sptr++;
+	}
         *user_name = '\0';
         (void) strcpy( dir_path, get_home( user_name_buf ) );
         (void) strcat( dir_path, sptr );
@@ -127,7 +132,7 @@ static boolean    valid_template_dir( char* dir ) {
     if ( NULL == ( path = NewNString( dir, (unsigned) ( strlen( dir ) + 2 ) ) ) )
         Fatal( "out of memory in valid_template_dir" );
     (void) strcat( path, "/." );
-    if ( 0 == access( path, 04 + 01 ) )    /* read-execute mode */
+    if ( 0 == access( path, 04 + 01 ) ) // read-execute mode
         return TRUE;
     if ( Verbose ) {
         (void) sprintf( msgbuf, "can't access `%s' (%s)",
@@ -139,31 +144,33 @@ static boolean    valid_template_dir( char* dir ) {
 
 
 /*
- *  Take a pointer to a string and pick off a piece of it.  The
- *  piece should either be terminated by end-of-string or by a
- *  colon.  Allocate a new string, copy the newfound one into
- *  it.  Adjust the incoming pointer to skip over the string we
- *  return.
+ * Take a pointer to a string and pick off a piece of it. The
+ * piece should either be terminated by end-of-string or by a
+ * colon. Allocate a new string, copy the newfound one into
+ * it. Adjust the incoming pointer to skip over the string we
+ * return.
  *
- *  Parameters:
- *    instr:    Address of pointer to string.
+ * Parameters:
+ *   instr:    Address of pointer to string.
  *
- *  Return:
- *    Address of newly allocated string.
+ * Return:
+ *   Address of newly allocated string.
  */
 
-static char*    get_next_colon( char** instr ) {
-    char*        oldstr;
-    char*        end;
-    size_t    len;
-    static char    strbuf[ MAXPATHLEN ];
+static char* get_next_colon( char** instr ) {
+    char*    oldstr;
+    char*    end;
+    size_t   len;
+    static char strbuf[ MAXPATHLEN ];
 
-    if ( instr == NULL )
+    if ( instr == NULL ) {
         return NULL;
-    if ( *instr == NULL )
+    }
+    if ( *instr == NULL ) {
         return NULL;
+    }
     end = strpbrk( *instr, ":" );
-    /* Was this the last entry? */
+    // Was this the last entry?
     if ( end == NULL ) {
         oldstr = *instr;
         *instr = end;
@@ -174,7 +181,7 @@ static char*    get_next_colon( char** instr ) {
         *instr = end;
         return oldstr;
     }
-    /* OK, we must have hit a colon */
+    // OK, we must have hit a colon
     len = end - *instr;
     (void) strncpy( strbuf, *instr, len );
     strbuf[ len ] = '\0';
@@ -184,30 +191,32 @@ static char*    get_next_colon( char** instr ) {
 
 
 /*
- *  Process a directory list string.  Take a list of directories, which
- *  come in a colon-separated strings.  Check each one for existance,
- *  readability, and being a directory.  If OK, put it in the list.
- *  If not OK, print an error message.  Special case: if the directory
- *  is named "DEFAULT", insert the system list at that point.  Note
- *  that each directory should be checked for '$HOME', for simple '~',
- *  and for '~name' usage.
+ * Process a directory list string. Take a list of directories, which
+ * come in a colon-separated strings. Check each one for existance,
+ * readability, and being a directory. If OK, put it in the list.
+ * If not OK, print an error message. Special case: if the directory
+ * is named "DEFAULT", insert the system list at that point. Note
+ * that each directory should be checked for '$HOME', for simple '~',
+ * and for '~name' usage.
  *
- *  Incoming parameters:
- *    templ_list:    colon list of template directories
+ * Incoming parameters:
+ *   templ_list:    colon list of template directories
  *
- *  Returns
- *    if default was processed or not.
+ * Returns
+ *   if default was processed or not.
  */
 
 static void    process_list( char* templ_list ) {
-    char*    dir;
-    char*    def_list = default_list;
-    char*    tmp_list = templ_list;
+    char* dir;
+    char* def_list = default_list;
+    char* tmp_list = templ_list;
 
-    if ( templ_list == NULL )
+    if ( templ_list == NULL ) {
         return;
-    if ( *templ_list == NULL_CHAR )
+    }
+    if ( *templ_list == NULL_CHAR ) {
         return;
+    }
     while ( NULL != ( dir = get_next_colon( &tmp_list ) ) ) {
         if ( 0 == strcmp( "DEFAULT", dir ) ) {
             if ( default_seen ) {
@@ -223,8 +232,9 @@ static void    process_list( char* templ_list ) {
             Fatal( "Too many template dirs to search!" );
         } else {
             dir = interpret_specials( dir );
-            if ( valid_template_dir( dir ) )
+            if ( valid_template_dir( dir ) ) {
                 Template_List[ Max_Template_Dir++ ] = NewString( dir );
+	    }
         }
     }
     return;
@@ -232,44 +242,48 @@ static void    process_list( char* templ_list ) {
 
 
 /*
- *  Create the template list.  Grab data from the switches,
- *  from the environment, and from the default.  Use them to
- *  build an array of template directory names.  Do some
- *  basic error checking and warnings.  As you read the list,
- *  interpret $HOME and ~ references.
+ * Create the template list. Grab data from the switches,
+ * from the environment, and from the default. Use them to
+ * build an array of template directory names. Do some
+ * basic error checking and warnings. As you read the list,
+ * interpret $HOME and ~ references.
  *
- *  Parameters:
- *     user_list: list of user-supplied directories.  If NULL,
- *        means user specified none.
+ * Parameters:
+ *   user_list: list of user-supplied directories. If NULL,
+ *      means user specified none.
  *
- *  Returns:
- *     void
+ * Returns:
+ *   void
  */
 
-void    GetTemplList( char* user_list ) {
+void GetTemplList( char* user_list ) {
     char*    environment_list = getenv( "TEMPLATES" );
 
     if ( user_list == NULL ) {
-        if ( environment_list == NULL )
+        if ( environment_list == NULL ) {
             (void) process_list( default_list );
-        else
+        } else {
             (void) process_list( environment_list );
-    } else
+        }
+    } else {
         (void) process_list( user_list );
-    if ( Max_Template_Dir == 0 )
+    }
+    if ( Max_Template_Dir == 0 ) {
         Fatal( "Could not find any template directories!" );
+    }
 }
 
-#ifdef    TEST
+#ifdef TEST
 
-static void    testit( char* list, char* comment ) {
+static void testit( char* list, char* comment ) {
     Max_Template_Dir = 0;
     default_seen = FALSE;
     (void) printf( "Using list " );
-    if ( list == NULL )
+    if ( list == NULL ) {
         (void) printf( "NULL\n" );
-    else
+    } else {
         (void) printf( "`%s'\n", list );
+    }
     (void) printf( "%s\n", comment );
     GetTemplList( list );
     dump_template_list();
@@ -289,4 +303,4 @@ int main( int argc, char** argv ) {
     testit( ".,DEFAULT,bar,DEFAULT,baz", "Expect ., DEFAULT, bar, and baz, plus a warning" );
     testit( "", "Forcing empty list -- expect fatal error" );
 }
-#endif
+#endif // of ifdef TEST

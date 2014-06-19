@@ -1,25 +1,25 @@
 /*
- *  Library function to create new copies of strings.  Creates
- *  exactly the same size offered.
+ * Library function to create new copies of strings. Creates
+ * exactly the same size offered.
  */
 
-#ifndef    lint
-#ifndef    lib
+#ifndef lint
+#ifndef lib
 static char    gitid[] = "$Id$";
 #pragma unused(gitid)
-#endif
-#endif
+#endif // of ifndef lint
+#endif // of ifndef lib
 
 # include    <stdio.h>
 # include    <string.h>
 
-extern void*    malloc( size_t );
+extern void* malloc( size_t );
 
 /*
- *  Create a new string.  Return a pointer to it.  Return null
- *  if malloc fails, or if the incoming string is a null pointer.
- *  A zero-length string (ie, '\0' only) is a valid string, so
- *  we'll duplicate it.
+ * Create a new string and return a pointer to it. Return null
+ * if malloc fails, or if the incoming string is a null pointer.
+ * A zero-length string (ie, '\0' only) is a valid string, so
+ * we'll duplicate it.
  */
 
 char*    NewString( register char* string ) {

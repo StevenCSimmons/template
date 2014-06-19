@@ -2,12 +2,12 @@
  *  Library function to create a new string.
  */
 
-#ifndef    lint
-#ifndef    lib
+#ifndef lint
+#ifndef lib
 static char    gitid[] = "$Id$";
 #pragma unused(gitid)
-#endif
-#endif
+#endif // of indef lint
+#endif // of indef lib
 
 # include    <stdio.h>
 # include    <string.h>
@@ -24,8 +24,9 @@ extern void*    malloc( size_t );
 char*    NewNString( register char* string, register unsigned len ) {
     register char*    new_string;
 
-    if ( NULL == ( new_string = malloc( len + 1 ) ) )
+    if ( NULL == ( new_string = malloc( len + 1 ) ) ) {
         return NULL;
+    }
     strncpy( new_string, (const char*) string, (size_t) len );
     return new_string;
 }
