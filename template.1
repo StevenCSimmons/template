@@ -1,4 +1,4 @@
-.TH template 1L "June 27, 1993"
+.TH template 1L "June 19, 2014"
 .\"  
 .\"  Manual page for template
 .\"  
@@ -13,37 +13,53 @@ template
 .SH DESCRIPTION
 .I template
 creates or modifies files for use in accordance with local standards.
-It can be used to initialize files for such source code
-control systems as
-.I cvs(1)
-or
-.I svn(1),
-or simply to grab standard forms from a library.
+It can be used to initialize files for source code
+control systems (\fIrcs/cvs(1)\fR, \fIgit(1)\fR, \fIsvn(1)\fR, etc),
+to pre-build standard 'boiler plate' for documents or programs,
+or to simply grab standard forms from a library.
 .PP 
+When you use
 .I template
-looks at the file name(s) you have given,
-then tries to match them up to a series of templates.
+it looks at file name(s) you have given,
+then tries to match them up to a series of template files.
 If it finds a match,
-it will use it as a guide for building the file.
+it will use the match to build the file.
 Should
 .I file
 already exist
 .I template
-will put a copy of what it finds at the front of
+will put a copy of the match at the front of
 .I file.
-Otherwise it copy the template to a new file named
+Otherwise it copies the match to a new file named
 .I file.
 .PP
 If no file name is given but there is enough
-information to select a template,
+information to determine a match,
 \fItemplate\fR will print
-that template on \fIstdout\fR.
+that match on \fIstdout\fR.
+.PP
+.I template
+simply does literal copies from the template directories.
+The contents of the matching template
+(and the contents of the pre-existing file, if any)
+are not modified 'on the fly' as it is applied.
+.PP
+If existing files are being modified, their modes (permission bits)
+are not changed.
+If new files are created, the execute permissions
+for owner, group and other will be taken from the template file
+and applied to the new file.
+Thus if you are creating a shell script named
+.I scriptname
+and the matching template file is executable, the newly created
+.I scriptname
+will be executable as well.
 .SH TEMPLATES
 .I template's
 matching rules are fairly simple.
-It looks first for a template whose name exactly matches
+It looks first for a template file whose name exactly matches
 the file name you gave.
-If there is no such template,
+If there is no exact match,
 it will look at whatever follows the
 last period in the file name (the \fIextension\fR)
 and use it as the name of the template.
@@ -51,13 +67,12 @@ If that fails,
 it will give you an error message.
 For example, if you give the command
 .RS
-\fBtemplate doc.me\fR
+\fBtemplate ReadMe.txt\fR
 .RE
-it will first look for a template with the name
-.I doc.me.
-If not found, it will then look for a template
-with the name
-.I me.
+it will first look for a template named
+.I ReadMe.txt,
+then for a template named
+.I txt.
 .PP
 If you give the command
 .RS
@@ -66,52 +81,49 @@ If you give the command
 it will look for a template with the name
 .I Makefile.
 .PP
-If you're still confused, use the `verbose' version of \fItemplate\fR,
+If you're still confused, use the verbose/no-action version of \fItemplate\fR,
 .RS
-\fBtemplate -V doc.me\fR
+\fBtemplate -V ReadMe.txt\fR
 .RE
-This will make
+As
 .I template
-tell you in detail what it would do to make \fBdoc.me\fR,
-but not actually do anything.
+run, it will tell you in detail what it would do to make \fBReadMe.txt\fR,
+but will not actually do anything.
 .SH "TEMPLATE DIRECTORIES"
 .I template
-looks for templates in a number of places.
-This list of places is called the
+looks for templates in a set of directories called the
 .I template_list.
 The
 .I template_list
-is a list of directories whose names are separated by colons.
-If you let
-.I template
-decide on it's own, it will use
-the template list
+resembles your search path ($PATH) in that it is a series of
+directories separated by colons.
+.I Template
+has a default list, which is
 .RS
 .I ./.Templates:$HOME/.Templates:/usr/lib/Templates
 .RE
-Thus it would look first in a directory named
+Thus it looks first in a directory named
 .I .Templates
 in your current directory, then in a directory named
 .I .Templates
 in your home directory,
 then in a system directory named
 .I /usr/bin/Templates.
-It will look through these one by one
-until it either finds a template file
+It will look through these directories one by one
+until it either finds a matching template file
 or runs out of places to look.
 .PP
 There are a number of ways to change the template list.
 If the environment variable
 .B TEMPLATES
 is present, it will be used as a template list instead of the default list.
-Alternatively, you can specify a template list with the
+You can alos specify a template list on the command line with the
 .I -T
 switch (see below).
 The use of
 .I -T
-will override the use of the ``TEMPLATES'' environment
-variable.
-In either case, you can add the system default
+will override the use of the ``TEMPLATES'' environment variable.
+In either usage, you can add the system default
 by simply putting the name
 .I DEFAULT
 in the list.
@@ -119,35 +131,32 @@ The system default will be inserted at that point.
 .SH OPTIONS
 .TP 5
 .B "-l"
-This will cause
 .I template
-to print out the names of all the template directories it will search though.
+will list the names of all the template directories it found in order.
+No templates will actually be applied.
 .TP 5
 .B "-L"
-This will cause
-.I template
-to print out the names of all the template directories it will search though
-along with the contents of each directory.
+is just like
+.B "-l"
+except that it also lists all the templates in the directories found.
 .TP 5
 .B "-v"
 Verbose.
 This will cause
 .I template
-to tell you what it's doing
-in the process of creating files.
+to tell you what it's doing in the process of applying templates.
 .TP 5
 .B "-V"
 Verbose but no action.
 This will cause
 .I template
-to tell you what it would do
-in the process of creating files,
+to tell you what it would do in the process of applying templates,
 but does not create or change any files.
 This is very useful for beginners who aren't sure how all of
 this works.
 .TP 5
 .B "-e extension"
-This will cause
+This will force
 .I template
 to override the normal rules for determining template names
 and act as if the extension
@@ -159,14 +168,16 @@ This is very handy if you'd like to have one standard \fIMakefile\fR for
 writing code and another for writing documents.
 .TP 5
 .B "-o"
-Use standard out.
-Will make the resultant template file be placed
-on stdout rather than a file.
+Force use of standard out.
+The matching template file will be printed to
+stdout rather creating or modifying a file. 
 Useful when creating templates of functions, many of
 which may be in the same file.
 In \fIvi\fR, the command \fB:r !template -o func.c\fR
-would print out a template for \fIfunc.c\fR which \fIvi\fR
-would insert into the file you are editing.
+would cause
+.I template
+print the matching template for \fIfunc.c\fR, and \fIvi\fR
+would insert that into the file at the current location.
 .TP 5
 .B "-T"
 Define a new template directory list for this run only.
@@ -193,7 +204,7 @@ $HOME/.Templates,
 .B TEMPLATES:
 A list of template directories, as defined above.
 .SH "SEE ALSO"
-cvs(1), svn(1), make(1)
+git(1), cvs(1), svn(1), make(1)
 .SH DIAGNOSTICS
 Hopefully self-explaining.
 .SH BUGS
@@ -203,6 +214,6 @@ Please report them to the author.
 Steve Simmons,
 scs@di.org
 .SH "COPYRIGHT STATUS"
-Copyright 1993 Steven C. Simmons.
+Copyright 1989-2014 Steven C. Simmons.
 Freely redistributable provided copyright notices remain intact.
 For details see the source code.

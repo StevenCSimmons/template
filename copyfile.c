@@ -9,7 +9,7 @@
 #endif
 
 #ifndef	lib
-static char gitid[] = "$Id$";
+static char gitid[] = "$Id: 61f97e947ba3c629dcc36d5dfe43cec7debab083 $";
 #pragma unused(gitid)
 #endif // of ifndef lib
 
@@ -40,7 +40,7 @@ static char     message[ 512 ];
  * If so, print it and die. No parameters, no return value.
  */
 
-static void    module_cleanup() {
+static void module_cleanup() {
     (void) close( template );
     (void) close( tempfd );
     (void) close( target );
@@ -61,16 +61,17 @@ static void    module_cleanup() {
  * Incoming parameters:
  *   name    - path of file to be opened
  *   mode    - how we are to open it
- *   detail    - handy string to use in error messages
+ *   detail  - handy string to use in error messages
+ *   xbits   - extra bits to be applied to file creation mode mask
  *
  * Returns
  *   an opened fd if successful, -1 if not
  */
 
-static int    open_file( char* name, int mode, char* detail ) {
-    int     fd;
+static int open_file( char* name, int mode, char* detail, int xbits ) {
+    int fd;
 
-    if ( -1 == ( fd = open( name, mode, file_mask ) ) ) {
+    if ( -1 == ( fd = open( name, mode, file_mask | xbits ) ) ) {
         (void) sprintf( message,
             "Couldn't open (%s) file `%s': %s",
             detail, name, strerror( errno ) );
@@ -123,6 +124,7 @@ static boolean    copyfile( int to, int from ) {
  *
  * Given the name of a template and a target file, create a copy
  * of the file with the template included. Algorithm is:
+ *   Get the mode bits for the template file
  *   Open a tempfile read-write, the target read-write-create
  *     but not truncate, and the template read-only.
  *   Copy the template to the tempfile.
@@ -133,9 +135,9 @@ static boolean    copyfile( int to, int from ) {
  * Bitch mightily and die about any errors along the way.
  */
 
-void    CreateTarget( char* template_name, char* target_name ) {
+void CreateTarget( char* template_name, char* target_name ) {
     message[ 0 ] = '\0';
-    template = open_file( template_name, O_RDONLY, "read" );
+    template = open_file( template_name, O_RDONLY, "read", 0 );
     if ( UsingStdout ) {
         if ( Verbose ) {
             (void) fprintf( stderr, "Will copy `%s' and `%s' to stdout.\n",
@@ -150,7 +152,7 @@ void    CreateTarget( char* template_name, char* target_name ) {
         }
         if ( target_name != NULL ) {
             if ( *target_name != NULL_CHAR ) {
-                target = open_file( target_name, O_RDONLY, "read" );
+                target = open_file( target_name, O_RDONLY, "read", 0 );
                 if ( ! copyfile( 2, target ) ) {
                     (void) sprintf( message,
                         "Error in copying `%s' to stdout: %s",
@@ -160,11 +162,15 @@ void    CreateTarget( char* template_name, char* target_name ) {
         }
     } else {
         // copying to file, not stdout
+	struct stat statinfo;
+	int    xbits;
+	fstat( template, &statinfo );
+	xbits = ( statinfo.st_mode & 0111 );
         if ( Verbose ) {
             (void) fprintf( stderr, "Creating/rewriting `%s' with template `%s'.\n",
                 target_name, template_name );
 	}
-        target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify" );
+        target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify", xbits );
         if ( ! copyfile( tempfd, template ) ) {
             (void) sprintf( message,
                 "Error in copying `%s' to `%s': %s",
@@ -198,7 +204,7 @@ void    CreateTarget( char* template_name, char* target_name ) {
  * is entered.
  */
 
-void    InitCopying() {
+void InitCopying() {
     int old_umask = umask( 0 );
 
     (void) strcpy( tempfile_name, TEMPFILE );
