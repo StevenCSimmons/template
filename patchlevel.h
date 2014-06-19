@@ -8,7 +8,7 @@
 #ifndef	PATCHLEVEL_H
 #define	PATCHLEVEL_H
 
-#define	VERSION	   "2.0"
+#define	VERSION	   "2.1"
 #define	PATCHLEVEL 0
 
 #endif // of PATCHLEVEL_H
