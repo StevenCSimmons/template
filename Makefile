@@ -12,7 +12,7 @@ LIBCLUDES = isdebug.h
 
 #  Feel free to change these to match your local definitions
 
-PREFIX  = /usr
+PREFIX	= /usr
 BIN	= $(PREFIX)/bin
 LIB	= $(PREFIX)/lib
 MANTOP	= $(PREFIX)/man
@@ -21,7 +21,7 @@ MAN3	= $(MANTOP)/man3
 PKGDIRS = $(PREFIX) $(BIN) $(LIB) $(MANTOP) $(MAN1) $(MAN3)
 SHELL	= /bin/sh
 
-#CC	= gcc
+CC	= gcc
 # General definitions here which apply to all -- form -DDEF
 #CLUDDIR	= -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include
 CLUDDIR	= -I.
@@ -33,7 +33,8 @@ LDEFS	= -I .
 # Lint libraries -- same as LIBS, but form -l LIB
 LLIBS	=
 # Set to -g for debugging, -O for optimise, or both if compiler handles it
-DEBUG	= -g -DDEBUGGING
+# If you're building an internal debug version, add -DDEBUGGING
+DEBUG	= -g
 
 DEFS	= $(CLUDDIR)
 
