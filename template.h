@@ -4,6 +4,13 @@
  * git id: $Id$
  */
 
+#ifndef	PATCHLEVEL_H
+#define	PATCHLEVEL_H
+
+#define	VERSION	   "2.0"
+#define	PATCHLEVEL 0
+
+#endif // of PATCHLEVEL_H
 #ifndef	TEMPLATE_H // prevent double includes
 #define	TEMPLATE_H
 
