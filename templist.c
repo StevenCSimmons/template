@@ -62,11 +62,11 @@ static char*    get_home( char* user ) {
     if ( user == NULL ) {
         if ( NULL == ( user = getlogin() ) ) {
             Fatal( "Can't find your login id!" );
-	}
+        }
     } else if ( *user == '\0' ) {
         if ( NULL == ( user = getlogin() ) ) {
             Fatal( "Can't find your home directory!" );
-	}
+        }
     }
     if ( NULL == ( pw_entry = getpwnam( user ) ) ) {
         char    msgbuf[ 256 ];
@@ -96,7 +96,7 @@ static char*    interpret_specials( char* string ) {
         Fatal( "Internal error -- null string in interpret_specials" );
     }
     if ( ( 0 == strncmp( string, "$HOME/", 6 ) ) ||
-	     ( 0 == strcmp( string, "$HOME" ) ) ) {
+             ( 0 == strcmp( string, "$HOME" ) ) ) {
         (void) strcpy( dir_path, getenv( "HOME" ) );
         (void) strcat( dir_path, string + 5 );
         return dir_path;
@@ -107,7 +107,7 @@ static char*    interpret_specials( char* string ) {
 
         while ( ( *sptr != '/' ) && ( *sptr != '\0' ) ) {
             *user_name++ = *sptr++;
-	}
+        }
         *user_name = '\0';
         (void) strcpy( dir_path, get_home( user_name_buf ) );
         (void) strcat( dir_path, sptr );
@@ -234,7 +234,7 @@ static void    process_list( char* templ_list ) {
             dir = interpret_specials( dir );
             if ( valid_template_dir( dir ) ) {
                 Template_List[ Max_Template_Dir++ ] = NewString( dir );
-	    }
+            }
         }
     }
     return;

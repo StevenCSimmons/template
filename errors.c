@@ -6,8 +6,8 @@
 #ifndef lib
 static char     gitid[] = "$Id$";
 #pragma unused(gitid)
-#endif	// of ifndef lib
-#endif	// of ifndef lint
+#endif  // of ifndef lib
+#endif  // of ifndef lint
 
 #include    "template.h"
 

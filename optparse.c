@@ -162,7 +162,7 @@ int    OptionParse( const int argc, const char** const argv, const char* const o
             OptionSwitch = &argv[ argnum++ ][ argchar + 1 ];
         } else if ( ++argnum < argc ) { // Found extended
             OptionSwitch = argv[ argnum++ ];
-	}
+        }
         argchar = 1; // Start at beginning of next arg
     } else if ( argv[ argnum ][ ++argchar ] == '\0' ) {
         // Arg complete -- reset for next arg
@@ -239,14 +239,14 @@ int main( int argc, char** argv ) {
                 (void) printf( "NULL\n" );
             } else {
                 (void) printf( "\"%s\"\n", OptionSwitch );
-	    }
+            }
         } else if ( c == '?' ) {
             (void) printf( "Pass %d -- err arg: ", i );
             if ( OptionSwitch == NULL ) {
                 (void) printf( "NULL\n" );
             } else {
                 (void) printf( "\"%s\"\n", OptionSwitch );
-	    }
+            }
         } else {
             (void) printf( "Pass %d -- Got option '%c',", i, c );
             (void) printf( " got OptionSwitch arg " );
@@ -254,7 +254,7 @@ int main( int argc, char** argv ) {
                 (void) printf( "NULL\n" );
             } else {
                 (void) printf( "\"%s\"\n", OptionSwitch );
-	    }
+            }
         }
         i++;
     }

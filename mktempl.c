@@ -78,7 +78,7 @@ static char* get_template_file() {
                     file = check_for_file( *dir, *name );
                     if ( file != NULL ) {
                         return file;
-		    }
+                    }
                 }
             }
         }
@@ -127,9 +127,9 @@ static void generate_names( char* in_name ) {
     if ( !ForceExtension ) {
         if ( in_name == NULL ) {
             Fatal( "Got a NULL name in generate_names!" );
-	} else if ( *in_name == NULL_CHAR ) {
+        } else if ( *in_name == NULL_CHAR ) {
             Fatal( "Got an empty name in generate_names!" );
-	}
+        }
     }
 
     /* Clear out the old names */
@@ -241,7 +241,7 @@ static void proc_file( char* request ) {
         } else {
             format = "No template for `%s'. Wanted `%s' (full).";
         }
-	(void) sprintf( msgbuf, format, request,
+        (void) sprintf( msgbuf, format, request,
             possibilities[ 0 ], possibilities[ 1 ] );
         Warning( msgbuf );
     } else {
@@ -259,7 +259,7 @@ static void proc_file( char* request ) {
             }
         } else {
             CreateTarget( template_file, request );
-	}
+        }
     }
 }
 
@@ -293,11 +293,11 @@ void ProcessFiles( char** request_list ) {
             pass_thru();
         } else {
             proc_file( NULL );
-	}
+        }
     } else {
-	for ( request = request_list; *request != NULL; request++ ) {
-	    proc_file( *request );
-	}
+        for ( request = request_list; *request != NULL; request++ ) {
+            proc_file( *request );
+        }
     }
 }
 

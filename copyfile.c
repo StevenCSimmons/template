@@ -4,11 +4,11 @@
  * provider CreateTarget().
  */
 
-#ifdef	TEST
+#ifdef  TEST
 #define MAIN
 #endif
 
-#ifndef	lib
+#ifndef lib
 static char gitid[] = "$Id$";
 #pragma unused(gitid)
 #endif // of ifndef lib
@@ -18,7 +18,7 @@ static char gitid[] = "$Id$";
 #include    <fcntl.h>
 #include    <stdlib.h>
 
-#define     TEMPFILE	"/tmp/template.XXXXXX"
+#define     TEMPFILE    "/tmp/template.XXXXXX"
 #define     IO_CHUNK    ( BUFSIZ * 8 )
 
 extern boolean  Verbose;
@@ -108,12 +108,12 @@ static boolean    copyfile( int to, int from ) {
             return TRUE;
         } else if ( inlen == -1 ) {
             return FALSE;
-	}
+        }
         errno = 0;
         outlen = write( to, buffer, (unsigned) inlen );
         if ( ( outlen == -1 ) || ( inlen != outlen ) ) {
             return FALSE; // write error
-	}
+        }
     }
 }
 
@@ -148,7 +148,7 @@ void CreateTarget( char* template_name, char* target_name ) {
                 (void) sprintf( message,
                     "Error in copying `%s' to standard out: %s",
                     template_name, strerror( errno ) );
-	    }
+            }
         }
         if ( target_name != NULL ) {
             if ( *target_name != NULL_CHAR ) {
@@ -162,14 +162,14 @@ void CreateTarget( char* template_name, char* target_name ) {
         }
     } else {
         // copying to file, not stdout
-	struct stat statinfo;
-	int    xbits;
-	fstat( template, &statinfo );
-	xbits = ( statinfo.st_mode & 0111 );
+        struct stat statinfo;
+        int    xbits;
+        fstat( template, &statinfo );
+        xbits = ( statinfo.st_mode & 0111 );
         if ( Verbose ) {
             (void) fprintf( stderr, "Creating/rewriting `%s' with template `%s'.\n",
                 target_name, template_name );
-	}
+        }
         target = open_file( target_name, ( O_RDWR | O_CREAT ), "modify", xbits );
         if ( ! copyfile( tempfd, template ) ) {
             (void) sprintf( message,

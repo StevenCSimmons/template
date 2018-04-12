@@ -36,11 +36,11 @@ void ListTemplateDirs( const boolean List_Contents ) {
     (void) printf( "are:\n" );
     while ( *dir_list != NULL ) {
         if ( List_Contents ) {
-	   (void) printf( "\n%s:\n", *dir_list );
-	   (void) sprintf( buf, "ls -a \"%s\"", *dir_list );
-	   (void) system( buf );
+           (void) printf( "\n%s:\n", *dir_list );
+           (void) sprintf( buf, "ls -a \"%s\"", *dir_list );
+           (void) system( buf );
         } else
-	   (void) printf( "  %s\n", *dir_list );
+           (void) printf( "  %s\n", *dir_list );
         dir_list++;
     }
     return;
