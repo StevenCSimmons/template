@@ -1,4 +1,5 @@
 # Makefile for template command
+# vim:noexpandtab:
 #
 # git id $Id$
 
