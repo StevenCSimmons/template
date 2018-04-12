@@ -11,18 +11,18 @@
  * git id: $Id$
  */
 
-#ifndef	ISDEBUG_H // prevent double includes
-#define	ISDEBUG_H
+#ifndef ISDEBUG_H // prevent double includes
+#define ISDEBUG_H
 
 #ifdef DEBUGGING
     extern char* ProgramName;
-#define	DEBUGTRACE(FUNCTION)	\
+#define DEBUGTRACE(FUNCTION) \
     if ( NULL != ProgramName ) { \
-	(void) fprintf( stderr, "%s/", ProgramName ); \
+        (void) fprintf( stderr, "%s/", ProgramName ); \
     } \
     (void) fprintf( stderr, "%s/%s\n", MODULE_NAME, FUNCTION );
 #else
-#define	DEBUGTRACE(FUNCTION)
+#define DEBUGTRACE(FUNCTION)
 #endif
 
 #endif // of ifdef ISDEBUG_H
