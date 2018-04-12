@@ -8,21 +8,13 @@
 OptionParse \- scan the arg list and return the next arg
 .SH SYNOPSIS
 .P
-\fBint OptionParse( argc, argv, opts ) ;
+\fBint  OptionParse( int argc, char **argv, char *opts );
 .br
-int	argc ;
+void OptionInit();
 .br
-char	**argv ;
+void OptionReset( char switch, errflag, externflag );
 .br
-char	*opts ;
-.sp
-void OptionInit() ;
-.sp
-void OptionReset( switch, errflag, externflag )
-.br
-char	switch, errflag, externflag ;
-.sp
-extern char *OptSwitch ;\fR
+extern char *OptSwitch;\fR
 .SH DESCRIPTION
 This suite of functions is an extension to the now-standard
 .I getopt(3)
@@ -153,9 +145,7 @@ that can take the mutually exclusive options
 both of which require extended arguements.
 .sp
 .li
-main( argc, argv )
-int	argc ;
-char	**argv ;
+main( int argc, char argv )
 {
   int sw_char ;
   extern int  OptionParse() ;
