@@ -23,6 +23,6 @@
     (void) fprintf( stderr, "%s/%s\n", MODULE_NAME, FUNCTION );
 #else
 #define	DEBUGTRACE(FUNCTION)
-#endif 
+#endif
 
 #endif // of ifdef ISDEBUG_H
